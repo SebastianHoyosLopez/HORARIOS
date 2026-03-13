@@ -373,10 +373,24 @@
             display: none;
         }
 
+        /* ✅ CORRECCIÓN: Estilos para exportación */
         .consolidated-content {
-            background: white;
+            background: white !important;
+            color: #333 !important;
             padding: 30px;
             border-radius: 10px;
+        }
+
+        /* ✅ CORRECCIÓN: Asegurar que los colores se impriman correctamente */
+        .event-musician-badge,
+        .weekend-event-musician,
+        .event-musician,
+        .event,
+        .week-title,
+        .btn {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
 
         .consolidated-header {
@@ -593,6 +607,13 @@
         .musician-menucho {
             --musician-color: #2ecc71;
         }
+
+        /* ✅ CORRECCIÓN: Clase para forzar visibilidad durante exportación */
+        .export-visible {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 
@@ -613,17 +634,14 @@
 
         <div class="controls">
             <div class="data-info" id="dataInfo">🔄 Cargando datos desde Google Sheets...</div>
-
             <div class="filter-buttons" id="filterButtons">
                 <button class="btn btn-all active" onclick="filterMusician('all')">📅 Todos</button>
             </div>
-
             <div class="view-tabs">
                 <button class="btn btn-all" onclick="switchView('calendar')">📆 Calendario</button>
                 <button class="btn btn-all" onclick="switchView('list')">📋 Lista</button>
                 <button class="btn btn-all" onclick="switchView('consolidated')">📄 Agenda Completa</button>
             </div>
-
             <div class="export-buttons">
                 <button class="btn btn-export" onclick="exportToPDF()">📥 Descargar PDF</button>
                 <button class="btn btn-export" onclick="exportToImage()">📷 Descargar Imagen</button>
@@ -717,7 +735,10 @@
             if (!match) return null;
             const day = match[1].padStart(2, '0');
             const month = MONTHS_MAP[match[2]];
-            if (!month) { console.error(`Mes no reconocido: ${match[2]}`); return null; }
+            if (!month) {
+                console.error(`Mes no reconocido: ${match[2]}`);
+                return null;
+            }
             return `${CURRENT_YEAR}-${month}-${day}`;
         }
 
@@ -746,11 +767,13 @@
 
         // ===== PARSEADOR CSV =====
         function parseCSVLine(line) {
-            const values = []; let current = '', inQuotes = false;
+            const values = [];
+            let current = '', inQuotes = false;
             for (let char of line) {
                 if (char === '"') inQuotes = !inQuotes;
                 else if (char === ',' && !inQuotes) {
-                    values.push(current.trim().replace(/^"|"$/g, '')); current = '';
+                    values.push(current.trim().replace(/^"|"$/g, ''));
+                    current = '';
                 } else current += char;
             }
             values.push(current.trim().replace(/^"|"$/g, ''));
@@ -762,22 +785,22 @@
             if (lines.length < 2) return [];
             const headers = parseCSVLine(lines[0]);
             console.log('Headers:', headers);
-
             const parsed = [];
             for (let i = 1; i < lines.length; i++) {
                 const values = parseCSVLine(lines[i]);
                 const fecha = parseSpanishDate(values[0]);
                 if (!fecha) continue;
-
                 const encargadoRaw = values[5] || '';
                 const encargadoKey = normalizeEncargadoName(encargadoRaw);
-
                 if (!encargadoKey || !ENCARGADOS[encargadoKey]) continue;
-
                 parsed.push({
-                    fechaOriginal: values[0], dia: values[1], fecha: fecha,
-                    hora: convertTo24Hour(values[2]), horaOriginal: values[2],
-                    instrumento: values[3] || '', lugar: values[4] || '',
+                    fechaOriginal: values[0],
+                    dia: values[1],
+                    fecha: fecha,
+                    hora: convertTo24Hour(values[2]),
+                    horaOriginal: values[2],
+                    instrumento: values[3] || '',
+                    lugar: values[4] || '',
                     encargadoKey: encargadoKey,
                     encargadoDisplay: ENCARGADOS[encargadoKey].name,
                     status: 'confirmado'
@@ -804,14 +827,12 @@
         function renderFilterButtons() {
             const container = document.getElementById('filterButtons');
             let html = `<button class="btn btn-all ${currentFilter === 'all' ? 'active' : ''}" onclick="filterMusician('all')">📅 Todos</button>`;
-
             Object.entries(ENCARGADOS).forEach(([key, config]) => {
                 const isActive = currentFilter === key ? 'active' : '';
                 html += `<button class="btn musician-${key} ${isActive}" onclick="filterMusician('${key}')" style="background: ${config.color};">
-                    ${config.icon} ${config.name}
-                </button>`;
+            ${config.icon} ${config.name}
+        </button>`;
             });
-
             container.innerHTML = html;
         }
 
@@ -824,7 +845,6 @@
             ].join('-');
 
             const filtered = currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter);
-
             const uniqueDates = [...new Set(filtered.map(e => e.fecha))]
                 .filter(dateStr => dateStr >= todayStr)
                 .sort()
@@ -850,20 +870,19 @@
                 const dayNum = date.getDate();
                 const monthName = date.toLocaleDateString('es-CO', { month: 'long' });
                 const color = dayColors[date.getDay()] || '#11998e';
-
                 const dayEvents = filtered
                     .filter(e => e.fecha === dateStr)
                     .sort((a, b) => a.hora.localeCompare(b.hora));
 
                 return `
-                <div class="weekend-day">
-                    <div class="weekend-day-title" style="border-bottom-color: ${color}; color: ${color};">
-                        📅 ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthName}
-                        <span style="font-size: 0.7em; opacity: 0.8; margin-left: 10px;">
-                            (${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})
-                        </span>
-                    </div>
-                    ${dayEvents.length > 0 ? dayEvents.map(e => {
+            <div class="weekend-day">
+                <div class="weekend-day-title" style="border-bottom-color: ${color}; color: ${color};">
+                    📅 ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthName}
+                    <span style="font-size: 0.7em; opacity: 0.8; margin-left: 10px;">
+                        (${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})
+                    </span>
+                </div>
+                ${dayEvents.length > 0 ? dayEvents.map(e => {
                     const config = ENCARGADOS[e.encargadoKey];
                     return `
                         <div class="weekend-event ${config.class}" style="border-left-color: ${config.color};">
@@ -874,7 +893,7 @@
                             </div>
                         </div>`;
                 }).join('') : '<div class="no-events">🎉 Sin presentaciones</div>'}
-                </div>`;
+            </div>`;
             };
 
             if (uniqueDates.length > 0) {
@@ -882,12 +901,12 @@
                     uniqueDates.map(dateStr => renderDay(dateStr)).join('');
             } else {
                 document.getElementById('weekendDays').innerHTML = `
-                <div class="weekend-day">
-                    <div class="no-events" style="padding: 50px;">
-                        📭 <strong>No hay eventos reservados</strong><br>
-                        <small style="opacity: 0.8">Los próximos días están disponibles</small>
-                    </div>
-                </div>`;
+            <div class="weekend-day">
+                <div class="no-events" style="padding: 50px;">
+                    📭 <strong>No hay eventos reservados</strong><br>
+                    <small style="opacity: 0.8">Los próximos días están disponibles</small>
+                </div>
+            </div>`;
             }
         }
 
@@ -910,7 +929,9 @@
         function renderConsolidatedView() {
             const today = new Date().toISOString().split('T')[0];
             const content = document.getElementById('consolidatedContent');
-            const filtered = currentFilter === 'all' ? events.filter(e => e.fecha >= today) : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
+            const filtered = currentFilter === 'all'
+                ? events.filter(e => e.fecha >= today)
+                : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
 
             // Función para obtener el número de semana ISO
             function getWeekNumber(date) {
@@ -936,7 +957,6 @@
                 const date = new Date(e.fecha + 'T00:00:00');
                 const monday = getMondayOfWeek(date);
                 const weekKey = monday.toISOString().split('T')[0];
-
                 if (!weeks[weekKey]) {
                     weeks[weekKey] = { startDate: monday, events: [] };
                 }
@@ -946,13 +966,35 @@
             // Nombres de días en español
             const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
-            let html = `<div class="consolidated-header">
+            // ✅ CORRECCIÓN: Manejar caso sin eventos
+            if (filtered.length === 0) {
+                content.innerHTML = `
+            <div class="consolidated-header">
                 <h2>🎺 Agenda de Presentaciones</h2>
                 <p>Temporada 2026</p>
                 <p style="margin-top:10px;font-size:0.9em">
                     ${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
                 </p>
-            </div>`;
+            </div>
+            <div style="text-align:center;padding:50px;color:#666;">
+                <p style="font-size:1.5em;margin-bottom:20px;">📭</p>
+                <p style="font-size:1.2em;">No hay eventos para mostrar</p>
+                <p style="margin-top:10px;opacity:0.7;">Los filtros actuales no tienen eventos futuros</p>
+            </div>
+            <div class="footer-info">
+                <p>🎵 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            </div>
+        `;
+                return;
+            }
+
+            let html = `<div class="consolidated-header">
+        <h2>🎺 Agenda de Presentaciones</h2>
+        <p>Temporada 2026</p>
+        <p style="margin-top:10px;font-size:0.9em">
+            ${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
+        </p>
+    </div>`;
 
             // Ordenar semanas cronológicamente
             Object.keys(weeks).sort().forEach(weekKey => {
@@ -979,34 +1021,33 @@
                 // Solo mostrar la semana si tiene eventos
                 if (sortedDates.length > 0) {
                     html += `<div class="week-section">
-                        <div class="week-title">
-                            📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthName}
-                        </div>`;
+                <div class="week-title">
+                    📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthName}
+                </div>`;
 
                     // Mostrar SOLO los días que tienen eventos
                     sortedDates.forEach(dateStr => {
                         const currentDay = new Date(dateStr + 'T00:00:00');
                         const dayEvents = daysWithEvents[dateStr].sort((a, b) => a.hora.localeCompare(b.hora));
-
                         const dayName = dayNames[currentDay.getDay()];
                         const dayNum = currentDay.getDate();
                         const monthDay = currentDay.toLocaleDateString('es-CO', { month: 'long' });
 
                         html += `<div class="day-section">
-                            <div class="day-title">
-                                ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthDay}
-                                <span style="font-size:0.85em;font-weight:normal;color:#666">(${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})</span>
-                            </div>`;
+                    <div class="day-title">
+                        ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthDay}
+                        <span style="font-size:0.85em;font-weight:normal;color:#666">(${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})</span>
+                    </div>`;
 
                         dayEvents.forEach(e => {
                             const config = ENCARGADOS[e.encargadoKey];
                             html += `<div class="event-item">
-                                <div class="event-time">🕐 ${e.hora}</div>
-                                <div class="event-location">📍 ${e.lugar}</div>
-                                <div class="event-musician-badge" style="background:${config.color};">
-                                    ${config.icon} ${e.encargadoDisplay}
-                                </div>
-                            </div>`;
+                        <div class="event-time">🕐 ${e.hora}</div>
+                        <div class="event-location">📍 ${e.lugar}</div>
+                        <div class="event-musician-badge" style="background:${config.color};">
+                            ${config.icon} ${e.encargadoDisplay}
+                        </div>
+                    </div>`;
                         });
 
                         html += `</div>`;
@@ -1018,17 +1059,19 @@
 
             // Footer con resumen
             html += `<div class="footer-info">
-                <p><strong>Total de eventos:</strong> ${filtered.length}</p>
-                <p><strong>Semanas con actividad:</strong> ${Object.keys(weeks).length}</p>
-                <p style="margin-top:10px">🎵 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            </div>`;
+        <p><strong>Total de eventos:</strong> ${filtered.length}</p>
+        <p><strong>Semanas con actividad:</strong> ${Object.keys(weeks).length}</p>
+        <p style="margin-top:10px">🎵 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+    </div>`;
 
             content.innerHTML = html;
         }
 
         function renderCalendar() {
-            const grid = document.getElementById('calendarGrid'); grid.innerHTML = '';
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
             const months = [...new Set(events.map(e => e.fecha.substring(0, 7)))].sort();
+
             if (months.length === 0) {
                 grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px">📭 Sin eventos</p>';
                 return;
@@ -1044,17 +1087,32 @@
                 grid.appendChild(title);
 
                 ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].forEach(d => {
-                    const h = document.createElement('div'); h.className = 'calendar-header'; h.textContent = d; grid.appendChild(h);
+                    const h = document.createElement('div');
+                    h.className = 'calendar-header';
+                    h.textContent = d;
+                    grid.appendChild(h);
                 });
 
                 const firstDay = new Date(year, m - 1, 1).getDay();
                 const daysInMonth = new Date(year, m, 0).getDate();
-                for (let i = 0; i < firstDay; i++) { const e = document.createElement('div'); e.className = 'calendar-day empty'; grid.appendChild(e); }
+
+                for (let i = 0; i < firstDay; i++) {
+                    const e = document.createElement('div');
+                    e.className = 'calendar-day empty';
+                    grid.appendChild(e);
+                }
 
                 for (let day = 1; day <= daysInMonth; day++) {
-                    const cell = document.createElement('div'); cell.className = 'calendar-day';
-                    const num = document.createElement('div'); num.className = 'day-number'; num.textContent = day; cell.appendChild(num);
+                    const cell = document.createElement('div');
+                    cell.className = 'calendar-day';
+
+                    const num = document.createElement('div');
+                    num.className = 'day-number';
+                    num.textContent = day;
+                    cell.appendChild(num);
+
                     const dateStr = `${year}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
                     events.filter(e => e.fecha === dateStr && (currentFilter === 'all' || e.encargadoKey === currentFilter))
                         .forEach(e => {
                             const ev = document.createElement('div');
@@ -1065,6 +1123,7 @@
                             ev.title = `${e.hora} - ${e.lugar} - ${e.encargadoDisplay}`;
                             cell.appendChild(ev);
                         });
+
                     grid.appendChild(cell);
                 }
             });
@@ -1072,7 +1131,9 @@
 
         function renderList() {
             const today = new Date().toISOString().split('T')[0];
-            const list = document.getElementById('eventList'); list.innerHTML = '';
+            const list = document.getElementById('eventList');
+            list.innerHTML = '';
+
             const filtered = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
                 .filter(e => e.fecha >= today)
                 .sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
@@ -1080,50 +1141,154 @@
             filtered.forEach(e => {
                 const d = new Date(e.fecha + 'T' + e.hora);
                 const config = ENCARGADOS[e.encargadoKey];
-
                 const card = document.createElement('div');
                 card.className = `event-card ${config.class}`;
                 card.style.borderLeftColor = config.color;
-
                 card.innerHTML = `
-                <div class="event-header">
-                    <div class="event-date">${d.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                    <div class="event-musician" style="background: ${config.color};">
-                        ${config.icon} ${e.encargadoDisplay}
-                    </div>
+            <div class="event-header">
+                <div class="event-date">${d.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                <div class="event-musician" style="background: ${config.color};">
+                    ${config.icon} ${e.encargadoDisplay}
                 </div>
-                <div class="event-details">
-                    <div class="event-detail"><strong>🕐 Hora:</strong> ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}</div>
-                    <div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
-                    <div class="event-detail"><strong>✅ Estado:</strong> ${e.status}</div>
-                </div>`;
+            </div>
+            <div class="event-details">
+                <div class="event-detail"><strong>🕐 Hora:</strong> ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}</div>
+                <div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
+                <div class="event-detail"><strong>✅ Estado:</strong> ${e.status}</div>
+            </div>`;
                 list.appendChild(card);
             });
         }
 
-        function exportToPDF() {
-            document.getElementById('loading').style.display = 'block';
-            setTimeout(() => {
-                html2pdf().set({
-                    margin: 10, filename: `Agenda-Mariachi-2026-${currentFilter === 'all' ? 'completa' : ENCARGADOS[currentFilter]?.name || 'filtrada'}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                })
-                    .from(document.getElementById('consolidatedContent')).save()
-                    .then(() => { document.getElementById('loading').style.display = 'none'; alert('✅ PDF descargado'); });
-            }, 500);
+        // ✅ CORRECCIÓN: Función de exportación a PDF corregida
+        async function exportToPDF() {
+            const loading = document.getElementById('loading');
+            const consolidatedView = document.getElementById('consolidatedView');
+            const consolidatedContent = document.getElementById('consolidatedContent');
+
+            // ✅ Validar que haya eventos
+            const today = new Date().toISOString().split('T')[0];
+            const filtered = currentFilter === 'all'
+                ? events.filter(e => e.fecha >= today)
+                : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
+
+            if (filtered.length === 0) {
+                alert('⚠️ No hay eventos para exportar');
+                return;
+            }
+
+            loading.style.display = 'block';
+
+            try {
+                // ✅ 1. Hacer visible temporalmente el contenido
+                const wasHidden = consolidatedView.classList.contains('hidden');
+                consolidatedView.classList.remove('hidden');
+                consolidatedView.classList.add('export-visible');
+
+                // ✅ 2. Asegurar que el contenido esté renderizado
+                if (consolidatedContent.innerHTML.trim() === '') {
+                    renderConsolidatedView();
+                }
+
+                // ✅ 3. Esperar a que el DOM se actualice completamente
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // ✅ 4. Configurar html2pdf con mejores opciones
+                const opt = {
+                    margin: 10,
+                    filename: `Agenda-Mariachi-2026-${currentFilter === 'all' ? 'completa' : ENCARGADOS[currentFilter]?.name || 'filtrada'}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        logging: false,
+                        windowWidth: 1200,
+                        backgroundColor: '#ffffff'
+                    },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                // ✅ 5. Generar PDF
+                await html2pdf().set(opt).from(consolidatedContent).save();
+
+                alert('✅ PDF descargado exitosamente');
+
+            } catch (error) {
+                console.error('Error exportando PDF:', error);
+                alert('❌ Error al exportar PDF: ' + error.message);
+            } finally {
+                // ✅ 6. Restaurar estado original
+                consolidatedView.classList.remove('export-visible');
+                if (consolidatedView.classList.contains('hidden') === false && currentView !== 'consolidated') {
+                    consolidatedView.classList.add('hidden');
+                }
+                loading.style.display = 'none';
+            }
         }
 
-        function exportToImage() {
-            document.getElementById('loading').style.display = 'block';
-            setTimeout(() => {
-                html2canvas(document.getElementById('consolidatedContent'), { scale: 2, useCORS: true, allowTaint: true })
-                    .then(canvas => {
-                        const a = document.createElement('a');
-                        a.download = `Agenda-Mariachi-2026-${currentFilter === 'all' ? 'completa' : ENCARGADOS[currentFilter]?.name || 'filtrada'}.png`;
-                        a.href = canvas.toDataURL(); a.click();
-                        document.getElementById('loading').style.display = 'none'; alert('✅ Imagen descargada');
-                    });
-            }, 500);
+        // ✅ CORRECCIÓN: Función de exportación a Imagen corregida
+        async function exportToImage() {
+            const loading = document.getElementById('loading');
+            const consolidatedView = document.getElementById('consolidatedView');
+            const consolidatedContent = document.getElementById('consolidatedContent');
+
+            // ✅ Validar que haya eventos
+            const today = new Date().toISOString().split('T')[0];
+            const filtered = currentFilter === 'all'
+                ? events.filter(e => e.fecha >= today)
+                : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
+
+            if (filtered.length === 0) {
+                alert('⚠️ No hay eventos para exportar');
+                return;
+            }
+
+            loading.style.display = 'block';
+
+            try {
+                // ✅ 1. Hacer visible temporalmente el contenido
+                const wasHidden = consolidatedView.classList.contains('hidden');
+                consolidatedView.classList.remove('hidden');
+                consolidatedView.classList.add('export-visible');
+
+                // ✅ 2. Asegurar que el contenido esté renderizado
+                if (consolidatedContent.innerHTML.trim() === '') {
+                    renderConsolidatedView();
+                }
+
+                // ✅ 3. Esperar a que el DOM se actualice completamente
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // ✅ 4. Configurar html2canvas con mejores opciones
+                const canvas = await html2canvas(consolidatedContent, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    windowWidth: 1200
+                });
+
+                // ✅ 5. Descargar imagen
+                const a = document.createElement('a');
+                a.download = `Agenda-Mariachi-2026-${currentFilter === 'all' ? 'completa' : ENCARGADOS[currentFilter]?.name || 'filtrada'}.png`;
+                a.href = canvas.toDataURL('image/png', 1.0);
+                a.click();
+
+                alert('✅ Imagen descargada exitosamente');
+
+            } catch (error) {
+                console.error('Error exportando imagen:', error);
+                alert('❌ Error al exportar imagen: ' + error.message);
+            } finally {
+                // ✅ 6. Restaurar estado original
+                consolidatedView.classList.remove('export-visible');
+                if (consolidatedView.classList.contains('hidden') === false && currentView !== 'consolidated') {
+                    consolidatedView.classList.add('hidden');
+                }
+                loading.style.display = 'none';
+            }
         }
 
         function updateStats() {
@@ -1153,7 +1318,8 @@
             try {
                 loading.style.display = 'block';
                 info.textContent = '🔄 Conectando con Google Sheets...';
-                info.style.background = '#e3f2fd'; info.style.color = '#1976d2';
+                info.style.background = '#e3f2fd';
+                info.style.color = '#1976d2';
 
                 const start = Date.now();
                 events = await loadEventsFromSheet();
@@ -1171,18 +1337,21 @@
                         .join(' | ');
 
                     info.innerHTML = `<strong>✅ ${events.length} eventos</strong> <span style="margin-left:10px;opacity:0.8">(${time}s)</span><br><small>${summary}</small>`;
-                    info.style.background = '#e8f5e9'; info.style.color = '#2e7d32';
+                    info.style.background = '#e8f5e9';
+                    info.style.color = '#2e7d32';
 
                     initFilterButtons();
                     render();
                 } else {
                     info.textContent = '⚠️ No hay eventos en la hoja';
-                    info.style.background = '#fff3e0'; info.style.color = '#ef6c00';
+                    info.style.background = '#fff3e0';
+                    info.style.color = '#ef6c00';
                 }
             } catch (e) {
                 loading.style.display = 'none';
                 info.innerHTML = `<strong>❌ Error</strong><br><small>${e.message}</small>`;
-                info.style.background = '#ffebee'; info.style.color = '#c62828';
+                info.style.background = '#ffebee';
+                info.style.color = '#c62828';
                 console.error(e);
             }
         }
