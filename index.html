@@ -848,6 +848,14 @@
             white-space: nowrap;
         }
 
+        .event-payment {
+            min-width: 90px;
+            text-align: right;
+            color: #27ae60;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
         .footer-info {
             margin-top: 25px;
             padding-top: 15px;
@@ -870,7 +878,7 @@
             border-collapse: collapse;
             font-size: 0.85em;
             margin-top: 15px;
-            min-width: 600px;
+            min-width: 700px;
         }
 
         .full-events-table th {
@@ -1396,7 +1404,7 @@
 
             .full-events-table {
                 font-size: 0.75em;
-                min-width: 550px;
+                min-width: 600px;
             }
 
             .full-events-table th,
@@ -1649,10 +1657,9 @@
             </div>
             <div class="header-meta">
                 <div id="currentDate"></div>
-                <div style="margin-top: 5px;">Versión 2.5</div>
+                <div style="margin-top: 5px;">Versión 3.0</div>
             </div>
         </header>
-
         <div id="nextWeekendSection" class="next-weekend-section">
             <div class="next-weekend-header">
                 <h2>📅 Próximos 3 Días con Eventos</h2>
@@ -1660,7 +1667,6 @@
             </div>
             <div class="weekend-days" id="weekendDays"></div>
         </div>
-
         <div class="stats">
             <div class="stat-card">
                 <h3 id="totalEvents">0</h3>
@@ -1676,31 +1682,25 @@
             </div>
             <div class="stat-card">
                 <h3 id="totalEarnings">$0</h3>
-                <p>Ganancias Est.</p>
+                <p>Ganancias Reales</p>
             </div>
         </div>
-
         <div class="controls">
             <div class="data-info" id="dataInfo">🔄 Cargando datos desde Google Sheets...</div>
-
             <div class="filter-buttons" id="filterButtons">
                 <button class="btn btn-all active" onclick="filterMusician('all')">📅 Todos</button>
             </div>
-
             <div class="view-tabs">
                 <button class="btn btn-all active" onclick="switchView('calendar')">📆 Calendario</button>
                 <button class="btn btn-all" onclick="switchView('list')">📋 Lista</button>
                 <button class="btn btn-all" onclick="switchView('table')">📊 Tabla</button>
                 <button class="btn btn-all" onclick="switchView('consolidated')">📄 Agenda</button>
             </div>
-
             <div class="export-buttons">
                 <button class="btn btn-export" onclick="exportToPDF()">📥 PDF</button>
                 <button class="btn btn-export" onclick="exportToImage()">📷 Imagen</button>
-                <!-- <button class="btn btn-export" onclick="exportToCSV()">📁 CSV</button> -->
             </div>
         </div>
-
         <div id="calendarView" class="calendar-view">
             <h2 class="view-title">
                 📆 Calendario Mensual
@@ -1712,12 +1712,10 @@
             </h2>
             <div class="calendar-grid" id="calendarGrid"></div>
         </div>
-
         <div id="listView" class="list-view hidden">
             <h2 class="view-title">📋 Lista de Eventos</h2>
             <div class="event-list" id="eventList"></div>
         </div>
-
         <div id="tableView" class="table-view hidden">
             <h2 class="view-title">📊 Tabla Completa de Eventos</h2>
             <div class="table-container">
@@ -1729,7 +1727,8 @@
                             <th>Hora</th>
                             <th>Lugar</th>
                             <th>Encargado</th>
-                            <th>Instrumento</th>
+                            <th>Notas</th>
+                            <th>Pago</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
@@ -1737,17 +1736,14 @@
                 </table>
             </div>
         </div>
-
         <div id="consolidatedView" class="consolidated-view hidden">
             <div id="consolidatedContent" class="consolidated-content"></div>
         </div>
-
         <footer>
             <p>🎵 Mariachi - Sistema de Agenda Corporativa 2026</p>
             <p style="margin-top: 8px; font-size: 0.85em;">Última actualización: <span id="lastUpdate"></span></p>
         </footer>
     </div>
-
     <!-- ✅ MODAL PARA DETALLES DE EVENTO -->
     <div class="modal-overlay" id="eventModal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -1760,17 +1756,13 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" onclick="closeModal()" style="background: #95a5a6; color: white;">Cerrar</button>
-                <!-- <button class="btn" onclick="addToCalendar()" style="background: #3498db; color: white;">📅
-                    Agendar</button> -->
             </div>
         </div>
     </div>
-
     <div id="loading" class="loading">
         <div class="loading-spinner"></div>
         <p>Generando archivo...</p>
     </div>
-
     <script>
         // ===== CONFIGURACIÓN =====
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?output=csv';
@@ -1780,7 +1772,6 @@
             'mayo': '05', 'junio': '06', 'julio': '07', 'agosto': '08',
             'septiembre': '09', 'octubre': '10', 'noviembre': '11', 'diciembre': '12'
         };
-
         const ENCARGADOS = {
             manuela: { name: 'Manuela', icon: '🪗', color: '#e91e63', class: 'musician-manuela' },
             andres: { name: 'Andres', icon: '🎸', color: '#e74c3c', class: 'musician-andres' },
@@ -1790,7 +1781,6 @@
             tatan: { name: 'Tatan', icon: '🎹', color: '#9b59b6', class: 'musician-tatan' },
             menucho: { name: 'Menucho', icon: '🥁', color: '#2ecc71', class: 'musician-menucho' }
         };
-
         const NAME_MAPPING = {
             'manuela': 'manuela', 'manu': 'manuela', 'manny': 'manuela',
             'andres': 'andres', 'andrés': 'andres', 'andre': 'andres', 'andy': 'andres',
@@ -1800,13 +1790,11 @@
             'tatan': 'tatan', 'tatán': 'tatan', 'tata': 'tatan',
             'menucho': 'menucho', 'menuch': 'menucho', 'manuel': 'menucho'
         };
-
         let events = [];
         let currentFilter = 'all';
         let currentView = 'calendar';
         let currentCalendarMonth = new Date(CURRENT_YEAR, 0, 1);
         let selectedEvent = null;
-
         // ===== FUNCIONES DE CONVERSIÓN =====
         function parseSpanishDate(dateStr) {
             if (!dateStr) return null;
@@ -1821,7 +1809,6 @@
             }
             return `${CURRENT_YEAR}-${month}-${day}`;
         }
-
         function convertTo24Hour(timeStr) {
             if (!timeStr) return '00:00';
             timeStr = timeStr.trim().toLowerCase().replace(/\s/g, '');
@@ -1835,7 +1822,6 @@
             }
             return `${String(hours).padStart(2, '0')}:${minutes}`;
         }
-
         function normalizeEncargadoName(rawName) {
             if (!rawName) return null;
             const normalized = rawName.trim().toLowerCase()
@@ -1843,7 +1829,6 @@
                 .replace(/\s+/g, '');
             return NAME_MAPPING[normalized] || null;
         }
-
         // ===== PARSEADOR CSV =====
         function parseCSVLine(line) {
             const values = [];
@@ -1858,7 +1843,6 @@
             values.push(current.trim().replace(/^"|"$/g, ''));
             return values;
         }
-
         function parseCSV(csvText) {
             const lines = csvText.trim().split(/\r?\n/);
             if (lines.length < 2) return [];
@@ -1878,17 +1862,17 @@
                     fecha: fecha,
                     hora: convertTo24Hour(values[2]),
                     horaOriginal: values[2],
-                    instrumento: values[3] || '',
+                    notas: values[3] || '',
                     lugar: values[4] || '',
                     encargadoKey: encargadoKey,
                     encargadoDisplay: ENCARGADOS[encargadoKey].name,
+                    pago: parseFloat(values[6]) || 0,
                     status: 'confirmado'
                 });
             }
             console.log(`✅ ${parsed.length} eventos parseados`);
             return parsed;
         }
-
         // ===== CARGA DE EVENTOS =====
         async function loadEventsFromSheet() {
             const response = await fetch(SHEET_CSV_URL);
@@ -1896,130 +1880,111 @@
             const csvText = await response.text();
             return parseCSV(csvText);
         }
-
         // ===== RENDERIZADO =====
         function formatDateShort(date) {
             return date.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
         }
-
         function renderFilterButtons() {
             const container = document.getElementById('filterButtons');
             let html = `<button class="btn ${currentFilter === 'all' ? 'active' : ''}" onclick="filterMusician('all')">📅 Todos</button>`;
             Object.entries(ENCARGADOS).forEach(([key, config]) => {
                 const isActive = currentFilter === key ? 'active' : '';
                 html += `<button class="btn ${isActive}" onclick="filterMusician('${key}')" style="border-left: 3px solid ${config.color};">
-            ${config.icon} ${config.name}
-        </button>`;
+${config.icon} ${config.name}
+</button>`;
             });
             container.innerHTML = html;
         }
-
         function renderNextThreeDaysWithEvents() {
             const today = new Date().toISOString().split('T')[0];
             const filtered = currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter);
-
             const uniqueDates = [...new Set(filtered.map(e => e.fecha))]
                 .filter(dateStr => dateStr >= today)
                 .sort()
                 .slice(0, 3);
-
             const container = document.getElementById('weekendDays');
-
             if (uniqueDates.length === 0) {
                 document.getElementById('weekendDates').textContent = 'Sin eventos programados';
                 container.innerHTML = `
-            <div class="weekend-day">
-                <div style="text-align:center;padding:50px;color:#7f8c8d;">
-                    <div style="font-size:3em;margin-bottom:10px;">📭</div>
-                    <p><strong>No hay eventos reservados</strong></p>
-                    <small style="opacity:0.8">Los próximos días están disponibles</small>
-                </div>
-            </div>
-        `;
+<div class="weekend-day">
+<div style="text-align:center;padding:50px;color:#7f8c8d;">
+<div style="font-size:3em;margin-bottom:10px;">📭</div>
+<p><strong>No hay eventos reservados</strong></p>
+<small style="opacity:0.8">Los próximos días están disponibles</small>
+</div>
+</div>
+`;
                 return;
             }
-
             const startDate = formatDateShort(new Date(uniqueDates[0] + 'T00:00:00'));
             const endDate = formatDateShort(new Date(uniqueDates[uniqueDates.length - 1] + 'T00:00:00'));
             document.getElementById('weekendDates').textContent =
                 uniqueDates.length === 1 ? startDate : `${startDate} al ${endDate}`;
-
             const dayColors = {
                 0: '#e74c3c', 1: '#3498db', 2: '#2ecc71',
                 3: '#f39c12', 4: '#9b59b6', 5: '#1abc9c', 6: '#e67e22'
             };
-
             const html = uniqueDates.map(dateStr => {
                 const date = new Date(dateStr + 'T00:00:00');
                 const dayName = date.toLocaleDateString('es-CO', { weekday: 'long' });
                 const dayNum = date.getDate();
                 const monthName = date.toLocaleDateString('es-CO', { month: 'long' });
                 const color = dayColors[date.getDay()] || '#3498db';
-
                 const dayEvents = filtered
                     .filter(e => e.fecha === dateStr)
                     .sort((a, b) => a.hora.localeCompare(b.hora));
-
                 return `
-            <div class="weekend-day">
-                <div class="weekend-day-header" style="background: ${color};">
-                    <span>📅 ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthName}</span>
-                    <span style="font-size:0.85em;opacity:0.9;">${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''}</span>
-                </div>
-                <div class="weekend-day-events">
-                    ${dayEvents.map(e => {
+<div class="weekend-day">
+<div class="weekend-day-header" style="background: ${color};">
+<span>📅 ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthName}</span>
+<span style="font-size:0.85em;opacity:0.9;">${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''}</span>
+</div>
+<div class="weekend-day-events">
+${dayEvents.map(e => {
                     const config = ENCARGADOS[e.encargadoKey];
                     return `
-                            <div class="weekend-event ${config.class}" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})" style="border-left-color:${config.color};">
-                                <div class="weekend-event-time">🕐 ${e.hora}</div>
-                                <div class="weekend-event-location">📍 ${e.lugar}</div>
-                                <div class="weekend-event-musician" style="background:${config.color};">
-                                    ${config.icon} ${e.encargadoDisplay}
-                                </div>
-                            </div>
-                        `;
+<div class="weekend-event ${config.class}" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})" style="border-left-color:${config.color};">
+<div class="weekend-event-time">🕐 ${e.hora}</div>
+<div class="weekend-event-location">📍 ${e.lugar}</div>
+<div class="weekend-event-musician" style="background:${config.color};">
+${config.icon} ${e.encargadoDisplay}
+</div>
+</div>
+`;
                 }).join('')}
-                </div>
-            </div>
-        `;
+</div>
+</div>
+`;
             }).join('');
-
             container.innerHTML = html;
         }
-
         function filterMusician(musician) {
             currentFilter = musician;
             renderFilterButtons();
             render();
         }
-
         function switchView(view) {
             currentView = view;
             ['calendarView', 'listView', 'tableView', 'consolidatedView'].forEach(id =>
                 document.getElementById(id).classList.add('hidden'));
             document.getElementById(view + 'View').classList.remove('hidden');
-
             document.querySelectorAll('.view-tabs .btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-
             if (view === 'consolidated') renderConsolidatedView();
             else if (view === 'table') renderFullTable();
             else if (view === 'calendar') renderCalendar();
             render();
         }
-
         function changeMonth(delta) {
             currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + delta);
             renderCalendar();
         }
-
         // ✅ FUNCIÓN PARA ABRIR MODAL CON DETALLES DEL EVENTO
         function openModal(eventData) {
             selectedEvent = eventData;
             const modal = document.getElementById('eventModal');
             const modalBody = document.getElementById('modalBody');
             const config = ENCARGADOS[eventData.encargadoKey];
-
             const dateObj = new Date(eventData.fecha + 'T00:00:00');
             const fullDate = dateObj.toLocaleDateString('es-CO', {
                 weekday: 'long',
@@ -2027,114 +1992,104 @@
                 month: 'long',
                 day: 'numeric'
             });
-
             const timeObj = new Date(`2000-01-01T${eventData.hora}`);
             const time12h = timeObj.toLocaleTimeString('es-CO', {
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: true
             });
-
             modalBody.innerHTML = `
-        <div class="modal-event-date">
-            <h4>📅 ${fullDate.charAt(0).toUpperCase() + fullDate.slice(1)}</h4>
-            <p>🕐 ${time12h}</p>
-        </div>
-        
-        <div class="modal-detail-row">
-            <div class="modal-detail-icon" style="background: #e8f4f8;">
-                📍
-            </div>
-            <div class="modal-detail-content">
-                <div class="modal-detail-label">Lugar del Evento</div>
-                <div class="modal-detail-value">${eventData.lugar || 'No especificado'}</div>
-            </div>
-        </div>
-        
-        <div class="modal-detail-row">
-            <div class="modal-detail-icon" style="background: ${config.color}20;">
-                ${config.icon}
-            </div>
-            <div class="modal-detail-content">
-                <div class="modal-detail-label">Encargado / Músico</div>
-                <div class="modal-detail-value">
-                    ${config.name}
-                    <span class="modal-musician-badge" style="background:${config.color};">
-                        ${config.icon} ${config.name}
-                    </span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="modal-detail-row">
-            <div class="modal-detail-icon" style="background: #fef9e7;">
-                🎵
-            </div>
-            <div class="modal-detail-content">
-                <div class="modal-detail-label">Instrumento</div>
-                <div class="modal-detail-value">${eventData.instrumento || 'No especificado'}</div>
-            </div>
-        </div>
-        
-        <div class="modal-detail-row">
-            <div class="modal-detail-icon" style="background: #e8f5e9;">
-                ✅
-            </div>
-            <div class="modal-detail-content">
-                <div class="modal-detail-label">Estado</div>
-                <div class="modal-detail-value">
-                    <span class="status-badge status-confirmed">${eventData.status}</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="modal-detail-row">
-            <div class="modal-detail-icon" style="background: #f3e5f5;">
-                📝
-            </div>
-            <div class="modal-detail-content">
-                <div class="modal-detail-label">Fecha Original</div>
-                <div class="modal-detail-value">${eventData.fechaOriginal}</div>
-            </div>
-        </div>
-    `;
-
+<div class="modal-event-date">
+<h4>📅 ${fullDate.charAt(0).toUpperCase() + fullDate.slice(1)}</h4>
+<p>🕐 ${time12h}</p>
+</div>
+<div class="modal-detail-row">
+<div class="modal-detail-icon" style="background: #e8f4f8;">
+📍
+</div>
+<div class="modal-detail-content">
+<div class="modal-detail-label">Lugar del Evento</div>
+<div class="modal-detail-value">${eventData.lugar || 'No especificado'}</div>
+</div>
+</div>
+<div class="modal-detail-row">
+<div class="modal-detail-icon" style="background: ${config.color}20;">
+${config.icon}
+</div>
+<div class="modal-detail-content">
+<div class="modal-detail-label">Encargado / Músico</div>
+<div class="modal-detail-value">
+${config.name}
+<span class="modal-musician-badge" style="background:${config.color};">
+${config.icon} ${config.name}
+</span>
+</div>
+</div>
+</div>
+<div class="modal-detail-row">
+<div class="modal-detail-icon" style="background: #fef9e7;">
+📝
+</div>
+<div class="modal-detail-content">
+<div class="modal-detail-label">Notas / Canciones</div>
+<div class="modal-detail-value">${eventData.notas || 'Sin indicaciones especiales'}</div>
+</div>
+</div>
+<div class="modal-detail-row">
+<div class="modal-detail-icon" style="background: #e8f5e9;">
+💰
+</div>
+<div class="modal-detail-content">
+<div class="modal-detail-label">Valor del Evento</div>
+<div class="modal-detail-value" style="color: #27ae60; font-weight: 700;">
+$${eventData.pago.toLocaleString('es-CO')}
+</div>
+</div>
+</div>
+<div class="modal-detail-row">
+<div class="modal-detail-icon" style="background: #f3e5f5;">
+✅
+</div>
+<div class="modal-detail-content">
+<div class="modal-detail-label">Estado</div>
+<div class="modal-detail-value">
+<span class="status-badge status-confirmed">${eventData.status}</span>
+</div>
+</div>
+</div>
+<div class="modal-detail-row">
+<div class="modal-detail-icon" style="background: #f5f5f5;">
+📄
+</div>
+<div class="modal-detail-content">
+<div class="modal-detail-label">Fecha Original (CSV)</div>
+<div class="modal-detail-value">${eventData.fechaOriginal}</div>
+</div>
+</div>
+`;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-
         // ✅ FUNCIÓN PARA CERRAR MODAL
         function closeModal(event) {
             if (event && event.target !== event.currentTarget) return;
-
             const modal = document.getElementById('eventModal');
             modal.classList.remove('active');
             document.body.style.overflow = '';
             selectedEvent = null;
         }
-
-        // ✅ FUNCIÓN PARA AGREGAR AL CALENDARIO (Simulada)
-        function addToCalendar() {
-            if (!selectedEvent) return;
-
-            alert(`✅ Evento agregado a tu calendario\n\n📅 ${selectedEvent.fecha}\n🕐 ${selectedEvent.hora}\n📍 ${selectedEvent.lugar}\n🎵 ${selectedEvent.encargadoDisplay}`);
-            closeModal();
-        }
-
         // Cerrar modal con tecla Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeModal();
             }
         });
-
         function renderConsolidatedView() {
             const today = new Date().toISOString().split('T')[0];
             const content = document.getElementById('consolidatedContent');
             const filtered = currentFilter === 'all'
                 ? events.filter(e => e.fecha >= today)
                 : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
-
             function getWeekNumber(date) {
                 const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
                 const dayNum = d.getUTCDay() || 7;
@@ -2142,7 +2097,6 @@
                 const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
                 return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
             }
-
             function getMondayOfWeek(date) {
                 const d = new Date(date);
                 const day = d.getDay() || 7;
@@ -2150,7 +2104,6 @@
                 d.setDate(d.getDate() - day + 1);
                 return d;
             }
-
             const weeks = {};
             filtered.forEach(e => {
                 const date = new Date(e.fecha + 'T00:00:00');
@@ -2161,44 +2114,39 @@
                 }
                 weeks[weekKey].events.push(e);
             });
-
             const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-
             if (filtered.length === 0) {
                 content.innerHTML = `
-            <div class="consolidated-header">
-                <h2>📋 Agenda de Presentaciones</h2>
-                <p>Temporada 2026</p>
-                <p style="margin-top:10px;font-size:0.9em">
-                    ${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
-                </p>
-            </div>
-            <div style="text-align:center;padding:50px;color:#7f8c8d;">
-                <p style="font-size:1.5em;margin-bottom:20px;">📭</p>
-                <p style="font-size:1.2em;">No hay eventos para mostrar</p>
-            </div>
-            <div class="footer-info">
-                <p>📅 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            </div>
-        `;
+<div class="consolidated-header">
+<h2>📋 Agenda de Presentaciones</h2>
+<p>Temporada 2026</p>
+<p style="margin-top:10px;font-size:0.9em">
+${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
+</p>
+</div>
+<div style="text-align:center;padding:50px;color:#7f8c8d;">
+<p style="font-size:1.5em;margin-bottom:20px;">📭</p>
+<p style="font-size:1.2em;">No hay eventos para mostrar</p>
+</div>
+<div class="footer-info">
+<p>📅 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+</div>
+`;
                 return;
             }
-
             let html = `<div class="consolidated-header">
-        <h2>📋 Agenda de Presentaciones</h2>
-        <p>Temporada 2026</p>
-        <p style="margin-top:10px;font-size:0.9em">
-            ${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
-        </p>
-    </div>`;
-
+<h2>📋 Agenda de Presentaciones</h2>
+<p>Temporada 2026</p>
+<p style="margin-top:10px;font-size:0.9em">
+${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
+</p>
+</div>`;
             Object.keys(weeks).sort().forEach(weekKey => {
                 const week = weeks[weekKey];
                 const weekNum = getWeekNumber(week.startDate);
                 const monthName = week.startDate.toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
                 const sunday = new Date(week.startDate);
                 sunday.setDate(sunday.getDate() + 6);
-
                 const daysWithEvents = {};
                 week.events.forEach(e => {
                     if (!daysWithEvents[e.fecha]) {
@@ -2206,106 +2154,94 @@
                     }
                     daysWithEvents[e.fecha].push(e);
                 });
-
                 const sortedDates = Object.keys(daysWithEvents).sort();
-
                 if (sortedDates.length > 0) {
                     html += `<div class="week-section">
-                <div class="week-title">
-                    📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthName}
-                </div>`;
-
+<div class="week-title">
+📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthName}
+</div>`;
                     sortedDates.forEach(dateStr => {
                         const currentDay = new Date(dateStr + 'T00:00:00');
                         const dayEvents = daysWithEvents[dateStr].sort((a, b) => a.hora.localeCompare(b.hora));
                         const dayName = dayNames[currentDay.getDay()];
                         const dayNum = currentDay.getDate();
                         const monthDay = currentDay.toLocaleDateString('es-CO', { month: 'long' });
-
                         html += `<div class="day-section">
-                    <div class="day-title">
-                        ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthDay}
-                        <span style="font-size:0.85em;font-weight:normal;color:#7f8c8d">(${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})</span>
-                    </div>`;
-
+<div class="day-title">
+${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthDay}
+<span style="font-size:0.85em;font-weight:normal;color:#7f8c8d">(${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})</span>
+</div>`;
                         dayEvents.forEach(e => {
                             const config = ENCARGADOS[e.encargadoKey];
                             html += `<div class="event-item" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
-                        <div class="event-time">🕐 ${e.hora}</div>
-                        <div class="event-location">📍 ${e.lugar}</div>
-                        <div class="event-musician-badge" style="background:${config.color};">
-                            ${config.icon} ${e.encargadoDisplay}
-                        </div>
-                    </div>`;
+<div class="event-time">🕐 ${e.hora}</div>
+<div class="event-location" style="flex: 2;">📍 ${e.lugar}</div>
+<div class="event-musician-badge" style="background:${config.color}; min-width: 80px;">
+${config.icon} ${e.encargadoDisplay}
+</div>
+<div style="min-width: 90px; text-align: right; color: #27ae60; font-weight: 600; font-size: 0.85em;">
+$${e.pago.toLocaleString('es-CO')}
+</div>
+</div>`;
                         });
                         html += `</div>`;
                     });
                     html += `</div>`;
                 }
             });
-
+            const totalReal = filtered.reduce((sum, e) => sum + (e.pago || 0), 0);
             html += `<div class="footer-info">
-        <p><strong>Total de eventos:</strong> ${filtered.length}</p>
-        <p><strong>Semanas con actividad:</strong> ${Object.keys(weeks).length}</p>
-        <p style="margin-top:10px">📅 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-    </div>`;
-
+<p><strong>Total de eventos:</strong> ${filtered.length}</p>
+<p><strong>Semanas con actividad:</strong> ${Object.keys(weeks).length}</p>
+<p><strong style="color: #27ae60;">Total recaudado:</strong> $${totalReal.toLocaleString('es-CO')}</p>
+<p style="margin-top:10px">📅 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+</div>`;
             content.innerHTML = html;
         }
-
         // ✅ FUNCIÓN ACTUALIZADA: Calendario con mensaje para meses sin eventos
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const monthDisplay = document.getElementById('calendarMonthDisplay');
             const btnPrev = document.getElementById('btnPrevMonth');
             const btnNext = document.getElementById('btnNextMonth');
-
             grid.innerHTML = '';
-
             const year = currentCalendarMonth.getFullYear();
             const month = currentCalendarMonth.getMonth();
-
             const monthName = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
             monthDisplay.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
-
             const today = new Date();
             btnPrev.disabled = (year < today.getFullYear()) || (year === today.getFullYear() && month <= today.getMonth());
             btnNext.disabled = (year >= CURRENT_YEAR + 1);
-
             const monthEvents = events.filter(e => {
                 const eventDate = new Date(e.fecha + 'T00:00:00');
                 return eventDate.getFullYear() === year && eventDate.getMonth() === month;
             });
-
             const filteredEvents = currentFilter === 'all'
                 ? monthEvents
                 : monthEvents.filter(e => e.encargadoKey === currentFilter);
-
             const todayStr = new Date().toISOString().split('T')[0];
-
             // ✅ VERIFICAR SI EL MES TIENE EVENTOS
             if (filteredEvents.length === 0) {
                 // Mostrar mensaje amigable
                 const monthNameLong = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
                 grid.innerHTML = `
-            <div class="no-events-message">
-                <div class="no-events-icon">📅</div>
-                <h3>Sin eventos en ${monthNameLong.charAt(0).toUpperCase() + monthNameLong.slice(1)}</h3>
-                <p>✨ ¡Aún no hay presentaciones reservadas para este mes!</p>
-                <p style="font-size:0.9em;margin-top:10px;">
-                    ${currentFilter === 'all'
+<div class="no-events-message">
+<div class="no-events-icon">📅</div>
+<h3>Sin eventos en ${monthNameLong.charAt(0).toUpperCase() + monthNameLong.slice(1)}</h3>
+<p>✨ ¡Aún no hay presentaciones reservadas para este mes!</p>
+<p style="font-size:0.9em;margin-top:10px;">
+${currentFilter === 'all'
                         ? 'Puedes navegar a otros meses o esperar nuevas reservas.'
                         : `No hay eventos de ${ENCARGADOS[currentFilter]?.name || 'este encargado'} en este mes.`}
-                </p>
-                <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                    <button class="btn" onclick="changeMonth(-1)" ${btnPrev.disabled ? 'disabled' : ''}>◀ Mes Anterior</button>
-                    <button class="btn" onclick="changeMonth(1)" ${btnNext.disabled ? 'disabled' : ''}>Mes Siguiente ▶</button>
-                </div>
-            </div>
-        `;
+</p>
+<div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+<button class="btn" onclick="changeMonth(-1)" ${btnPrev.disabled ? 'disabled' : ''}>◀ Mes Anterior</button>
+<button class="btn" onclick="changeMonth(1)" ${btnNext.disabled ? 'disabled' : ''}>Mes Siguiente ▶</button>
+</div>
+</div>
+`;
                 return;
             }
-
             // Headers de días
             ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].forEach(d => {
                 const h = document.createElement('div');
@@ -2313,39 +2249,31 @@
                 h.textContent = d;
                 grid.appendChild(h);
             });
-
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-
             // Días vacíos antes del primer día
             for (let i = 0; i < firstDay; i++) {
                 const e = document.createElement('div');
                 e.className = 'calendar-day empty';
                 grid.appendChild(e);
             }
-
             // Días del mes - MOSTRANDO TODOS LOS EVENTOS
             for (let day = 1; day <= daysInMonth; day++) {
                 const cell = document.createElement('div');
                 cell.className = 'calendar-day';
-
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
                 if (dateStr === todayStr) {
                     cell.classList.add('today');
                 }
-
                 const dayEvents = filteredEvents.filter(e => e.fecha === dateStr);
                 if (dayEvents.length > 0) {
                     cell.classList.add('has-events');
                 }
-
                 // Número del día con contador
                 const num = document.createElement('div');
                 num.className = 'day-number';
                 num.innerHTML = `<span>${day}</span>${dayEvents.length > 0 ? `<span class="day-event-count">${dayEvents.length}</span>` : ''}`;
                 cell.appendChild(num);
-
                 // MOSTRAR TODOS LOS EVENTOS CON CLICK PARA ABRIR MODAL
                 dayEvents.forEach(e => {
                     const ev = document.createElement('div');
@@ -2360,20 +2288,16 @@
                     };
                     cell.appendChild(ev);
                 });
-
                 grid.appendChild(cell);
             }
         }
-
         function renderList() {
             const today = new Date().toISOString().split('T')[0];
             const list = document.getElementById('eventList');
             list.innerHTML = '';
-
             const filtered = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
                 .filter(e => e.fecha >= today)
                 .sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
-
             filtered.forEach(e => {
                 const d = new Date(e.fecha + 'T' + e.hora);
                 const config = ENCARGADOS[e.encargadoKey];
@@ -2382,82 +2306,71 @@
                 card.style.borderLeftColor = config.color;
                 card.onclick = () => openModal(e);
                 card.innerHTML = `
-            <div class="event-header">
-                <div class="event-date">${d.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                <div class="event-musician" style="background: ${config.color};">
-                    ${config.icon} ${e.encargadoDisplay}
-                </div>
-            </div>
-            <div class="event-details">
-                <div class="event-detail"><strong>🕐 Hora:</strong> ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}</div>
-                <div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
-                <div class="event-detail"><strong>🎵 Instrumento:</strong> ${e.instrumento}</div>
-                <div class="event-detail"><strong>✅ Estado:</strong> <span class="status-badge status-confirmed">${e.status}</span></div>
-            </div>`;
+<div class="event-header">
+<div class="event-date">${d.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+<div class="event-musician" style="background: ${config.color};">
+${config.icon} ${e.encargadoDisplay}
+</div>
+</div>
+<div class="event-details">
+<div class="event-detail"><strong>🕐 Hora:</strong> ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}</div>
+<div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
+<div class="event-detail"><strong>📝 Notas:</strong> ${e.notas || '---'}</div>
+<div class="event-detail"><strong>💰 Pago:</strong> <span style="color: #27ae60; font-weight: 600;">$${e.pago.toLocaleString('es-CO')}</span></div>
+</div>`;
                 list.appendChild(card);
             });
         }
-
         function renderFullTable() {
             const today = new Date().toISOString().split('T')[0];
             const tbody = document.getElementById('fullEventsBody');
-
             const filtered = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
                 .filter(e => e.fecha >= today)
                 .sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
-
             if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:#7f8c8d;">📭 No hay eventos</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#7f8c8d;">📭 No hay eventos</td></tr>';
                 return;
             }
-
             tbody.innerHTML = filtered.map(e => {
                 const config = ENCARGADOS[e.encargadoKey];
                 const dateObj = new Date(e.fecha + 'T00:00:00');
                 const dayName = dateObj.toLocaleDateString('es-CO', { weekday: 'short' });
                 const dateDisplay = dateObj.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
                 return `
-            <tr style="cursor:pointer;" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
-                <td><strong>${dateDisplay}</strong></td>
-                <td>${dayName}</td>
-                <td>${e.hora}</td>
-                <td>${e.lugar}</td>
-                <td><span class="event-musician" style="background:${config.color};">${config.icon} ${e.encargadoDisplay}</span></td>
-                <td>${e.instrumento}</td>
-                <td><span class="status-badge status-confirmed">${e.status}</span></td>
-            </tr>
-        `;
+<tr style="cursor:pointer;" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
+<td><strong>${dateDisplay}</strong></td>
+<td>${dayName}</td>
+<td>${e.hora}</td>
+<td>${e.lugar}</td>
+<td><span class="event-musician" style="background:${config.color};">${config.icon} ${e.encargadoDisplay}</span></td>
+<td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${e.notas || '---'}</td>
+<td style="color: #27ae60; font-weight: 600;">$${e.pago.toLocaleString('es-CO')}</td>
+<td><span class="status-badge status-confirmed">${e.status}</span></td>
+</tr>
+`;
             }).join('');
         }
-
         // ===== EXPORTACIÓN =====
         async function exportToPDF() {
             const loading = document.getElementById('loading');
             const consolidatedView = document.getElementById('consolidatedView');
             const consolidatedContent = document.getElementById('consolidatedContent');
-
             const today = new Date().toISOString().split('T')[0];
             const filtered = currentFilter === 'all'
                 ? events.filter(e => e.fecha >= today)
                 : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
-
             if (filtered.length === 0) {
                 alert('⚠️ No hay eventos para exportar');
                 return;
             }
-
             loading.style.display = 'block';
             try {
                 consolidatedView.classList.remove('hidden');
                 consolidatedView.classList.add('export-visible');
-
                 if (consolidatedContent.innerHTML.trim() === '') {
                     renderConsolidatedView();
                 }
-
                 await new Promise(resolve => setTimeout(resolve, 1500));
-
                 const opt = {
                     margin: 10,
                     filename: `Agenda-Mariachi-2026-${currentFilter === 'all' ? 'completa' : ENCARGADOS[currentFilter]?.name || 'filtrada'}.pdf`,
@@ -2472,7 +2385,6 @@
                     },
                     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
                 };
-
                 await html2pdf().set(opt).from(consolidatedContent).save();
                 alert('✅ PDF descargado exitosamente');
             } catch (error) {
@@ -2486,33 +2398,26 @@
                 loading.style.display = 'none';
             }
         }
-
         async function exportToImage() {
             const loading = document.getElementById('loading');
             const consolidatedView = document.getElementById('consolidatedView');
             const consolidatedContent = document.getElementById('consolidatedContent');
-
             const today = new Date().toISOString().split('T')[0];
             const filtered = currentFilter === 'all'
                 ? events.filter(e => e.fecha >= today)
                 : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
-
             if (filtered.length === 0) {
                 alert('⚠️ No hay eventos para exportar');
                 return;
             }
-
             loading.style.display = 'block';
             try {
                 consolidatedView.classList.remove('hidden');
                 consolidatedView.classList.add('export-visible');
-
                 if (consolidatedContent.innerHTML.trim() === '') {
                     renderConsolidatedView();
                 }
-
                 await new Promise(resolve => setTimeout(resolve, 1500));
-
                 const canvas = await html2canvas(consolidatedContent, {
                     scale: 2,
                     useCORS: true,
@@ -2521,7 +2426,6 @@
                     backgroundColor: '#ffffff',
                     windowWidth: 1200
                 });
-
                 const a = document.createElement('a');
                 a.download = `Agenda-Mariachi-2026-${currentFilter === 'all' ? 'completa' : ENCARGADOS[currentFilter]?.name || 'filtrada'}.png`;
                 a.href = canvas.toDataURL('image/png', 1.0);
@@ -2538,65 +2442,26 @@
                 loading.style.display = 'none';
             }
         }
-
-        function exportToCSV() {
-            const today = new Date().toISOString().split('T')[0];
-            const filtered = currentFilter === 'all'
-                ? events.filter(e => e.fecha >= today)
-                : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
-
-            if (filtered.length === 0) {
-                alert('⚠️ No hay eventos para exportar');
-                return;
-            }
-
-            const headers = ['Fecha', 'Día', 'Hora', 'Lugar', 'Encargado', 'Instrumento', 'Estado'];
-            const rows = filtered.map(e => {
-                const dateObj = new Date(e.fecha + 'T00:00:00');
-                const dayName = dateObj.toLocaleDateString('es-CO', { weekday: 'long' });
-                return [
-                    e.fecha,
-                    dayName,
-                    e.hora,
-                    e.lugar,
-                    e.encargadoDisplay,
-                    e.instrumento,
-                    e.status
-                ].map(cell => `"${cell}"`).join(',');
-            });
-
-            const csvContent = [headers.join(','), ...rows].join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `Agenda-Mariachi-2026-${currentFilter === 'all' ? 'completa' : ENCARGADOS[currentFilter]?.name || 'filtrada'}.csv`;
-            link.click();
-            alert('✅ CSV exportado exitosamente');
-        }
-
         function updateStats() {
             const today = new Date().toISOString().split('T')[0];
             const f = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
                 .filter(e => e.fecha >= today);
-
+            const totalReal = f.reduce((sum, e) => sum + (e.pago || 0), 0);
             document.getElementById('totalEvents').textContent = f.length;
             document.getElementById('confirmedEvents').textContent = f.filter(e => e.status === 'confirmado').length;
             document.getElementById('pendingEvents').textContent = f.filter(e => e.status === 'pendiente').length;
-            document.getElementById('totalEarnings').textContent = '$' + (f.length * 60000).toLocaleString('es-CO');
+            document.getElementById('totalEarnings').textContent = '$' + totalReal.toLocaleString('es-CO');
         }
-
         function render() {
             renderNextThreeDaysWithEvents();
             if (currentView === 'calendar') renderCalendar();
             else if (currentView === 'list') renderList();
             updateStats();
         }
-
         // ===== INICIALIZACIÓN =====
         async function initApp() {
             const info = document.getElementById('dataInfo');
             const loading = document.getElementById('loading');
-
             const now = new Date();
             document.getElementById('currentDate').textContent = now.toLocaleDateString('es-CO', {
                 weekday: 'long',
@@ -2605,39 +2470,31 @@
                 day: 'numeric'
             });
             document.getElementById('lastUpdate').textContent = now.toLocaleString('es-CO');
-
             try {
                 loading.style.display = 'block';
                 info.textContent = '🔄 Conectando con Google Sheets...';
                 info.style.background = '#e8f4f8';
                 info.style.color = '#2980b9';
-
                 const start = Date.now();
                 events = await loadEventsFromSheet();
                 const time = ((Date.now() - start) / 1000).toFixed(2);
-
                 loading.style.display = 'none';
-
                 if (events.length > 0) {
                     const byEncargado = events.reduce((acc, e) => {
                         acc[e.encargadoKey] = (acc[e.encargadoKey] || 0) + 1;
                         return acc;
                     }, {});
-
                     const summary = Object.entries(byEncargado)
                         .map(([k, c]) => `${ENCARGADOS[k].icon} ${c}`)
                         .join(' | ');
-
                     info.innerHTML = `<strong>✅ ${events.length} eventos cargados</strong> <span style="margin-left:10px;opacity:0.8">(${time}s)</span><br><small>${summary}</small>`;
                     info.style.background = '#e8f5e9';
                     info.style.color = '#2e7d32';
-
                     if (events.length > 0) {
                         const firstEvent = events.sort((a, b) => a.fecha.localeCompare(b.fecha))[0];
                         const [year, month] = firstEvent.fecha.split('-').map(Number);
                         currentCalendarMonth = new Date(year, month - 1, 1);
                     }
-
                     renderFilterButtons();
                     render();
                 } else {
@@ -2653,7 +2510,6 @@
                 console.error(e);
             }
         }
-
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
