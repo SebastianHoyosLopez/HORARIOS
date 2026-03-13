@@ -632,22 +632,6 @@
             <div class="weekend-days" id="weekendDays"></div>
         </div>
 
-        <div class="controls">
-            <div class="data-info" id="dataInfo">🔄 Cargando datos desde Google Sheets...</div>
-            <div class="filter-buttons" id="filterButtons">
-                <button class="btn btn-all active" onclick="filterMusician('all')">📅 Todos</button>
-            </div>
-            <div class="view-tabs">
-                <button class="btn btn-all" onclick="switchView('calendar')">📆 Calendario</button>
-                <button class="btn btn-all" onclick="switchView('list')">📋 Lista</button>
-                <button class="btn btn-all" onclick="switchView('consolidated')">📄 Agenda Completa</button>
-            </div>
-            <div class="export-buttons">
-                <button class="btn btn-export" onclick="exportToPDF()">📥 Descargar PDF</button>
-                <button class="btn btn-export" onclick="exportToImage()">📷 Descargar Imagen</button>
-            </div>
-        </div>
-
         <div class="stats">
             <div class="stat-card">
                 <h3 id="totalEvents">0</h3>
@@ -664,6 +648,22 @@
             <div class="stat-card">
                 <h3 id="totalEarnings">$0</h3>
                 <p>Ganancias Estimadas</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="data-info" id="dataInfo">🔄 Cargando datos desde Google Sheets...</div>
+            <div class="filter-buttons" id="filterButtons">
+                <button class="btn btn-all active" onclick="filterMusician('all')">📅 Todos</button>
+            </div>
+            <div class="view-tabs">
+                <button class="btn btn-all" onclick="switchView('calendar')">📆 Calendario</button>
+                <button class="btn btn-all" onclick="switchView('list')">📋 Lista</button>
+                <button class="btn btn-all" onclick="switchView('consolidated')">📄 Agenda Completa</button>
+            </div>
+            <div class="export-buttons">
+                <button class="btn btn-export" onclick="exportToPDF()">📥 Descargar PDF</button>
+                <button class="btn btn-export" onclick="exportToImage()">📷 Descargar Imagen</button>
             </div>
         </div>
 
