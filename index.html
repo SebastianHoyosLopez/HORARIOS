@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>📋 Mariachi - Agenda Corporativa 2026</title>
+    <title>🎺 Mariachi - Agenda 2026</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
             padding: 15px;
         }
 
-        /* ===== HEADER PROFESIONAL ===== */
+        /* ===== HEADER ===== */
         header {
             background: #ffffff;
             border-bottom: 3px solid #3498db;
@@ -52,23 +52,20 @@
             color: #2c3e50;
             font-weight: 600;
             margin-bottom: 5px;
-            line-height: 1.3;
         }
 
         .header-content p {
             font-size: 0.9em;
             color: #7f8c8d;
-            font-weight: 400;
         }
 
         .header-meta {
             text-align: right;
             font-size: 0.85em;
             color: #7f8c8d;
-            min-width: 120px;
         }
 
-        /* ===== PRÓXIMOS 3 DÍAS CON EVENTOS ===== */
+        /* ===== PRÓXIMOS 3 DÍAS ===== */
         .next-weekend-section {
             background: #ffffff;
             border-left: 4px solid #3498db;
@@ -101,10 +98,8 @@
             background: #ecf0f1;
             padding: 5px 12px;
             border-radius: 4px;
-            display: inline-block;
         }
 
-        /* ===== TARJETAS DE DÍA ===== */
         .weekend-days {
             display: grid;
             gap: 15px;
@@ -128,6 +123,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 8px;
+            color: white;
         }
 
         .weekend-day-events {
@@ -142,6 +138,7 @@
             background: #ffffff;
             border-bottom: 1px solid #e0e0e0;
             transition: all 0.2s;
+            cursor: pointer;
         }
 
         .weekend-event:last-child {
@@ -173,17 +170,6 @@
             font-weight: 500;
             font-size: 0.8em;
             white-space: nowrap;
-        }
-
-        .no-events {
-            text-align: center;
-            padding: 40px 20px;
-            color: #7f8c8d;
-        }
-
-        .no-events-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
         }
 
         /* ===== ESTADÍSTICAS ===== */
@@ -400,15 +386,18 @@
         }
 
         .calendar-day {
-            min-height: 80px;
+            min-height: 120px;
             background: #ffffff;
-            padding: 4px;
-            font-size: 0.8em;
+            padding: 3px;
+            font-size: 0.75em;
             position: relative;
+            overflow: visible;
+            cursor: pointer;
         }
 
         .calendar-day.empty {
             background: #f8f9fa;
+            cursor: default;
         }
 
         .calendar-day.today {
@@ -420,31 +409,39 @@
             background: #fef9e7;
         }
 
+        .calendar-day.no-events-month {
+            background: #f8f9fa;
+            cursor: default;
+        }
+
         .day-number {
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             color: #2c3e50;
-            font-size: 0.9em;
+            font-size: 0.85em;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 2px 4px;
+            background: #ecf0f1;
+            border-radius: 3px;
         }
 
         .day-event-count {
-            font-size: 0.7em;
+            font-size: 0.65em;
             background: #3498db;
             color: white;
-            padding: 2px 6px;
+            padding: 1px 5px;
             border-radius: 10px;
-            min-width: 20px;
+            min-width: 18px;
             text-align: center;
         }
 
         .event {
-            padding: 4px 6px;
+            padding: 3px 5px;
             margin: 2px 0;
             border-radius: 3px;
-            font-size: 0.75em;
+            font-size: 0.65em;
             cursor: pointer;
             transition: all 0.2s;
             color: #ffffff;
@@ -453,10 +450,231 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            line-height: 1.2;
         }
 
         .event:active {
             transform: scale(0.98);
+        }
+
+        .event:hover {
+            opacity: 0.9;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== MENSAJE SIN EVENTOS ===== */
+        .no-events-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .no-events-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .no-events-message h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .no-events-message p {
+            color: #7f8c8d;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        .no-events-message .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+        }
+
+        /* ===== MODAL DE EVENTOS ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-event-date {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .modal-event-date h4 {
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .modal-event-date p {
+            color: #7f8c8d;
+            font-size: 0.95em;
+        }
+
+        .modal-detail-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .modal-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .modal-detail-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .modal-detail-content {
+            flex: 1;
+        }
+
+        .modal-detail-label {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .modal-detail-value {
+            font-size: 1em;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .modal-musician-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+
+        .modal-footer {
+            padding: 15px 25px 25px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            min-width: 120px;
         }
 
         /* ===== LISTA DE EVENTOS ===== */
@@ -474,6 +692,7 @@
             transition: all 0.2s;
             border-radius: 6px;
             margin-bottom: 10px;
+            cursor: pointer;
         }
 
         .event-card:active {
@@ -592,10 +811,15 @@
             border-bottom: 1px solid #e0e0e0;
             font-size: 0.9em;
             flex-wrap: wrap;
+            cursor: pointer;
         }
 
         .event-item:last-child {
             border-bottom: none;
+        }
+
+        .event-item:active {
+            background: #e8f4f8;
         }
 
         .event-time {
@@ -633,7 +857,14 @@
             font-size: 0.85em;
         }
 
-        /* ===== TABLA COMPLETA DE EVENTOS ===== */
+        /* ===== TABLA COMPLETA ===== */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -15px;
+            padding: 0 15px;
+        }
+
         .full-events-table {
             width: 100%;
             border-collapse: collapse;
@@ -678,11 +909,6 @@
 
         .status-confirmed {
             background: #27ae60;
-            color: #ffffff;
-        }
-
-        .status-pending {
-            background: #f39c12;
             color: #ffffff;
         }
 
@@ -779,15 +1005,15 @@
         .event-musician,
         .event,
         .week-title,
-        .btn {
+        .btn,
+        .weekend-event-musician,
+        .modal-musician-badge {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             color-adjust: exact !important;
         }
 
-        /* ===== RESPONSIVE OPTIMIZADO ===== */
-
-        /* Tablets (768px - 1024px) */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .container {
                 padding: 12px;
@@ -803,7 +1029,7 @@
             }
 
             .calendar-day {
-                min-height: 70px;
+                min-height: 100px;
             }
 
             .weekend-days {
@@ -811,7 +1037,6 @@
             }
         }
 
-        /* Móviles Grandes (481px - 768px) */
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -858,10 +1083,6 @@
                 font-size: 1.1em;
             }
 
-            .filter-buttons {
-                justify-content: flex-start;
-            }
-
             .btn {
                 padding: 8px 14px;
                 font-size: 0.8em;
@@ -877,17 +1098,17 @@
             }
 
             .calendar-day {
-                min-height: 60px;
-                padding: 3px;
+                min-height: 80px;
+                padding: 2px;
             }
 
             .day-number {
-                font-size: 0.85em;
+                font-size: 0.8em;
             }
 
             .event {
-                font-size: 0.7em;
-                padding: 3px 5px;
+                font-size: 0.6em;
+                padding: 2px 4px;
             }
 
             .event-details {
@@ -928,9 +1149,32 @@
             .weekend-event-musician {
                 align-self: flex-end;
             }
+
+            .modal-content {
+                margin: 10px;
+                max-height: 95vh;
+            }
+
+            .modal-header {
+                padding: 15px;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .modal-detail-icon {
+                width: 35px;
+                height: 35px;
+            }
         }
 
-        /* Móviles Medianos (376px - 480px) */
         @media (max-width: 480px) {
             body {
                 font-size: 14px;
@@ -1048,24 +1292,26 @@
             }
 
             .calendar-day {
-                min-height: 50px;
+                min-height: 70px;
                 padding: 2px;
             }
 
             .day-number {
-                font-size: 0.8em;
-                margin-bottom: 3px;
+                font-size: 0.75em;
+                margin-bottom: 2px;
+                padding: 1px 3px;
             }
 
             .day-event-count {
-                font-size: 0.65em;
-                padding: 1px 4px;
+                font-size: 0.6em;
+                padding: 1px 3px;
             }
 
             .event {
-                font-size: 0.65em;
-                padding: 2px 4px;
+                font-size: 0.55em;
+                padding: 2px 3px;
                 margin: 1px 0;
+                line-height: 1.1;
             }
 
             .event-card {
@@ -1196,9 +1442,32 @@
                 font-size: 0.75em;
                 padding: 3px 8px;
             }
+
+            .no-events-icon {
+                font-size: 3em;
+            }
+
+            .no-events-message h3 {
+                font-size: 1.2em;
+            }
+
+            .no-events-message p {
+                font-size: 0.9em;
+            }
+
+            .modal-header h3 {
+                font-size: 1.1em;
+            }
+
+            .modal-detail-value {
+                font-size: 0.95em;
+            }
+
+            .modal-footer {
+                padding: 12px 20px 20px;
+            }
         }
 
-        /* Móviles Pequeños (320px - 375px) */
         @media (max-width: 375px) {
             body {
                 font-size: 13px;
@@ -1239,7 +1508,7 @@
             }
 
             .calendar-day {
-                min-height: 45px;
+                min-height: 60px;
             }
 
             .calendar-header {
@@ -1247,7 +1516,8 @@
             }
 
             .event {
-                font-size: 0.6em;
+                font-size: 0.5em;
+                padding: 1px 2px;
             }
 
             .event-card {
@@ -1292,16 +1562,20 @@
                 min-width: 100px;
             }
 
-            .weekend-day-header {
-                font-size: 0.9em;
+            .modal-content {
+                border-radius: 8px;
             }
 
-            .weekend-event-time {
-                font-size: 0.8em;
+            .modal-header {
+                border-radius: 8px 8px 0 0;
+                padding: 12px;
+            }
+
+            .modal-body {
+                padding: 15px;
             }
         }
 
-        /* ===== MEJORAS TÁCTILES ===== */
         @media (hover: none) and (pointer: coarse) {
             .btn:active {
                 background: #3498db;
@@ -1319,9 +1593,16 @@
             .weekend-event:active {
                 background: #e8f4f8;
             }
+
+            .event-item:active {
+                background: #e8f4f8;
+            }
+
+            .modal-close:active {
+                background: rgba(255, 255, 255, 0.4);
+            }
         }
 
-        /* ===== IMPRESIÓN ===== */
         @media print {
             body {
                 background: #ffffff;
@@ -1338,7 +1619,8 @@
             .stats,
             .next-weekend-section,
             footer,
-            .calendar-controls {
+            .calendar-controls,
+            .modal-overlay {
                 display: none;
             }
 
@@ -1367,7 +1649,7 @@
             </div>
             <div class="header-meta">
                 <div id="currentDate"></div>
-                <div style="margin-top: 5px;">Versión 2.3</div>
+                <div style="margin-top: 5px;">Versión 2.5</div>
             </div>
         </header>
 
@@ -1415,7 +1697,7 @@
             <div class="export-buttons">
                 <button class="btn btn-export" onclick="exportToPDF()">📥 PDF</button>
                 <button class="btn btn-export" onclick="exportToImage()">📷 Imagen</button>
-                <button class="btn btn-export" onclick="exportToCSV()">📁 CSV</button>
+                <!-- <button class="btn btn-export" onclick="exportToCSV()">📁 CSV</button> -->
             </div>
         </div>
 
@@ -1466,6 +1748,24 @@
         </footer>
     </div>
 
+    <!-- ✅ MODAL PARA DETALLES DE EVENTO -->
+    <div class="modal-overlay" id="eventModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalTitle">📅 Detalles del Evento</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal()" style="background: #95a5a6; color: white;">Cerrar</button>
+                <!-- <button class="btn" onclick="addToCalendar()" style="background: #3498db; color: white;">📅
+                    Agendar</button> -->
+            </div>
+        </div>
+    </div>
+
     <div id="loading" class="loading">
         <div class="loading-spinner"></div>
         <p>Generando archivo...</p>
@@ -1505,6 +1805,7 @@
         let currentFilter = 'all';
         let currentView = 'calendar';
         let currentCalendarMonth = new Date(CURRENT_YEAR, 0, 1);
+        let selectedEvent = null;
 
         // ===== FUNCIONES DE CONVERSIÓN =====
         function parseSpanishDate(dateStr) {
@@ -1613,16 +1914,14 @@
             container.innerHTML = html;
         }
 
-        // ✅ FUNCIÓN ACTUALIZADA: Mostrar próximos 3 días CON eventos agrupados por día
         function renderNextThreeDaysWithEvents() {
             const today = new Date().toISOString().split('T')[0];
             const filtered = currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter);
 
-            // Obtener fechas únicas con eventos, ordenadas (solo días que tienen eventos)
             const uniqueDates = [...new Set(filtered.map(e => e.fecha))]
                 .filter(dateStr => dateStr >= today)
                 .sort()
-                .slice(0, 3); // Solo los próximos 3 días CON eventos
+                .slice(0, 3);
 
             const container = document.getElementById('weekendDays');
 
@@ -1630,29 +1929,26 @@
                 document.getElementById('weekendDates').textContent = 'Sin eventos programados';
                 container.innerHTML = `
             <div class="weekend-day">
-                <div class="no-events">
-                    <div class="no-events-icon">📭</div>
+                <div style="text-align:center;padding:50px;color:#7f8c8d;">
+                    <div style="font-size:3em;margin-bottom:10px;">📭</div>
                     <p><strong>No hay eventos reservados</strong></p>
-                    <small style="opacity: 0.8">Los próximos días están disponibles</small>
+                    <small style="opacity:0.8">Los próximos días están disponibles</small>
                 </div>
             </div>
         `;
                 return;
             }
 
-            // Mostrar rango de fechas
             const startDate = formatDateShort(new Date(uniqueDates[0] + 'T00:00:00'));
             const endDate = formatDateShort(new Date(uniqueDates[uniqueDates.length - 1] + 'T00:00:00'));
             document.getElementById('weekendDates').textContent =
                 uniqueDates.length === 1 ? startDate : `${startDate} al ${endDate}`;
 
-            // Colores por día de la semana
             const dayColors = {
                 0: '#e74c3c', 1: '#3498db', 2: '#2ecc71',
                 3: '#f39c12', 4: '#9b59b6', 5: '#1abc9c', 6: '#e67e22'
             };
 
-            // Renderizar cada día con sus eventos
             const html = uniqueDates.map(dateStr => {
                 const date = new Date(dateStr + 'T00:00:00');
                 const dayName = date.toLocaleDateString('es-CO', { weekday: 'long' });
@@ -1666,20 +1962,18 @@
 
                 return `
             <div class="weekend-day">
-                <div class="weekend-day-header" style="background: ${color}; color: white;">
+                <div class="weekend-day-header" style="background: ${color};">
                     <span>📅 ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthName}</span>
-                    <span style="font-size: 0.85em; opacity: 0.9;">
-                        ${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''}
-                    </span>
+                    <span style="font-size:0.85em;opacity:0.9;">${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''}</span>
                 </div>
                 <div class="weekend-day-events">
                     ${dayEvents.map(e => {
                     const config = ENCARGADOS[e.encargadoKey];
                     return `
-                            <div class="weekend-event ${config.class}">
+                            <div class="weekend-event ${config.class}" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})" style="border-left-color:${config.color};">
                                 <div class="weekend-event-time">🕐 ${e.hora}</div>
                                 <div class="weekend-event-location">📍 ${e.lugar}</div>
-                                <div class="weekend-event-musician" style="background: ${config.color};">
+                                <div class="weekend-event-musician" style="background:${config.color};">
                                     ${config.icon} ${e.encargadoDisplay}
                                 </div>
                             </div>
@@ -1718,6 +2012,121 @@
             currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + delta);
             renderCalendar();
         }
+
+        // ✅ FUNCIÓN PARA ABRIR MODAL CON DETALLES DEL EVENTO
+        function openModal(eventData) {
+            selectedEvent = eventData;
+            const modal = document.getElementById('eventModal');
+            const modalBody = document.getElementById('modalBody');
+            const config = ENCARGADOS[eventData.encargadoKey];
+
+            const dateObj = new Date(eventData.fecha + 'T00:00:00');
+            const fullDate = dateObj.toLocaleDateString('es-CO', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const timeObj = new Date(`2000-01-01T${eventData.hora}`);
+            const time12h = timeObj.toLocaleTimeString('es-CO', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            modalBody.innerHTML = `
+        <div class="modal-event-date">
+            <h4>📅 ${fullDate.charAt(0).toUpperCase() + fullDate.slice(1)}</h4>
+            <p>🕐 ${time12h}</p>
+        </div>
+        
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #e8f4f8;">
+                📍
+            </div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Lugar del Evento</div>
+                <div class="modal-detail-value">${eventData.lugar || 'No especificado'}</div>
+            </div>
+        </div>
+        
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: ${config.color}20;">
+                ${config.icon}
+            </div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Encargado / Músico</div>
+                <div class="modal-detail-value">
+                    ${config.name}
+                    <span class="modal-musician-badge" style="background:${config.color};">
+                        ${config.icon} ${config.name}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #fef9e7;">
+                🎵
+            </div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Instrumento</div>
+                <div class="modal-detail-value">${eventData.instrumento || 'No especificado'}</div>
+            </div>
+        </div>
+        
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #e8f5e9;">
+                ✅
+            </div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Estado</div>
+                <div class="modal-detail-value">
+                    <span class="status-badge status-confirmed">${eventData.status}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #f3e5f5;">
+                📝
+            </div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Fecha Original</div>
+                <div class="modal-detail-value">${eventData.fechaOriginal}</div>
+            </div>
+        </div>
+    `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ✅ FUNCIÓN PARA CERRAR MODAL
+        function closeModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+
+            const modal = document.getElementById('eventModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            selectedEvent = null;
+        }
+
+        // ✅ FUNCIÓN PARA AGREGAR AL CALENDARIO (Simulada)
+        function addToCalendar() {
+            if (!selectedEvent) return;
+
+            alert(`✅ Evento agregado a tu calendario\n\n📅 ${selectedEvent.fecha}\n🕐 ${selectedEvent.hora}\n📍 ${selectedEvent.lugar}\n🎵 ${selectedEvent.encargadoDisplay}`);
+            closeModal();
+        }
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
 
         function renderConsolidatedView() {
             const today = new Date().toISOString().split('T')[0];
@@ -1821,7 +2230,7 @@
 
                         dayEvents.forEach(e => {
                             const config = ENCARGADOS[e.encargadoKey];
-                            html += `<div class="event-item">
+                            html += `<div class="event-item" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
                         <div class="event-time">🕐 ${e.hora}</div>
                         <div class="event-location">📍 ${e.lugar}</div>
                         <div class="event-musician-badge" style="background:${config.color};">
@@ -1844,6 +2253,7 @@
             content.innerHTML = html;
         }
 
+        // ✅ FUNCIÓN ACTUALIZADA: Calendario con mensaje para meses sin eventos
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const monthDisplay = document.getElementById('calendarMonthDisplay');
@@ -1871,13 +2281,32 @@
                 ? monthEvents
                 : monthEvents.filter(e => e.encargadoKey === currentFilter);
 
-            if (filteredEvents.length === 0 && monthEvents.length === 0) {
-                grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:#7f8c8d;">📭 Sin eventos este mes</p>';
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            // ✅ VERIFICAR SI EL MES TIENE EVENTOS
+            if (filteredEvents.length === 0) {
+                // Mostrar mensaje amigable
+                const monthNameLong = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+                grid.innerHTML = `
+            <div class="no-events-message">
+                <div class="no-events-icon">📅</div>
+                <h3>Sin eventos en ${monthNameLong.charAt(0).toUpperCase() + monthNameLong.slice(1)}</h3>
+                <p>✨ ¡Aún no hay presentaciones reservadas para este mes!</p>
+                <p style="font-size:0.9em;margin-top:10px;">
+                    ${currentFilter === 'all'
+                        ? 'Puedes navegar a otros meses o esperar nuevas reservas.'
+                        : `No hay eventos de ${ENCARGADOS[currentFilter]?.name || 'este encargado'} en este mes.`}
+                </p>
+                <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn" onclick="changeMonth(-1)" ${btnPrev.disabled ? 'disabled' : ''}>◀ Mes Anterior</button>
+                    <button class="btn" onclick="changeMonth(1)" ${btnNext.disabled ? 'disabled' : ''}>Mes Siguiente ▶</button>
+                </div>
+            </div>
+        `;
                 return;
             }
 
-            const todayStr = new Date().toISOString().split('T')[0];
-
+            // Headers de días
             ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].forEach(d => {
                 const h = document.createElement('div');
                 h.className = 'calendar-header';
@@ -1888,12 +2317,14 @@
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
+            // Días vacíos antes del primer día
             for (let i = 0; i < firstDay; i++) {
                 const e = document.createElement('div');
                 e.className = 'calendar-day empty';
                 grid.appendChild(e);
             }
 
+            // Días del mes - MOSTRANDO TODOS LOS EVENTOS
             for (let day = 1; day <= daysInMonth; day++) {
                 const cell = document.createElement('div');
                 cell.className = 'calendar-day';
@@ -1909,27 +2340,26 @@
                     cell.classList.add('has-events');
                 }
 
+                // Número del día con contador
                 const num = document.createElement('div');
                 num.className = 'day-number';
                 num.innerHTML = `<span>${day}</span>${dayEvents.length > 0 ? `<span class="day-event-count">${dayEvents.length}</span>` : ''}`;
                 cell.appendChild(num);
 
-                dayEvents.slice(0, 3).forEach(e => {
+                // MOSTRAR TODOS LOS EVENTOS CON CLICK PARA ABRIR MODAL
+                dayEvents.forEach(e => {
                     const ev = document.createElement('div');
                     const config = ENCARGADOS[e.encargadoKey];
                     ev.className = `event ${config.class}`;
                     ev.style.background = config.color;
                     ev.textContent = `${e.hora} ${config.icon}`;
                     ev.title = `${e.hora} - ${e.lugar} - ${e.encargadoDisplay}`;
+                    ev.onclick = (event) => {
+                        event.stopPropagation();
+                        openModal(e);
+                    };
                     cell.appendChild(ev);
                 });
-
-                if (dayEvents.length > 3) {
-                    const more = document.createElement('div');
-                    more.style.cssText = 'font-size:0.7em;color:#7f8c8d;text-align:center;padding:2px;';
-                    more.textContent = `+${dayEvents.length - 3} más`;
-                    cell.appendChild(more);
-                }
 
                 grid.appendChild(cell);
             }
@@ -1950,6 +2380,7 @@
                 const card = document.createElement('div');
                 card.className = `event-card ${config.class}`;
                 card.style.borderLeftColor = config.color;
+                card.onclick = () => openModal(e);
                 card.innerHTML = `
             <div class="event-header">
                 <div class="event-date">${d.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
@@ -1987,7 +2418,7 @@
                 const dateDisplay = dateObj.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
                 return `
-            <tr>
+            <tr style="cursor:pointer;" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
                 <td><strong>${dateDisplay}</strong></td>
                 <td>${dayName}</td>
                 <td>${e.hora}</td>
@@ -2018,7 +2449,6 @@
 
             loading.style.display = 'block';
             try {
-                const wasHidden = consolidatedView.classList.contains('hidden');
                 consolidatedView.classList.remove('hidden');
                 consolidatedView.classList.add('export-visible');
 
