@@ -157,7 +157,6 @@
       font-size: 0.95em;
     }
 
-    /* ✅ MODIFICACIÓN: Tamaño de fuente aumentado para la ubicación */
     .weekend-event-location {
       flex: 1;
       color: #555;
@@ -727,7 +726,6 @@
       white-space: nowrap;
     }
 
-    /* ✅ NUEVO: Detalles en horizontal excepto notas */
     .event-details {
       display: flex;
       flex-wrap: wrap;
@@ -759,7 +757,6 @@
       min-width: 50px;
     }
 
-    /* ✅ Notas con más espacio vertical */
     .event-notes-row {
       width: 100%;
       margin-top: 8px;
@@ -917,7 +914,7 @@
       border-collapse: collapse;
       font-size: 0.95em;
       margin-top: 15px;
-      min-width: 750px;
+      min-width: 850px;
     }
 
     .full-events-table th {
@@ -1225,7 +1222,6 @@
         height: 38px;
       }
 
-      /* ✅ Lista de eventos mejorada en tablet */
       .event-card {
         padding: 14px;
       }
@@ -1379,7 +1375,6 @@
         line-height: 1.2;
       }
 
-      /* ✅ EVENT CARD MEJORADA - MOBILE */
       .event-card {
         padding: 14px;
         margin-bottom: 10px;
@@ -1403,7 +1398,6 @@
         padding: 4px 10px;
       }
 
-      /* ✅ Detalles en horizontal */
       .event-details {
         flex-direction: row;
         flex-wrap: wrap;
@@ -1427,7 +1421,6 @@
         font-size: 0.9em;
       }
 
-      /* ✅ Notas con espacio vertical */
       .event-notes-row {
         width: 100%;
         margin-top: 8px;
@@ -1445,7 +1438,6 @@
         font-weight: 700;
       }
 
-      /* ✅ CONSOLIDATED VIEW MEJORADA */
       .consolidated-content {
         padding: 18px;
       }
@@ -1501,10 +1493,9 @@
         min-width: 85px;
       }
 
-      /* ✅ TABLA MEJORADA */
       .full-events-table {
         font-size: 0.9em;
-        min-width: 700px;
+        min-width: 800px;
       }
 
       .full-events-table th,
@@ -1543,7 +1534,6 @@
         min-width: 65px;
       }
 
-      /* ✅ MODIFICACIÓN: Tamaño de fuente aumentado para la ubicación en móvil */
       .weekend-event-location {
         font-size: 1.1em;
       }
@@ -1690,7 +1680,6 @@
         padding: 18px;
       }
 
-      /* ✅ MODIFICACIÓN: Tamaño de fuente aumentado para la ubicación en móvil pequeño */
       .weekend-event-time {
         font-size: 0.85em;
       }
@@ -1796,7 +1785,7 @@
       </div>
       <div class="stat-card">
         <h3 id="totalEarnings">$0</h3>
-        <p>Ganancias hasta la fecha</p>
+        <p>Ganancias hasta la fecha por músico</p>
       </div>
     </div>
     <div id="nextWeekendSection" class="next-weekend-section">
@@ -1812,9 +1801,9 @@
         <button class="btn btn-all active" onclick="filterMusician('all')">📅 Todos</button>
       </div>
       <div class="view-tabs">
-        <button class="btn btn-all active" onclick="switchView('calendar')">📆 Calendario</button>
+        <button class="btn btn-all active" onclick="switchView('table')">📊 Tabla</button>
         <button class="btn btn-all" onclick="switchView('list')">📋 Lista</button>
-        <button class="btn btn-all" onclick="switchView('table')">📊 Tabla</button>
+        <button class="btn btn-all" onclick="switchView('calendar')">📆 Calendario</button>
         <button class="btn btn-all" onclick="switchView('consolidated')">📄 Agenda</button>
       </div>
       <div class="export-buttons">
@@ -1822,7 +1811,7 @@
         <button class="btn btn-export" onclick="exportToImage()">📷 Imagen</button>
       </div>
     </div>
-    <div id="calendarView" class="calendar-view">
+    <div id="calendarView" class="calendar-view hidden">
       <h2 class="view-title">
         📆 Calendario Mensual
         <div class="calendar-controls">
@@ -1837,7 +1826,7 @@
       <h2 class="view-title">📋 Lista de Eventos</h2>
       <div class="event-list" id="eventList"></div>
     </div>
-    <div id="tableView" class="table-view hidden">
+    <div id="tableView" class="table-view">
       <h2 class="view-title">📊 Tabla Completa de Eventos</h2>
       <div class="table-container">
         <table class="full-events-table" id="fullEventsTable">
@@ -1851,6 +1840,7 @@
               <th>Notas</th>
               <th>Pago</th>
               <th>Estado</th>
+              <th>👥 Músicos</th>
             </tr>
           </thead>
           <tbody id="fullEventsBody"></tbody>
@@ -1913,7 +1903,7 @@
     };
     let events = [];
     let currentFilter = 'all';
-    let currentView = 'calendar';
+    let currentView = 'table';
     let currentCalendarMonth = new Date(CURRENT_YEAR, 0, 1);
     let selectedEvent = null;
     // ===== FUNCIONES DE CONVERSIÓN =====
@@ -1988,7 +1978,6 @@
           encargadoKey: encargadoKey,
           encargadoDisplay: ENCARGADOS[encargadoKey].name,
           pago: parseFloat(values[6]) || 0,
-          // ✅ NUEVO: Número de músicos (columna 7)
           numMusicos: parseInt(values[7]) || 0,
           status: 'confirmado'
         });
@@ -2092,7 +2081,12 @@ ${config.icon} ${e.encargadoDisplay}
         document.getElementById(id).classList.add('hidden'));
       document.getElementById(view + 'View').classList.remove('hidden');
       document.querySelectorAll('.view-tabs .btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      // Buscar el botón correspondiente a la vista y activarlo
+      document.querySelectorAll('.view-tabs .btn').forEach(btn => {
+        if (btn.getAttribute('onclick').includes(`'${view}'`)) {
+          btn.classList.add('active');
+        }
+      });
       if (view === 'consolidated') renderConsolidatedView();
       else if (view === 'table') renderFullTable();
       else if (view === 'calendar') renderCalendar();
@@ -2149,7 +2143,6 @@ ${config.icon} ${config.name}
 </div>
 </div>
 </div>
-<!-- ✅ NUEVO: Número de músicos -->
 <div class="modal-detail-row">
 <div class="modal-detail-icon" style="background: #fff3e0;">
 👥
@@ -2312,6 +2305,9 @@ ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthDay}
 <div class="event-musician-badge" style="background:${config.color}; min-width: 80px;">
 ${config.icon} ${e.encargadoDisplay}
 </div>
+<div style="min-width: 60px; text-align: center; font-weight: 600; color: #3498db;">
+👥 ${e.numMusicos || 0}
+</div>
 <div style="min-width: 100px; text-align: right; color: #27ae60; font-weight: 700; font-size: 0.95em;">
 $${e.pago.toLocaleString('es-CO')}
 </div>
@@ -2454,6 +2450,9 @@ ${config.icon} ${e.encargadoDisplay}
 <div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
 </div>
 <div class="event-detail-row">
+<div class="event-detail"><strong>👥 Músicos:</strong> ${e.numMusicos || 0} integrante${(e.numMusicos || 0) !== 1 ? 's' : ''}</div>
+</div>
+<div class="event-detail-row">
 <div class="event-detail"><strong>💰 Pago:</strong> <span class="event-payment">$${e.pago.toLocaleString('es-CO')}</span></div>
 </div>
 <div class="event-detail-row">
@@ -2476,7 +2475,7 @@ ${e.notas ? `
         .filter(e => e.fecha >= today)
         .sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
       if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#7f8c8d;">📭 No hay eventos</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:#7f8c8d;">📭 No hay eventos</td></tr>';
         return;
       }
       tbody.innerHTML = filtered.map(e => {
@@ -2494,6 +2493,7 @@ ${e.notas ? `
 <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${e.notas || '---'}</td>
 <td style="color: #27ae60; font-weight: 700;">$${e.pago.toLocaleString('es-CO')}</td>
 <td><span class="status-badge status-confirmed">${e.status}</span></td>
+<td style="text-align: center; font-weight: 600;">👥 ${e.numMusicos || 0}</td>
 </tr>
 `;
       }).join('');
@@ -2613,6 +2613,7 @@ ${e.notas ? `
       renderNextThreeDaysWithEvents();
       if (currentView === 'calendar') renderCalendar();
       else if (currentView === 'list') renderList();
+      else if (currentView === 'table') renderFullTable();
       updateStats();
     }
     // ===== INICIALIZACIÓN =====
@@ -2666,6 +2667,7 @@ ${e.notas ? `
         info.style.color = '#c62828';
         console.error(e);
       }
+      switchView(currentView);
     }
     document.addEventListener('DOMContentLoaded', initApp);
   </script>
