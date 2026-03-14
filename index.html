@@ -1674,11 +1674,11 @@
             </div>
             <div class="stat-card">
                 <h3 id="confirmedEvents">0</h3>
-                <p>Confirmados</p>
+                <p>Eventos reservados Confirmados</p>
             </div>
             <div class="stat-card">
-                <h3 id="pendingEvents">0</h3>
-                <p>Pendientes</p>
+                <h3 id="completedEvents">0</h3>
+                <p>Eventos Realizados</p>
             </div>
             <div class="stat-card">
                 <h3 id="totalEarnings">$0</h3>
@@ -2442,17 +2442,16 @@ ${config.icon} ${e.encargadoDisplay}
                 loading.style.display = 'none';
             }
         }
-
         // ===== ACTUALIZACIÓN DE ESTADÍSTICAS =====
-        // ✅ MODIFICADO: Ganancias Reales solo muestra eventos PASADOS (ya realizados)
+        // ✅ MODIFICADO: Ahora muestra Eventos Realizados en lugar de Pendientes
         function updateStats() {
             const today = new Date().toISOString().split('T')[0];
 
-            // Eventos futuros para Total, Confirmados y Pendientes
+            // Eventos futuros para Total y Confirmados
             const futureEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
                 .filter(e => e.fecha >= today);
 
-            // ✅ Eventos PASADOS para Ganancias Reales (ya se realizaron y pagaron)
+            // ✅ Eventos PASADOS para Eventos Realizados y Ganancias Reales
             const pastEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
                 .filter(e => e.fecha < today);
 
@@ -2460,7 +2459,7 @@ ${config.icon} ${e.encargadoDisplay}
 
             document.getElementById('totalEvents').textContent = futureEvents.length;
             document.getElementById('confirmedEvents').textContent = futureEvents.filter(e => e.status === 'confirmado').length;
-            document.getElementById('pendingEvents').textContent = futureEvents.filter(e => e.status === 'pendiente').length;
+            document.getElementById('completedEvents').textContent = pastEvents.length;
             document.getElementById('totalEarnings').textContent = '$' + totalReal.toLocaleString('es-CO');
         }
 
