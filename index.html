@@ -157,10 +157,11 @@
             font-size: 0.95em;
         }
 
+        /* ✅ MODIFICACIÓN: Tamaño de fuente aumentado para la ubicación */
         .weekend-event-location {
             flex: 1;
             color: #555;
-            font-size: 0.95em;
+            font-size: 1.2em;
         }
 
         .weekend-event-musician {
@@ -1542,8 +1543,9 @@
                 min-width: 65px;
             }
 
+            /* ✅ MODIFICACIÓN: Tamaño de fuente aumentado para la ubicación en móvil */
             .weekend-event-location {
-                font-size: 0.9em;
+                font-size: 1.1em;
             }
 
             .weekend-event-musician {
@@ -1687,6 +1689,19 @@
             .modal-body {
                 padding: 18px;
             }
+
+            /* ✅ MODIFICACIÓN: Tamaño de fuente aumentado para la ubicación en móvil pequeño */
+            .weekend-event-time {
+                font-size: 0.85em;
+            }
+
+            .weekend-event-location {
+                font-size: 1.05em;
+            }
+
+            .weekend-event-musician {
+                font-size: 0.85em;
+            }
         }
 
         @media (hover: none) and (pointer: coarse) {
@@ -1766,13 +1781,6 @@
                 <div style="margin-top: 5px;">Versión 1.0</div>
             </div>
         </header>
-        <div id="nextWeekendSection" class="next-weekend-section">
-            <div class="next-weekend-header">
-                <h2>📅 Próximos 3 Días con Eventos</h2>
-                <div class="dates" id="weekendDates"></div>
-            </div>
-            <div class="weekend-days" id="weekendDays"></div>
-        </div>
         <div class="stats">
             <div class="stat-card">
                 <h3 id="totalEvents">0</h3>
@@ -1790,6 +1798,13 @@
                 <h3 id="totalEarnings">$0</h3>
                 <p>Ganancias hasta la fecha</p>
             </div>
+        </div>
+        <div id="nextWeekendSection" class="next-weekend-section">
+            <div class="next-weekend-header">
+                <h2>📅 Próximos 3 Días con Eventos</h2>
+                <div class="dates" id="weekendDates"></div>
+            </div>
+            <div class="weekend-days" id="weekendDays"></div>
         </div>
         <div class="controls">
             <div class="data-info" id="dataInfo">🔄 Cargando datos desde Google Sheets...</div>
