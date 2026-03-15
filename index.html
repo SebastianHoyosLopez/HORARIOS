@@ -3,7 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#3498db">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>🎺 Mariachi - Agenda 2026</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -139,6 +143,7 @@
       border-bottom: 1px solid #e0e0e0;
       transition: all 0.2s;
       cursor: pointer;
+      min-height: 60px;
     }
 
     .weekend-event:last-child {
@@ -265,6 +270,8 @@
       color: #2c3e50;
       white-space: nowrap;
       touch-action: manipulation;
+      min-height: 44px;
+      min-width: 44px;
     }
 
     .btn:active {
@@ -451,6 +458,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 1.2;
+      min-height: 20px;
     }
 
     .event:active {
@@ -498,7 +506,7 @@
       border: none;
     }
 
-    /* ===== MODAL DE EVENTOS ===== */
+    /* ===== MODAL DE EVENTOS - OPTIMIZADO PARA MÓVIL ===== */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -510,7 +518,7 @@
       z-index: 3000;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 10px;
       backdrop-filter: blur(4px);
       animation: fadeIn 0.3s ease;
     }
@@ -551,6 +559,7 @@
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       animation: slideIn 0.3s ease;
       position: relative;
+      margin: 10px;
     }
 
     .modal-header {
@@ -574,8 +583,8 @@
       background: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
-      width: 35px;
-      height: 35px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       cursor: pointer;
       font-size: 1.2em;
@@ -584,6 +593,8 @@
       justify-content: center;
       transition: all 0.2s;
       flex-shrink: 0;
+      min-width: 40px;
+      min-height: 40px;
     }
 
     .modal-close:hover {
@@ -677,7 +688,7 @@
       min-width: 120px;
     }
 
-    /* ===== LISTA DE EVENTOS - MEJORADA ===== */
+    /* ===== LISTA DE EVENTOS ===== */
     .event-list {
       display: flex;
       flex-direction: column;
@@ -694,6 +705,7 @@
       margin-bottom: 12px;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      min-height: 60px;
     }
 
     .event-card:active {
@@ -786,7 +798,7 @@
       font-size: 1em;
     }
 
-    /* ===== VISTA CONSOLIDADA - MEJORADA ===== */
+    /* ===== VISTA CONSOLIDADA ===== */
     .consolidated-content {
       background: #ffffff;
       color: #2c3e50;
@@ -853,6 +865,7 @@
       font-size: 0.95em;
       flex-wrap: wrap;
       cursor: pointer;
+      min-height: 50px;
     }
 
     .event-item:last-child {
@@ -915,7 +928,7 @@
       line-height: 1.8;
     }
 
-    /* ===== TABLA COMPLETA - MEJORADA ===== */
+    /* ===== TABLA COMPLETA ===== */
     .table-container {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -1072,7 +1085,7 @@
       color-adjust: exact !important;
     }
 
-    /* ===== RESPONSIVE - MEJORADO ===== */
+    /* ===== RESPONSIVE - OPTIMIZADO PARA MÓVIL ===== */
     @media (max-width: 1024px) {
       .container {
         padding: 12px;
@@ -1214,7 +1227,7 @@
 
       .modal-content {
         margin: 10px;
-        max-height: 70vh;
+        max-height: 85vh;
       }
 
       .modal-header {
@@ -1319,7 +1332,7 @@
       }
 
       .btn {
-        padding: 9px 13px;
+        padding: 12px 13px;
         font-size: 0.85em;
         border-radius: 6px;
       }
@@ -1362,31 +1375,32 @@
 
       .calendar-header {
         padding: 6px 2px;
-        font-size: 0.75em;
+        font-size: 0.7em;
       }
 
       .calendar-day {
-        min-height: 85px;
-        padding: 3px;
-        font-size: 0.85em;
+        min-height: 80px;
+        padding: 2px;
+        font-size: 0.8em;
       }
 
       .day-number {
-        font-size: 0.85em;
-        margin-bottom: 3px;
-        padding: 2px 4px;
+        font-size: 0.8em;
+        margin-bottom: 2px;
+        padding: 2px 3px;
       }
 
       .day-event-count {
-        font-size: 0.65em;
-        padding: 1px 4px;
+        font-size: 0.6em;
+        padding: 1px 3px;
+        min-width: 16px;
       }
 
       .event {
-        font-size: 0.7em;
-        padding: 3px 4px;
-        margin: 2px 0;
-        line-height: 1.2;
+        font-size: 0.65em;
+        padding: 2px 3px;
+        margin: 1px 0;
+        line-height: 1.1;
       }
 
       .event-card {
@@ -1574,16 +1588,67 @@
         font-size: 0.95em;
       }
 
+      .modal-content {
+        margin: 5px;
+        max-height: 90vh;
+        border-radius: 10px;
+      }
+
+      .modal-header {
+        padding: 14px;
+        flex-direction: column;
+        text-align: center;
+      }
+
       .modal-header h3 {
         font-size: 1.2em;
       }
 
+      .modal-close {
+        width: 44px;
+        height: 44px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      .modal-body {
+        padding: 15px;
+      }
+
+      .modal-detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 0;
+      }
+
+      .modal-detail-icon {
+        width: 35px;
+        height: 35px;
+      }
+
+      .modal-detail-label {
+        font-size: 0.75em;
+      }
+
       .modal-detail-value {
-        font-size: 1em;
+        font-size: 0.95em;
       }
 
       .modal-footer {
-        padding: 14px 20px 20px;
+        padding: 12px 15px 20px;
+        flex-direction: column;
+      }
+
+      .modal-footer .btn {
+        width: 100%;
+        min-width: auto;
+      }
+
+      .modal-musician-badge {
+        font-size: 0.85em;
+        padding: 4px 12px;
       }
     }
 
@@ -1622,21 +1687,21 @@
       }
 
       .btn {
-        padding: 8px 12px;
+        padding: 11px 12px;
         font-size: 0.8em;
       }
 
       .calendar-day {
-        min-height: 75px;
+        min-height: 70px;
       }
 
       .calendar-header {
-        font-size: 0.7em;
+        font-size: 0.65em;
       }
 
       .event {
-        font-size: 0.65em;
-        padding: 2px 3px;
+        font-size: 0.6em;
+        padding: 2px 2px;
       }
 
       .event-card {
@@ -1786,9 +1851,10 @@
       </div>
       <div class="header-meta">
         <div id="currentDate"></div>
-        <div style="margin-top: 5px;">Versión 1.1</div>
+        <div style="margin-top: 5px;">Versión 1.5 - Hora Colombia 🇨🇴</div>
       </div>
     </header>
+
     <div class="stats">
       <div class="stat-card">
         <h3 id="totalEvents">$0</h3>
@@ -1807,6 +1873,7 @@
         <p>Ganancias hasta la fecha por músico</p>
       </div>
     </div>
+
     <div id="nextWeekendSection" class="next-weekend-section">
       <div class="next-weekend-header">
         <h2>📅 Próximos 3 Días con Eventos</h2>
@@ -1814,6 +1881,7 @@
       </div>
       <div class="weekend-days" id="weekendDays"></div>
     </div>
+
     <div class="controls">
       <div class="data-info" id="dataInfo">🔄 Cargando datos desde Google Sheets...</div>
       <div class="filter-buttons" id="filterButtons">
@@ -1830,6 +1898,7 @@
         <button class="btn btn-export" onclick="exportToImage()">📷 Imagen</button>
       </div>
     </div>
+
     <div id="calendarView" class="calendar-view hidden">
       <h2 class="view-title">
         📆 Calendario Mensual
@@ -1841,10 +1910,12 @@
       </h2>
       <div class="calendar-grid" id="calendarGrid"></div>
     </div>
+
     <div id="listView" class="list-view hidden">
       <h2 class="view-title">📋 Lista de Eventos</h2>
       <div class="event-list" id="eventList"></div>
     </div>
+
     <div id="tableView" class="table-view">
       <h2 class="view-title">📊 Tabla Completa de Eventos</h2>
       <div class="table-container">
@@ -1867,14 +1938,17 @@
         </table>
       </div>
     </div>
+
     <div id="consolidatedView" class="consolidated-view hidden">
       <div id="consolidatedContent" class="consolidated-content"></div>
     </div>
+
     <footer>
       <p>🎵 Mariachi - Sistema de Agenda Corporativa 2026</p>
       <p style="margin-top: 8px; font-size: 0.85em;">Última actualización: <span id="lastUpdate"></span></p>
     </footer>
   </div>
+
   <!-- ✅ MODAL PARA DETALLES DE EVENTO -->
   <div class="modal-overlay" id="eventModal" onclick="closeModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -1890,14 +1964,17 @@
       </div>
     </div>
   </div>
+
   <div id="loading" class="loading">
     <div class="loading-spinner"></div>
     <p>Generando archivo...</p>
   </div>
+
   <script>
     // ===== CONFIGURACIÓN =====
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?output=csv';
     const CURRENT_YEAR = 2026;
+    const TIMEZONE = 'America/Bogota'; // ✅ TIMEZONE COLOMBIA
     const MONTHS_MAP = {
       'enero': '01', 'febrero': '02', 'marzo': '03', 'abril': '04',
       'mayo': '05', 'junio': '06', 'julio': '07', 'agosto': '08',
@@ -1926,6 +2003,44 @@
     let currentView = 'table';
     let currentCalendarMonth = new Date(CURRENT_YEAR, 0, 1);
     let selectedEvent = null;
+
+    // ===== ✅ FUNCIONES DE HORA COLOMBIANA =====
+    function getColombianDate() {
+      return new Date().toLocaleString('es-CO', { timeZone: TIMEZONE });
+    }
+
+    function getColombianTodayStr() {
+      const now = new Date();
+      const options = {
+        timeZone: TIMEZONE,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      };
+      const dateStr = new Intl.DateTimeFormat('es-CO', options).format(now);
+      const [day, month, year] = dateStr.split('/');
+      return `${year}-${month}-${day}`;
+    }
+
+    function getColombianTime() {
+      const now = new Date();
+      const options = {
+        timeZone: TIMEZONE,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      };
+      return new Intl.DateTimeFormat('es-CO', options).format(now);
+    }
+
+    function getColombianDateTime() {
+      return {
+        date: getColombianTodayStr(),
+        time: getColombianTime(),
+        full: getColombianDate()
+      };
+    }
+
     // ===== FUNCIONES DE CONVERSIÓN =====
     function parseSpanishDate(dateStr) {
       if (!dateStr) return null;
@@ -1940,6 +2055,7 @@
       }
       return `${CURRENT_YEAR}-${month}-${day}`;
     }
+
     function convertTo24Hour(timeStr) {
       if (!timeStr) return '00:00';
       timeStr = timeStr.trim().toLowerCase().replace(/\s/g, '');
@@ -1953,6 +2069,7 @@
       }
       return `${String(hours).padStart(2, '0')}:${minutes}`;
     }
+
     function normalizeEncargadoName(rawName) {
       if (!rawName) return null;
       const normalized = rawName.trim().toLowerCase()
@@ -1960,6 +2077,7 @@
         .replace(/\s+/g, '');
       return NAME_MAPPING[normalized] || null;
     }
+
     // ===== PARSEADOR CSV =====
     function parseCSVLine(line) {
       const values = [];
@@ -1974,6 +2092,7 @@
       values.push(current.trim().replace(/^"|"$/g, ''));
       return values;
     }
+
     function parseCSV(csvText) {
       const lines = csvText.trim().split(/\r?\n/);
       if (lines.length < 2) return [];
@@ -2006,6 +2125,7 @@
       console.log(`✅ ${parsed.length} eventos parseados`);
       return parsed;
     }
+
     // ===== CARGA DE EVENTOS =====
     async function loadEventsFromSheet() {
       const response = await fetch(SHEET_CSV_URL);
@@ -2013,89 +2133,135 @@
       const csvText = await response.text();
       return parseCSV(csvText);
     }
+
     // ===== RENDERIZADO =====
     function formatDateShort(date) {
-      return date.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+      return date.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric', timeZone: TIMEZONE });
     }
+
     function renderFilterButtons() {
       const container = document.getElementById('filterButtons');
       let html = `<button class="btn ${currentFilter === 'all' ? 'active' : ''}" onclick="filterMusician('all')">📅 Todos</button>`;
       Object.entries(ENCARGADOS).forEach(([key, config]) => {
         const isActive = currentFilter === key ? 'active' : '';
         html += `<button class="btn ${isActive}" onclick="filterMusician('${key}')" style="border-left: 3px solid ${config.color};">
-${config.icon} ${config.name}
-</button>`;
+            ${config.icon} ${config.name}
+        </button>`;
       });
       container.innerHTML = html;
     }
+
+    // ✅ FUNCIÓN ACTUALIZADA - HORA COLOMBIANA
     function renderNextThreeDaysWithEvents() {
-      const today = new Date().toISOString().split('T')[0];
+      // ✅ Obtener fecha y hora de Colombia
+      const colombianTime = getColombianDateTime();
+      const todayStr = colombianTime.date;
+      const currentTime = colombianTime.time;
+
+      console.log(`🇨🇴 Hora Colombia: ${colombianTime.full}`);
+      console.log(`📅 Fecha Colombia: ${todayStr} ${currentTime}`);
+
+      // Filtrar eventos según el filtro actual
       const filtered = currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter);
-      const uniqueDates = [...new Set(filtered.map(e => e.fecha))]
-        .filter(dateStr => dateStr >= today)
+
+      // ✅ LÓGICA ACTUALIZADA: 
+      // - DÍA ACTUAL: Mostrar TODOS los eventos sin importar la hora (hasta 11:59 PM)
+      // - DÍAS FUTUROS: Mostrar todos los eventos normalmente
+      const upcomingEvents = filtered.filter(e => {
+        const eventDate = e.fecha;
+
+        // Si es el día actual, mostrar TODOS los eventos (mañana, tarde y noche)
+        if (eventDate === todayStr) {
+          return true; // ✅ Mostrar todos los eventos de hoy hasta que acabe el día
+        }
+
+        // Si es día futuro, incluir todos los eventos
+        return eventDate > todayStr;
+      });
+
+      // Obtener fechas únicas ordenadas (máximo 3 días)
+      const uniqueDates = [...new Set(upcomingEvents.map(e => e.fecha))]
         .sort()
         .slice(0, 3);
+
       const container = document.getElementById('weekendDays');
+
       if (uniqueDates.length === 0) {
         document.getElementById('weekendDates').textContent = 'Sin eventos programados';
         container.innerHTML = `
-<div class="weekend-day">
-<div style="text-align:center;padding:50px;color:#7f8c8d;">
-<div style="font-size:3em;margin-bottom:10px;">📭</div>
-<p><strong>No hay eventos reservados</strong></p>
-<small style="opacity:0.8">Los próximos días están disponibles</small>
-</div>
-</div>
-`;
+            <div class="weekend-day">
+                <div style="text-align:center;padding:50px;color:#7f8c8d;">
+                    <div style="font-size:3em;margin-bottom:10px;">📭</div>
+                    <p><strong>No hay eventos reservados</strong></p>
+                    <small style="opacity:0.8">Los próximos días están disponibles</small>
+                </div>
+            </div>
+        `;
         return;
       }
+
+      // Mostrar rango de fechas
       const startDate = formatDateShort(new Date(uniqueDates[0] + 'T00:00:00'));
       const endDate = formatDateShort(new Date(uniqueDates[uniqueDates.length - 1] + 'T00:00:00'));
       document.getElementById('weekendDates').textContent =
         uniqueDates.length === 1 ? startDate : `${startDate} al ${endDate}`;
+
+      // Colores por día de la semana
       const dayColors = {
         0: '#e74c3c', 1: '#3498db', 2: '#2ecc71',
         3: '#f39c12', 4: '#9b59b6', 5: '#1abc9c', 6: '#e67e22'
       };
+
+      // Renderizar cada día con sus eventos
       const html = uniqueDates.map(dateStr => {
         const date = new Date(dateStr + 'T00:00:00');
-        const dayName = date.toLocaleDateString('es-CO', { weekday: 'long' });
+        const dayName = date.toLocaleDateString('es-CO', { weekday: 'long', timeZone: TIMEZONE });
         const dayNum = date.getDate();
-        const monthName = date.toLocaleDateString('es-CO', { month: 'long' });
+        const monthName = date.toLocaleDateString('es-CO', { month: 'long', timeZone: TIMEZONE });
         const color = dayColors[date.getDay()] || '#3498db';
-        const dayEvents = filtered
+
+        // Filtrar eventos del día y ordenar por hora
+        const dayEvents = upcomingEvents
           .filter(e => e.fecha === dateStr)
           .sort((a, b) => a.hora.localeCompare(b.hora));
+
+        // Indicador especial para "HOY"
+        const isToday = dateStr === todayStr;
+        const dayLabel = isToday ? '🔴 HOY' : dayName.charAt(0).toUpperCase() + dayName.slice(1);
+
         return `
-<div class="weekend-day">
-<div class="weekend-day-header" style="background: ${color};">
-<span>📅 ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthName}</span>
-<span style="font-size:0.9em;opacity:0.9;">${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''}</span>
-</div>
-<div class="weekend-day-events">
-${dayEvents.map(e => {
+            <div class="weekend-day">
+                <div class="weekend-day-header" style="background: ${color};">
+                    <span>📅 ${dayLabel} ${dayNum} de ${monthName}</span>
+                    <span style="font-size:0.9em;opacity:0.9;">${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''}</span>
+                </div>
+                <div class="weekend-day-events">
+                    ${dayEvents.map(e => {
           const config = ENCARGADOS[e.encargadoKey];
           return `
-<div class="weekend-event ${config.class}" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})" style="border-left-color:${config.color};">
-<div class="weekend-event-time">🕐 ${e.hora}</div>
-<div class="weekend-event-location">📍 ${e.lugar}</div>
-<div class="weekend-event-musician" style="background:${config.color};">
-${config.icon} ${e.encargadoDisplay}
-</div>
-</div>
-`;
+                            <div class="weekend-event ${config.class}" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})" style="border-left-color:${config.color};">
+                                <div class="weekend-event-time">🕐 ${e.hora}</div>
+                                <div class="weekend-event-location">📍 ${e.lugar}</div>
+                                <div class="weekend-event-musician" style="background:${config.color};">
+                                    ${config.icon} ${e.encargadoDisplay}
+                                </div>
+                            </div>
+                        `;
         }).join('')}
-</div>
-</div>
-`;
+                </div>
+            </div>
+        `;
       }).join('');
+
       container.innerHTML = html;
     }
+
     function filterMusician(musician) {
       currentFilter = musician;
       renderFilterButtons();
       render();
     }
+
     function switchView(view) {
       currentView = view;
       ['calendarView', 'listView', 'tableView', 'consolidatedView'].forEach(id =>
@@ -2112,10 +2278,12 @@ ${config.icon} ${e.encargadoDisplay}
       else if (view === 'calendar') renderCalendar();
       render();
     }
+
     function changeMonth(delta) {
       currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + delta);
       renderCalendar();
     }
+
     function openModal(eventData) {
       selectedEvent = eventData;
       const modal = document.getElementById('eventModal');
@@ -2126,7 +2294,8 @@ ${config.icon} ${e.encargadoDisplay}
         weekday: 'long',
         year: 'numeric',
         month: 'long',
-        day: 'numeric'
+        day: 'numeric',
+        timeZone: TIMEZONE
       });
       const timeObj = new Date(`2000-01-01T${eventData.hora}`);
       const time12h = timeObj.toLocaleTimeString('es-CO', {
@@ -2135,97 +2304,82 @@ ${config.icon} ${e.encargadoDisplay}
         hour12: true
       });
       modalBody.innerHTML = `
-<div class="modal-event-date">
-<h4>📅 ${fullDate.charAt(0).toUpperCase() + fullDate.slice(1)}</h4>
-<p>🕐 ${time12h}</p>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #e8f4f8;">
-📍
-</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Lugar del Evento</div>
-<div class="modal-detail-value">${eventData.lugar || 'No especificado'}</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: ${config.color}20;">
-${config.icon}
-</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Encargado / Músico</div>
-<div class="modal-detail-value">
-${config.name}
-<span class="modal-musician-badge" style="background:${config.color};">
-${config.icon} ${config.name}
-</span>
-</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #fff3e0;">
-👥
-</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Número de Músicos</div>
-<div class="modal-detail-value">${eventData.numMusicos || 0} integrante${(eventData.numMusicos || 0) !== 1 ? 's' : ''}</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #fef9e7;">
-📝
-</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Notas / Canciones</div>
-<div class="modal-detail-value">${eventData.notas || 'Sin indicaciones especiales'}</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #fff3e0;">
-🚗
-</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Pago Transporte</div>
-<div class="modal-detail-value" style="color: #e67e22; font-weight: 700;">
-$${eventData.transPago.toLocaleString('es-CO')}
-</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #e8f5e9;">
-💰
-</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Valor del Evento</div>
-<div class="modal-detail-value" style="color: #27ae60; font-weight: 700;">
-$${eventData.pago.toLocaleString('es-CO')}
-</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #f3e5f5;">
-✅
-</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Estado</div>
-<div class="modal-detail-value">
-<span class="status-badge status-confirmed">${eventData.status}</span>
-</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #f5f5f5;">
-📄
-</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Fecha Original (CSV)</div>
-<div class="modal-detail-value">${eventData.fechaOriginal}</div>
-</div>
-</div>
-`;
+        <div class="modal-event-date">
+            <h4>📅 ${fullDate.charAt(0).toUpperCase() + fullDate.slice(1)}</h4>
+            <p>🕐 ${time12h}</p>
+        </div>
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #e8f4f8;">📍</div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Lugar del Evento</div>
+                <div class="modal-detail-value">${eventData.lugar || 'No especificado'}</div>
+            </div>
+        </div>
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: ${config.color}20;">${config.icon}</div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Encargado / Músico</div>
+                <div class="modal-detail-value">
+                    ${config.name}
+                    <span class="modal-musician-badge" style="background:${config.color};">
+                        ${config.icon} ${config.name}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #fff3e0;">👥</div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Número de Músicos</div>
+                <div class="modal-detail-value">${eventData.numMusicos || 0} integrante${(eventData.numMusicos || 0) !== 1 ? 's' : ''}</div>
+            </div>
+        </div>
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #fef9e7;">📝</div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Notas / Canciones</div>
+                <div class="modal-detail-value">${eventData.notas || 'Sin indicaciones especiales'}</div>
+            </div>
+        </div>
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #fff3e0;">🚗</div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Pago Transporte</div>
+                <div class="modal-detail-value" style="color: #e67e22; font-weight: 700;">
+                    $${eventData.transPago.toLocaleString('es-CO')}
+                </div>
+            </div>
+        </div>
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #e8f5e9;">💰</div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Valor del Evento</div>
+                <div class="modal-detail-value" style="color: #27ae60; font-weight: 700;">
+                    $${eventData.pago.toLocaleString('es-CO')}
+                </div>
+            </div>
+        </div>
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #f3e5f5;">✅</div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Estado</div>
+                <div class="modal-detail-value">
+                    <span class="status-badge status-confirmed">${eventData.status}</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-detail-row">
+            <div class="modal-detail-icon" style="background: #f5f5f5;">📄</div>
+            <div class="modal-detail-content">
+                <div class="modal-detail-label">Fecha Original (CSV)</div>
+                <div class="modal-detail-value">${eventData.fechaOriginal}</div>
+            </div>
+        </div>
+    `;
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
+
     function closeModal(event) {
       if (event && event.target !== event.currentTarget) return;
       const modal = document.getElementById('eventModal');
@@ -2233,13 +2387,15 @@ $${eventData.pago.toLocaleString('es-CO')}
       document.body.style.overflow = '';
       selectedEvent = null;
     }
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeModal();
       }
     });
+
     function renderConsolidatedView() {
-      const today = new Date().toISOString().split('T')[0];
+      const today = getColombianTodayStr();
       const content = document.getElementById('consolidatedContent');
       const filtered = currentFilter === 'all'
         ? events.filter(e => e.fecha >= today)
@@ -2271,34 +2427,34 @@ $${eventData.pago.toLocaleString('es-CO')}
       const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
       if (filtered.length === 0) {
         content.innerHTML = `
-<div class="consolidated-header">
-<h2>📋 Agenda de Presentaciones</h2>
-<p>Temporada 2026</p>
-<p style="margin-top:10px;font-size:0.95em">
-${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
-</p>
-</div>
-<div style="text-align:center;padding:50px;color:#7f8c8d;">
-<p style="font-size:1.5em;margin-bottom:20px;">📭</p>
-<p style="font-size:1.2em;">No hay eventos para mostrar</p>
-</div>
-<div class="footer-info">
-<p>📅 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-</div>
-`;
+            <div class="consolidated-header">
+                <h2>📋 Agenda de Presentaciones</h2>
+                <p>Temporada 2026</p>
+                <p style="margin-top:10px;font-size:0.95em">
+                    ${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
+                </p>
+            </div>
+            <div style="text-align:center;padding:50px;color:#7f8c8d;">
+                <p style="font-size:1.5em;margin-bottom:20px;">📭</p>
+                <p style="font-size:1.2em;">No hay eventos para mostrar</p>
+            </div>
+            <div class="footer-info">
+                <p>📅 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: TIMEZONE })}</p>
+            </div>
+        `;
         return;
       }
       let html = `<div class="consolidated-header">
-<h2>📋 Agenda de Presentaciones</h2>
-<p>Temporada 2026</p>
-<p style="margin-top:10px;font-size:0.95em">
-${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
-</p>
-</div>`;
+        <h2>📋 Agenda de Presentaciones</h2>
+        <p>Temporada 2026</p>
+        <p style="margin-top:10px;font-size:0.95em">
+            ${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentFilter].icon} ${ENCARGADOS[currentFilter].name}`}
+        </p>
+    </div>`;
       Object.keys(weeks).sort().forEach(weekKey => {
         const week = weeks[weekKey];
         const weekNum = getWeekNumber(week.startDate);
-        const monthName = week.startDate.toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+        const monthName = week.startDate.toLocaleDateString('es-CO', { month: 'long', year: 'numeric', timeZone: TIMEZONE });
         const sunday = new Date(week.startDate);
         sunday.setDate(sunday.getDate() + 6);
         const daysWithEvents = {};
@@ -2311,38 +2467,38 @@ ${currentFilter === 'all' ? '👥 Todos los encargados' : `${ENCARGADOS[currentF
         const sortedDates = Object.keys(daysWithEvents).sort();
         if (sortedDates.length > 0) {
           html += `<div class="week-section">
-<div class="week-title">
-📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthName}
-</div>`;
+                <div class="week-title">
+                    📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthName}
+                </div>`;
           sortedDates.forEach(dateStr => {
             const currentDay = new Date(dateStr + 'T00:00:00');
             const dayEvents = daysWithEvents[dateStr].sort((a, b) => a.hora.localeCompare(b.hora));
             const dayName = dayNames[currentDay.getDay()];
             const dayNum = currentDay.getDate();
-            const monthDay = currentDay.toLocaleDateString('es-CO', { month: 'long' });
+            const monthDay = currentDay.toLocaleDateString('es-CO', { month: 'long', timeZone: TIMEZONE });
             html += `<div class="day-section">
-<div class="day-title">
-${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthDay}
-<span style="font-size:0.9em;font-weight:normal;color:#7f8c8d">(${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})</span>
-</div>`;
+                    <div class="day-title">
+                        ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthDay}
+                        <span style="font-size:0.9em;font-weight:normal;color:#7f8c8d">(${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})</span>
+                    </div>`;
             dayEvents.forEach(e => {
               const config = ENCARGADOS[e.encargadoKey];
               html += `<div class="event-item" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
-<div class="event-time">🕐 ${e.hora}</div>
-<div class="event-location" style="flex: 2;">📍 ${e.lugar}</div>
-<div class="event-musician-badge" style="background:${config.color}; min-width: 80px;">
-${config.icon} ${e.encargadoDisplay}
-</div>
-<div style="min-width: 60px; text-align: center; font-weight: 600; color: #3498db;">
-👥 ${e.numMusicos || 0}
-</div>
-<div class="event-transport-badge">
-🚗 $${e.transPago.toLocaleString('es-CO')}
-</div>
-<div style="min-width: 100px; text-align: right; color: #27ae60; font-weight: 700; font-size: 0.95em;">
-$${e.pago.toLocaleString('es-CO')}
-</div>
-</div>`;
+                        <div class="event-time">🕐 ${e.hora}</div>
+                        <div class="event-location" style="flex: 2;">📍 ${e.lugar}</div>
+                        <div class="event-musician-badge" style="background:${config.color}; min-width: 80px;">
+                            ${config.icon} ${e.encargadoDisplay}
+                        </div>
+                        <div style="min-width: 60px; text-align: center; font-weight: 600; color: #3498db;">
+                            👥 ${e.numMusicos || 0}
+                        </div>
+                        <div class="event-transport-badge">
+                            🚗 $${e.transPago.toLocaleString('es-CO')}
+                        </div>
+                        <div style="min-width: 100px; text-align: right; color: #27ae60; font-weight: 700; font-size: 0.95em;">
+                            $${e.pago.toLocaleString('es-CO')}
+                        </div>
+                    </div>`;
             });
             html += `</div>`;
           });
@@ -2351,13 +2507,14 @@ $${e.pago.toLocaleString('es-CO')}
       });
       const totalReal = filtered.reduce((sum, e) => sum + (e.pago || 0), 0);
       html += `<div class="footer-info">
-<p><strong>Total de eventos:</strong> ${filtered.length}</p>
-<p><strong>Semanas con actividad:</strong> ${Object.keys(weeks).length}</p>
-<p><strong style="color: #27ae60;">Total recaudado:</strong> $${totalReal.toLocaleString('es-CO')}</p>
-<p style="margin-top:10px">📅 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-</div>`;
+        <p><strong>Total de eventos:</strong> ${filtered.length}</p>
+        <p><strong>Semanas con actividad:</strong> ${Object.keys(weeks).length}</p>
+        <p><strong style="color: #27ae60;">Total recaudado:</strong> $${totalReal.toLocaleString('es-CO')}</p>
+        <p style="margin-top:10px">📅 Generado el ${new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: TIMEZONE })}</p>
+    </div>`;
       content.innerHTML = html;
     }
+
     function renderCalendar() {
       const grid = document.getElementById('calendarGrid');
       const monthDisplay = document.getElementById('calendarMonthDisplay');
@@ -2366,9 +2523,10 @@ $${e.pago.toLocaleString('es-CO')}
       grid.innerHTML = '';
       const year = currentCalendarMonth.getFullYear();
       const month = currentCalendarMonth.getMonth();
-      const monthName = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+      const monthName = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric', timeZone: TIMEZONE });
       monthDisplay.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
       const today = new Date();
+      const todayColombia = getColombianTodayStr();
       btnPrev.disabled = (year < today.getFullYear()) || (year === today.getFullYear() && month <= today.getMonth());
       btnNext.disabled = (year >= CURRENT_YEAR + 1);
       const monthEvents = events.filter(e => {
@@ -2378,25 +2536,24 @@ $${e.pago.toLocaleString('es-CO')}
       const filteredEvents = currentFilter === 'all'
         ? monthEvents
         : monthEvents.filter(e => e.encargadoKey === currentFilter);
-      const todayStr = new Date().toISOString().split('T')[0];
       if (filteredEvents.length === 0) {
-        const monthNameLong = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+        const monthNameLong = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric', timeZone: TIMEZONE });
         grid.innerHTML = `
-<div class="no-events-message">
-<div class="no-events-icon">📅</div>
-<h3>Sin eventos en ${monthNameLong.charAt(0).toUpperCase() + monthNameLong.slice(1)}</h3>
-<p>✨ ¡Aún no hay presentaciones reservadas para este mes!</p>
-<p style="font-size:0.95em;margin-top:10px;">
-${currentFilter === 'all'
+            <div class="no-events-message">
+                <div class="no-events-icon">📅</div>
+                <h3>Sin eventos en ${monthNameLong.charAt(0).toUpperCase() + monthNameLong.slice(1)}</h3>
+                <p>✨ ¡Aún no hay presentaciones reservadas para este mes!</p>
+                <p style="font-size:0.95em;margin-top:10px;">
+                    ${currentFilter === 'all'
             ? 'Puedes navegar a otros meses o esperar nuevas reservas.'
             : `No hay eventos de ${ENCARGADOS[currentFilter]?.name || 'este encargado'} en este mes.`}
-</p>
-<div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-<button class="btn" onclick="changeMonth(-1)" ${btnPrev.disabled ? 'disabled' : ''}>◀ Mes Anterior</button>
-<button class="btn" onclick="changeMonth(1)" ${btnNext.disabled ? 'disabled' : ''}>Mes Siguiente ▶</button>
-</div>
-</div>
-`;
+                </p>
+                <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn" onclick="changeMonth(-1)" ${btnPrev.disabled ? 'disabled' : ''}>◀ Mes Anterior</button>
+                    <button class="btn" onclick="changeMonth(1)" ${btnNext.disabled ? 'disabled' : ''}>Mes Siguiente ▶</button>
+                </div>
+            </div>
+        `;
         return;
       }
       ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].forEach(d => {
@@ -2416,7 +2573,7 @@ ${currentFilter === 'all'
         const cell = document.createElement('div');
         cell.className = 'calendar-day';
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        if (dateStr === todayStr) {
+        if (dateStr === todayColombia) {
           cell.classList.add('today');
         }
         const dayEvents = filteredEvents.filter(e => e.fecha === dateStr);
@@ -2443,8 +2600,9 @@ ${currentFilter === 'all'
         grid.appendChild(cell);
       }
     }
+
     function renderList() {
-      const today = new Date().toISOString().split('T')[0];
+      const today = getColombianTodayStr();
       const list = document.getElementById('eventList');
       list.innerHTML = '';
       const filtered = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
@@ -2458,43 +2616,44 @@ ${currentFilter === 'all'
         card.style.borderLeftColor = config.color;
         card.onclick = () => openModal(e);
         card.innerHTML = `
-<div class="event-header">
-<div class="event-date">${d.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-<div class="event-musician" style="background: ${config.color};">
-${config.icon} ${e.encargadoDisplay}
-</div>
-</div>
-<div class="event-details">
-<div class="event-detail-row">
-<div class="event-detail"><strong>🕐 Hora:</strong> ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}</div>
-</div>
-<div class="event-detail-row">
-<div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
-</div>
-<div class="event-detail-row">
-<div class="event-detail"><strong>👥 Músicos:</strong> ${e.numMusicos || 0} integrante${(e.numMusicos || 0) !== 1 ? 's' : ''}</div>
-</div>
-<div class="event-detail-row">
-<div class="event-detail"><strong>🚗 Transp.:</strong> <span class="event-transport">$${e.transPago.toLocaleString('es-CO')}</span></div>
-</div>
-<div class="event-detail-row">
-<div class="event-detail"><strong>💰 Pago:</strong> <span class="event-payment">$${e.pago.toLocaleString('es-CO')}</span></div>
-</div>
-<div class="event-detail-row">
-<div class="event-detail"><strong>✅ Estado:</strong> <span class="status-badge status-confirmed">${e.status}</span></div>
-</div>
-${e.notas ? `
-<div class="event-notes-row">
-<div class="event-detail" style="width:100%;margin-bottom:5px;"><strong>📝 Notas:</strong></div>
-<div class="event-notes">${e.notas}</div>
-</div>
-` : ''}
-</div>`;
+            <div class="event-header">
+                <div class="event-date">${d.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: TIMEZONE })}</div>
+                <div class="event-musician" style="background: ${config.color};">
+                    ${config.icon} ${e.encargadoDisplay}
+                </div>
+            </div>
+            <div class="event-details">
+                <div class="event-detail-row">
+                    <div class="event-detail"><strong>🕐 Hora:</strong> ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', timeZone: TIMEZONE })}</div>
+                </div>
+                <div class="event-detail-row">
+                    <div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
+                </div>
+                <div class="event-detail-row">
+                    <div class="event-detail"><strong>👥 Músicos:</strong> ${e.numMusicos || 0} integrante${(e.numMusicos || 0) !== 1 ? 's' : ''}</div>
+                </div>
+                <div class="event-detail-row">
+                    <div class="event-detail"><strong>🚗 Transp.:</strong> <span class="event-transport">$${e.transPago.toLocaleString('es-CO')}</span></div>
+                </div>
+                <div class="event-detail-row">
+                    <div class="event-detail"><strong>💰 Pago:</strong> <span class="event-payment">$${e.pago.toLocaleString('es-CO')}</span></div>
+                </div>
+                <div class="event-detail-row">
+                    <div class="event-detail"><strong>✅ Estado:</strong> <span class="status-badge status-confirmed">${e.status}</span></div>
+                </div>
+                ${e.notas ? `
+                    <div class="event-notes-row">
+                        <div class="event-detail" style="width:100%;margin-bottom:5px;"><strong>📝 Notas:</strong></div>
+                        <div class="event-notes">${e.notas}</div>
+                    </div>
+                ` : ''}
+            </div>`;
         list.appendChild(card);
       });
     }
+
     function renderFullTable() {
-      const today = new Date().toISOString().split('T')[0];
+      const today = getColombianTodayStr();
       const tbody = document.getElementById('fullEventsBody');
       const filtered = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
         .filter(e => e.fecha >= today)
@@ -2506,29 +2665,30 @@ ${e.notas ? `
       tbody.innerHTML = filtered.map(e => {
         const config = ENCARGADOS[e.encargadoKey];
         const dateObj = new Date(e.fecha + 'T00:00:00');
-        const dayName = dateObj.toLocaleDateString('es-CO', { weekday: 'short' });
-        const dateDisplay = dateObj.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const dayName = dateObj.toLocaleDateString('es-CO', { weekday: 'short', timeZone: TIMEZONE });
+        const dateDisplay = dateObj.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: TIMEZONE });
         return `
-<tr style="cursor:pointer;" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
-<td><strong>${dateDisplay}</strong></td>
-<td>${dayName}</td>
-<td>${e.hora}</td>
-<td>${e.lugar}</td>
-<td><span class="event-musician" style="background:${config.color};">${config.icon} ${e.encargadoDisplay}</span></td>
-<td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${e.notas || '---'}</td>
-<td style="color: #e67e22; font-weight: 700;">$${e.transPago.toLocaleString('es-CO')}</td>
-<td style="color: #27ae60; font-weight: 700;">$${e.pago.toLocaleString('es-CO')}</td>
-<td><span class="status-badge status-confirmed">${e.status}</span></td>
-<td style="text-align: center; font-weight: 600;">👥 ${e.numMusicos || 0}</td>
-</tr>
-`;
+            <tr style="cursor:pointer;" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
+                <td><strong>${dateDisplay}</strong></td>
+                <td>${dayName}</td>
+                <td>${e.hora}</td>
+                <td>${e.lugar}</td>
+                <td><span class="event-musician" style="background:${config.color};">${config.icon} ${e.encargadoDisplay}</span></td>
+                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${e.notas || '---'}</td>
+                <td style="color: #e67e22; font-weight: 700;">$${e.transPago.toLocaleString('es-CO')}</td>
+                <td style="color: #27ae60; font-weight: 700;">$${e.pago.toLocaleString('es-CO')}</td>
+                <td><span class="status-badge status-confirmed">${e.status}</span></td>
+                <td style="text-align: center; font-weight: 600;">👥 ${e.numMusicos || 0}</td>
+            </tr>
+        `;
       }).join('');
     }
+
     async function exportToPDF() {
       const loading = document.getElementById('loading');
       const consolidatedView = document.getElementById('consolidatedView');
       const consolidatedContent = document.getElementById('consolidatedContent');
-      const today = new Date().toISOString().split('T')[0];
+      const today = getColombianTodayStr();
       const filtered = currentFilter === 'all'
         ? events.filter(e => e.fecha >= today)
         : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
@@ -2571,11 +2731,12 @@ ${e.notas ? `
         loading.style.display = 'none';
       }
     }
+
     async function exportToImage() {
       const loading = document.getElementById('loading');
       const consolidatedView = document.getElementById('consolidatedView');
       const consolidatedContent = document.getElementById('consolidatedContent');
-      const today = new Date().toISOString().split('T')[0];
+      const today = getColombianTodayStr();
       const filtered = currentFilter === 'all'
         ? events.filter(e => e.fecha >= today)
         : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
@@ -2615,8 +2776,10 @@ ${e.notas ? `
         loading.style.display = 'none';
       }
     }
+
     function updateStats() {
-      const now = new Date();
+      const colombianTime = getColombianDateTime();
+      const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
       const futureEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
         .filter(e => {
           const eventDateTime = new Date(e.fecha + 'T' + e.hora);
@@ -2634,6 +2797,7 @@ ${e.notas ? `
       document.getElementById('completedEvents').textContent = pastEvents.length;
       document.getElementById('totalEarnings').textContent = '$' + totalReal.toLocaleString('es-CO');
     }
+
     function render() {
       renderNextThreeDaysWithEvents();
       if (currentView === 'calendar') renderCalendar();
@@ -2641,17 +2805,13 @@ ${e.notas ? `
       else if (currentView === 'table') renderFullTable();
       updateStats();
     }
+
     async function initApp() {
       const info = document.getElementById('dataInfo');
       const loading = document.getElementById('loading');
-      const now = new Date();
-      document.getElementById('currentDate').textContent = now.toLocaleDateString('es-CO', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-      document.getElementById('lastUpdate').textContent = now.toLocaleString('es-CO');
+      const colombianTime = getColombianDateTime();
+      document.getElementById('currentDate').textContent = colombianTime.full;
+      document.getElementById('lastUpdate').textContent = colombianTime.full;
       try {
         loading.style.display = 'block';
         info.textContent = '🔄 Conectando con Google Sheets...';
@@ -2693,6 +2853,7 @@ ${e.notas ? `
       }
       switchView(currentView);
     }
+
     document.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
