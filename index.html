@@ -1249,7 +1249,7 @@
     }
 
     .musician-andres {
-      --musician-color: #e74c3c;
+      --musician-color: #946434;
     }
 
     .musician-ricardo {
@@ -1455,6 +1455,10 @@
         display: none !important;
       }
     }
+
+    .stats {
+      display: none !important;
+    }
   </style>
 </head>
 
@@ -1487,7 +1491,7 @@
       </div>
       <div class="stat-card" onclick="showHistory()">
         <h3 id="totalEarnings">$0</h3>
-        <p>Ganancias (Mes)</p>
+        <p>Ganancias Cada uno</p>
         <div class="month-label" id="earningsMonthLabel">Mes Actual</div>
       </div>
     </div>
@@ -1618,7 +1622,7 @@
     };
     const ENCARGADOS = {
       manuela: { name: 'Manuela', icon: '🪗', color: '#e91e63', class: 'musician-manuela' },
-      andres: { name: 'Andres', icon: '🎸', color: '#e74c3c', class: 'musician-andres' },
+      andres: { name: 'Andres', icon: '🎸', color: '#946434', class: 'musician-andres' },
       ricardo: { name: 'Ricardo', icon: '🎺', color: '#f1c40f', class: 'musician-ricardo' },
       alquibar: { name: 'Alquibar', icon: '🎻', color: '#3498db', class: 'musician-alquibar' },
       cacho: { name: 'Cacho', icon: '🎤', color: '#ff6b35', class: 'musician-cacho' },
@@ -2460,7 +2464,7 @@ ${config.icon} ${e.encargadoDisplay}
         return eventYear === parseInt(year) &&
           eventMonth === parseInt(month) &&
           eventDateTime < now;
-      }).sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
+      }).sort((a, b) => new Date(b.fecha + 'T' + b.hora) - new Date(a.fecha + 'T' + a.hora));
 
       // Calcular totales
       const totalEvents = monthEvents.length;
@@ -2503,11 +2507,11 @@ ${config.icon} ${e.encargadoDisplay}
 </div>
 <div class="summary-item">
 <div class="value">$${totalEarnings.toLocaleString('es-CO')}</div>
-<div class="label">Total Ganancias</div>
+<div class="label">Total Ganancias Por Músico</div>
 </div>
 <div class="summary-item">
 <div class="value">${Object.keys(musicianBreakdown).length}</div>
-<div class="label">Músicos Activos</div>
+<div class="label">Músicos Encargados</div>
 </div>
 </div>
 `;
