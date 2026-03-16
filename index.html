@@ -9,6 +9,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>🎺 Mariachi - Agenda 2026</title>
+  <!-- ✅ PAPAPARSE - Parser CSV optimizado -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -352,6 +354,43 @@
       flex-wrap: wrap;
       padding-top: 12px;
       border-top: 1px solid #e0e0e0;
+    }
+
+    /* ✅ PAGINACIÓN GENERAL */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .pagination-info {
+      font-size: 0.9em;
+      color: #7f8c8d;
+    }
+
+    .pagination-btn {
+      padding: 8px 16px;
+      border: 1px solid #3498db;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #3498db;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+      background: #3498db;
+      color: #ffffff;
+    }
+
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     /* ===== VISTAS ===== */
@@ -823,6 +862,43 @@
       font-size: 1em;
     }
 
+    /* ✅ PAGINACIÓN LISTA - NUEVO */
+    .list-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .list-pagination-info {
+      font-size: 0.9em;
+      color: #7f8c8d;
+    }
+
+    .list-pagination-btn {
+      padding: 8px 16px;
+      border: 1px solid #9b59b6;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #9b59b6;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .list-pagination-btn:hover:not(:disabled) {
+      background: #9b59b6;
+      color: #ffffff;
+    }
+
+    .list-pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     /* ===== VISTA CONSOLIDADA ===== */
     .consolidated-content {
       background: #ffffff;
@@ -951,6 +1027,43 @@
       color: #7f8c8d;
       font-size: 0.95em;
       line-height: 1.8;
+    }
+
+    /* ✅ PAGINACIÓN AGENDA - NUEVO */
+    .consolidated-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .consolidated-pagination-info {
+      font-size: 0.9em;
+      color: #7f8c8d;
+    }
+
+    .consolidated-pagination-btn {
+      padding: 8px 16px;
+      border: 1px solid #27ae60;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #27ae60;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .consolidated-pagination-btn:hover:not(:disabled) {
+      background: #27ae60;
+      color: #ffffff;
+    }
+
+    .consolidated-pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     /* ===== TABLA COMPLETA ===== */
@@ -1362,6 +1475,15 @@
       .summary-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .pagination {
+        flex-wrap: wrap;
+      }
+
+      .list-pagination,
+      .consolidated-pagination {
+        flex-wrap: wrap;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1438,7 +1560,10 @@
       .next-weekend-section,
       footer,
       .calendar-controls,
-      .modal-overlay {
+      .modal-overlay,
+      .pagination,
+      .list-pagination,
+      .consolidated-pagination {
         display: none;
       }
 
@@ -1471,7 +1596,7 @@
       </div>
       <div class="header-meta">
         <div id="currentDate"></div>
-        <div style="margin-top: 5px;">Versión 2.2 - Histórico Mensual 📊</div>
+        <div style="margin-top: 5px;">Versión 3.1 - Paginación Mejorada 🚀</div>
       </div>
     </header>
     <div class="stats">
@@ -1532,8 +1657,23 @@
       <div class="calendar-grid" id="calendarGrid"></div>
     </div>
     <div id="listView" class="list-view hidden">
-      <h2 class="view-title">📋 Lista de Eventos</h2>
+      <h2 class="view-title">
+        📋 Lista de Eventos
+        <div class="calendar-controls">
+          <button class="btn btn-nav" onclick="changeListPage(-1)" id="btnListPrev">◀ Ant</button>
+          <span class="calendar-month-display" id="listPageDisplay"></span>
+          <button class="btn btn-nav" onclick="changeListPage(1)" id="btnListNext">Sig ▶</button>
+        </div>
+      </h2>
       <div class="event-list" id="eventList"></div>
+      <!-- ✅ PAGINACIÓN LISTA -->
+      <div class="list-pagination" id="listPagination">
+        <button class="list-pagination-btn" id="btnListFirst" onclick="goToListPage(1)">⏮ Inicio</button>
+        <button class="list-pagination-btn" id="btnListPrevPage" onclick="changeListPage(-1)">◀ Ant</button>
+        <span class="list-pagination-info" id="listPaginationInfo">Página 1 de 1</span>
+        <button class="list-pagination-btn" id="btnListNextPage" onclick="changeListPage(1)">Sig ▶</button>
+        <button class="list-pagination-btn" id="btnListLast" onclick="goToListPage(listTotalPages)">Fin ⏭</button>
+      </div>
     </div>
     <div id="tableView" class="table-view">
       <h2 class="view-title">📊 Tabla Completa de Eventos</h2>
@@ -1556,9 +1696,26 @@
           <tbody id="fullEventsBody"></tbody>
         </table>
       </div>
+      <!-- ✅ PAGINACIÓN TABLA -->
+      <div class="pagination" id="tablePagination">
+        <button class="pagination-btn" id="btnFirstPage" onclick="goToPage(1)">⏮ Inicio</button>
+        <button class="pagination-btn" id="btnPrevPage" onclick="changePage(-1)">◀ Ant</button>
+        <span class="pagination-info" id="paginationInfo">Página 1 de 1</span>
+        <button class="pagination-btn" id="btnNextPage" onclick="changePage(1)">Sig ▶</button>
+        <button class="pagination-btn" id="btnLastPage" onclick="goToPage(totalPages)">Fin ⏭</button>
+      </div>
     </div>
     <div id="consolidatedView" class="consolidated-view hidden">
       <div id="consolidatedContent" class="consolidated-content"></div>
+      <!-- ✅ PAGINACIÓN AGENDA -->
+      <div class="consolidated-pagination" id="consolidatedPagination">
+        <button class="consolidated-pagination-btn" id="btnConsFirst" onclick="goToConsPage(1)">⏮ Inicio</button>
+        <button class="consolidated-pagination-btn" id="btnConsPrev" onclick="changeConsPage(-1)">◀ Ant</button>
+        <span class="consolidated-pagination-info" id="consPaginationInfo">Mes 1 de 1</span>
+        <button class="consolidated-pagination-btn" id="btnConsNext" onclick="changeConsPage(1)">Sig ▶</button>
+        <button class="consolidated-pagination-btn" id="btnConsLast" onclick="goToConsPage(consTotalPages)">Fin
+          ⏭</button>
+      </div>
     </div>
     <div id="historyView" class="history-view hidden">
       <h2 class="view-title">
@@ -1614,7 +1771,26 @@
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?output=csv';
     const CURRENT_YEAR = 2026;
     const TIMEZONE = 'America/Bogota';
-    const STORAGE_KEY = 'mariachi_monthly_records';
+    // ✅ IndexedDB en lugar de localStorage
+    const DB_NAME = 'MariachiDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'monthlyRecords';
+    // ✅ Configuración de filtro de fechas (6 meses atrás + 12 meses adelante)
+    const DATE_RANGE_MONTHS_BACK = 6;
+    const DATE_RANGE_MONTHS_FORWARD = 12;
+    // ✅ Configuración de paginación
+    const EVENTS_PER_PAGE = 50;
+    const LIST_DAYS_PER_PAGE = 5; // ✅ 5 días por página en lista
+    let currentPage = 1;
+    let totalPages = 1;
+    let filteredEventsForTable = [];
+    // ✅ NUEVAS VARIABLES PARA PAGINACIÓN LISTA Y AGENDA
+    let listCurrentPage = 1;
+    let listTotalPages = 1;
+    let listUniqueDates = [];
+    let consCurrentPage = 1;
+    let consTotalPages = 1;
+    let consUniqueMonths = [];
     const MONTHS_MAP = {
       'enero': '01', 'febrero': '02', 'marzo': '03', 'abril': '04',
       'mayo': '05', 'junio': '06', 'julio': '07', 'agosto': '08',
@@ -1639,6 +1815,7 @@
       'menucho': 'menucho', 'menuch': 'menucho', 'manuel': 'menucho'
     };
     let events = [];
+    let allEvents = []; // ✅ Todos los eventos sin filtro
     let currentFilter = 'all';
     let currentView = 'table';
     let currentCalendarMonth = new Date(CURRENT_YEAR, 0, 1);
@@ -1646,7 +1823,90 @@
     let monthlyRecords = [];
     let lastSavedMonth = null;
     let selectedHistoryMonth = null;
-
+    let db = null;
+    // ===== ✅ INDEXEDDB - Reemplaza localStorage =====
+    function openDatabase() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (event) => {
+          db = event.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'monthKey' });
+          }
+        };
+        request.onsuccess = (event) => {
+          db = event.target.result;
+          resolve(db);
+        };
+        request.onerror = (event) => {
+          reject(event.target.error);
+        };
+      });
+    }
+    async function loadMonthlyRecords() {
+      try {
+        if (!db) await openDatabase();
+        return new Promise((resolve, reject) => {
+          const transaction = db.transaction([STORE_NAME], 'readonly');
+          const store = transaction.objectStore(STORE_NAME);
+          const request = store.getAll();
+          request.onsuccess = () => {
+            monthlyRecords = request.result || [];
+            console.log(`📊 ${monthlyRecords.length} registros mensuales cargados (IndexedDB)`);
+            resolve(monthlyRecords);
+          };
+          request.onerror = () => reject(request.error);
+        });
+      } catch (e) {
+        console.error('Error cargando registros:', e);
+        monthlyRecords = [];
+      }
+    }
+    async function saveMonthlyRecords() {
+      try {
+        if (!db) await openDatabase();
+        return new Promise((resolve, reject) => {
+          const transaction = db.transaction([STORE_NAME], 'readwrite');
+          const store = transaction.objectStore(STORE_NAME);
+          monthlyRecords.forEach(record => {
+            store.put(record);
+          });
+          transaction.oncomplete = () => {
+            console.log('💾 Registros mensuales guardados (IndexedDB)');
+            resolve();
+          };
+          transaction.onerror = () => reject(transaction.error);
+        });
+      } catch (e) {
+        console.error('Error guardando registros:', e);
+      }
+    }
+    function addMonthlyRecord(monthKey, data) {
+      const existingIndex = monthlyRecords.findIndex(r => r.monthKey === monthKey);
+      const record = {
+        monthKey: monthKey,
+        monthName: getMonthName(monthKey.split('-')[1]),
+        year: parseInt(monthKey.split('-')[0]),
+        month: parseInt(monthKey.split('-')[1]),
+        eventsCompleted: data.eventsCompleted,
+        totalTransport: data.totalTransport,
+        totalEarnings: data.totalEarnings,
+        musicianData: data.musicianData,
+        events: data.events || [],
+        savedAt: new Date().toISOString()
+      };
+      if (existingIndex >= 0) {
+        monthlyRecords[existingIndex] = record;
+        console.log(`📝 Registro actualizado para ${monthKey}`);
+      } else {
+        monthlyRecords.push(record);
+        console.log(`📝 Nuevo registro para ${monthKey}`);
+      }
+      saveMonthlyRecords();
+    }
+    function getMonthlyRecord(monthKey) {
+      return monthlyRecords.find(r => r.monthKey === monthKey);
+    }
     // ===== ✅ FUNCIONES DE HORA COLOMBIANA =====
     function getColombianDate() {
       return new Date().toLocaleString('es-CO', { timeZone: TIMEZONE });
@@ -1680,7 +1940,6 @@
         full: getColombianDate()
       };
     }
-
     // ===== ✅ FUNCIONES DE MES =====
     function getCurrentColombianMonth() {
       const now = new Date();
@@ -1697,88 +1956,44 @@
         key: `${year}-${month}`
       };
     }
-
     function getMonthName(monthNum) {
       const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
       return months[parseInt(monthNum) - 1] || 'Desconocido';
     }
-
-    // ===== 💾 FUNCIONES DE ALMACENAMIENTO LOCAL =====
-    function loadMonthlyRecords() {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          monthlyRecords = JSON.parse(stored);
-          console.log(`📊 ${monthlyRecords.length} registros mensuales cargados`);
-        } else {
-          monthlyRecords = [];
-        }
-      } catch (e) {
-        console.error('Error cargando registros:', e);
-        monthlyRecords = [];
-      }
-    }
-
-    function saveMonthlyRecords() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(monthlyRecords));
-        console.log('💾 Registros mensuales guardados');
-      } catch (e) {
-        console.error('Error guardando registros:', e);
-      }
-    }
-
-    function addMonthlyRecord(monthKey, data) {
-      const existingIndex = monthlyRecords.findIndex(r => r.monthKey === monthKey);
-      const record = {
-        monthKey: monthKey,
-        monthName: getMonthName(monthKey.split('-')[1]),
-        year: parseInt(monthKey.split('-')[0]),
-        month: parseInt(monthKey.split('-')[1]),
-        eventsCompleted: data.eventsCompleted,
-        totalTransport: data.totalTransport,
-        totalEarnings: data.totalEarnings,
-        musicianData: data.musicianData,
-        events: data.events || [],
-        savedAt: new Date().toISOString()
+    // ===== ✅ FILTRO DE FECHAS PARA OPTIMIZACIÓN =====
+    function getDateRangeLimits() {
+      const today = new Date();
+      const startDate = new Date(today);
+      startDate.setMonth(startDate.getMonth() - DATE_RANGE_MONTHS_BACK);
+      const endDate = new Date(today);
+      endDate.setMonth(endDate.getMonth() + DATE_RANGE_MONTHS_FORWARD);
+      return {
+        start: startDate.toISOString().split('T')[0].substring(0, 7), // YYYY-MM
+        end: endDate.toISOString().split('T')[0].substring(0, 7) // YYYY-MM
       };
-
-      if (existingIndex >= 0) {
-        monthlyRecords[existingIndex] = record;
-        console.log(`📝 Registro actualizado para ${monthKey}`);
-      } else {
-        monthlyRecords.push(record);
-        console.log(`📝 Nuevo registro para ${monthKey}`);
-      }
-
-      saveMonthlyRecords();
     }
-
-    function getMonthlyRecord(monthKey) {
-      return monthlyRecords.find(r => r.monthKey === monthKey);
+    function isEventInDateRange(eventDate) {
+      const range = getDateRangeLimits();
+      const eventMonth = eventDate.substring(0, 7); // YYYY-MM
+      return eventMonth >= range.start && eventMonth <= range.end;
     }
-
     // ===== ✅ GUARDADO AUTOMÁTICO AL CAMBIAR DE MES =====
     function checkAndSaveMonthChange() {
       const currentMonth = getCurrentColombianMonth();
       const currentMonthKey = currentMonth.key;
-
       if (lastSavedMonth !== currentMonthKey) {
         if (lastSavedMonth) {
           savePreviousMonthRecord(lastSavedMonth);
         }
         lastSavedMonth = currentMonthKey;
       }
-
       saveCurrentMonthProgress(currentMonthKey);
     }
-
     function savePreviousMonthRecord(monthKey) {
       const colombianTime = getColombianDateTime();
       const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
-
-      const pastEvents = events.filter(e => {
+      const pastEvents = allEvents.filter(e => {
         const eventDate = e.fecha.split('-');
         const eventYear = parseInt(eventDate[0]);
         const eventMonth = parseInt(eventDate[1]);
@@ -1787,11 +2002,9 @@
           eventMonth === parseInt(monthKey.split('-')[1]) &&
           eventDateTime < now;
       });
-
       if (pastEvents.length > 0) {
         const totalTransport = pastEvents.reduce((sum, e) => sum + (e.transPago || 0), 0);
         const totalEarnings = pastEvents.reduce((sum, e) => sum + (e.pago || 0), 0);
-
         const musicianData = {};
         pastEvents.forEach(e => {
           if (!musicianData[e.encargadoKey]) {
@@ -1801,7 +2014,6 @@
           musicianData[e.encargadoKey].transport += (e.transPago || 0);
           musicianData[e.encargadoKey].earnings += (e.pago || 0);
         });
-
         addMonthlyRecord(monthKey, {
           eventsCompleted: pastEvents.length,
           totalTransport: totalTransport,
@@ -1811,13 +2023,11 @@
         });
       }
     }
-
     function saveCurrentMonthProgress(monthKey) {
       setInterval(() => {
         const colombianTime = getColombianDateTime();
         const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
-
-        const pastEvents = events.filter(e => {
+        const pastEvents = allEvents.filter(e => {
           const eventDate = e.fecha.split('-');
           const eventYear = parseInt(eventDate[0]);
           const eventMonth = parseInt(eventDate[1]);
@@ -1826,11 +2036,9 @@
             eventMonth === parseInt(monthKey.split('-')[1]) &&
             eventDateTime < now;
         });
-
         if (pastEvents.length > 0) {
           const totalTransport = pastEvents.reduce((sum, e) => sum + (e.transPago || 0), 0);
           const totalEarnings = pastEvents.reduce((sum, e) => sum + (e.pago || 0), 0);
-
           const musicianData = {};
           pastEvents.forEach(e => {
             if (!musicianData[e.encargadoKey]) {
@@ -1840,7 +2048,6 @@
             musicianData[e.encargadoKey].transport += (e.transPago || 0);
             musicianData[e.encargadoKey].earnings += (e.pago || 0);
           });
-
           addMonthlyRecord(monthKey, {
             eventsCompleted: pastEvents.length,
             totalTransport: totalTransport,
@@ -1851,7 +2058,6 @@
         }
       }, 300000);
     }
-
     // ===== FUNCIONES DE CONVERSIÓN =====
     function parseSpanishDate(dateStr) {
       if (!dateStr) return null;
@@ -1886,58 +2092,60 @@
         .replace(/\s+/g, '');
       return NAME_MAPPING[normalized] || null;
     }
-    // ===== PARSEADOR CSV =====
-    function parseCSVLine(line) {
-      const values = [];
-      let current = '', inQuotes = false;
-      for (let char of line) {
-        if (char === '"') inQuotes = !inQuotes;
-        else if (char === ',' && !inQuotes) {
-          values.push(current.trim().replace(/^"|"$/g, ''));
-          current = '';
-        } else current += char;
-      }
-      values.push(current.trim().replace(/^"|"$/g, ''));
-      return values;
-    }
+    // ===== ✅ PARSEADOR CSV CON PAPAPARSE =====
     function parseCSV(csvText) {
-      const lines = csvText.trim().split(/\r?\n/);
-      if (lines.length < 2) return [];
-      const headers = parseCSVLine(lines[0]);
-      console.log('Headers:', headers);
-      const parsed = [];
-      for (let i = 1; i < lines.length; i++) {
-        const values = parseCSVLine(lines[i]);
-        const fecha = parseSpanishDate(values[0]);
-        if (!fecha) continue;
-        const encargadoRaw = values[5] || '';
-        const encargadoKey = normalizeEncargadoName(encargadoRaw);
-        if (!encargadoKey || !ENCARGADOS[encargadoKey]) continue;
-        parsed.push({
-          fechaOriginal: values[0],
-          dia: values[1],
-          fecha: fecha,
-          hora: convertTo24Hour(values[2]),
-          horaOriginal: values[2],
-          notas: values[3] || '',
-          lugar: values[4] || '',
-          encargadoKey: encargadoKey,
-          encargadoDisplay: ENCARGADOS[encargadoKey].name,
-          pago: parseFloat(values[6]) || 0,
-          transPago: parseFloat(values[8]) || 0,
-          numMusicos: parseInt(values[7]) || 0,
-          status: 'confirmado'
+      return new Promise((resolve, reject) => {
+        Papa.parse(csvText, {
+          header: false,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const lines = results.data;
+            if (lines.length < 2) {
+              resolve([]);
+              return;
+            }
+            const parsed = [];
+            for (let i = 1; i < lines.length; i++) {
+              const values = lines[i];
+              if (!values || values.length < 9) continue;
+              const fecha = parseSpanishDate(values[0]);
+              if (!fecha) continue;
+              // ✅ FILTRO DE FECHAS - Solo eventos dentro del rango
+              if (!isEventInDateRange(fecha)) continue;
+              const encargadoRaw = values[5] || '';
+              const encargadoKey = normalizeEncargadoName(encargadoRaw);
+              if (!encargadoKey || !ENCARGADOS[encargadoKey]) continue;
+              parsed.push({
+                fechaOriginal: values[0],
+                dia: values[1],
+                fecha: fecha,
+                hora: convertTo24Hour(values[2]),
+                horaOriginal: values[2],
+                notas: values[3] || '',
+                lugar: values[4] || '',
+                encargadoKey: encargadoKey,
+                encargadoDisplay: ENCARGADOS[encargadoKey].name,
+                pago: parseFloat(values[6]) || 0,
+                transPago: parseFloat(values[8]) || 0,
+                numMusicos: parseInt(values[7]) || 0,
+                status: 'confirmado'
+              });
+            }
+            console.log(`✅ ${parsed.length} eventos parseados (PapaParse + Filtro Fecha)`);
+            resolve(parsed);
+          },
+          error: (error) => {
+            reject(error);
+          }
         });
-      }
-      console.log(`✅ ${parsed.length} eventos parseados`);
-      return parsed;
+      });
     }
     // ===== CARGA DE EVENTOS =====
     async function loadEventsFromSheet() {
       const response = await fetch(SHEET_CSV_URL);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const csvText = await response.text();
-      return parseCSV(csvText);
+      return await parseCSV(csvText);
     }
     // ===== RENDERIZADO =====
     function formatDateShort(date) {
@@ -2030,6 +2238,9 @@ ${config.icon} ${e.encargadoDisplay}
     }
     function filterMusician(musician) {
       currentFilter = musician;
+      currentPage = 1;
+      listCurrentPage = 1; // ✅ Resetear paginación lista
+      consCurrentPage = 1; // ✅ Resetear paginación agenda
       renderFilterButtons();
       render();
     }
@@ -2044,15 +2255,53 @@ ${config.icon} ${e.encargadoDisplay}
           btn.classList.add('active');
         }
       });
-      if (view === 'consolidated') renderConsolidatedView();
-      else if (view === 'table') renderFullTable();
+      if (view === 'consolidated') {
+        consCurrentPage = 1;
+        renderConsolidatedView();
+      }
+      else if (view === 'table') {
+        currentPage = 1;
+        renderFullTable();
+      }
       else if (view === 'calendar') renderCalendar();
+      else if (view === 'list') {
+        listCurrentPage = 1;
+        renderList();
+      }
       else if (view === 'history') renderHistory();
       render();
     }
     function changeMonth(delta) {
       currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + delta);
       renderCalendar();
+    }
+    // ===== ✅ NUEVAS FUNCIONES DE PAGINACIÓN PARA LISTA =====
+    function changeListPage(delta) {
+      const newPage = listCurrentPage + delta;
+      if (newPage >= 1 && newPage <= listTotalPages) {
+        listCurrentPage = newPage;
+        renderList();
+      }
+    }
+    function goToListPage(page) {
+      if (page >= 1 && page <= listTotalPages) {
+        listCurrentPage = page;
+        renderList();
+      }
+    }
+    // ===== ✅ NUEVAS FUNCIONES DE PAGINACIÓN PARA AGENDA =====
+    function changeConsPage(delta) {
+      const newPage = consCurrentPage + delta;
+      if (newPage >= 1 && newPage <= consTotalPages) {
+        consCurrentPage = newPage;
+        renderConsolidatedView();
+      }
+    }
+    function goToConsPage(page) {
+      if (page >= 1 && page <= consTotalPages) {
+        consCurrentPage = page;
+        renderConsolidatedView();
+      }
     }
     function openModal(eventData) {
       selectedEvent = eventData;
@@ -2154,6 +2403,7 @@ $${eventData.pago.toLocaleString('es-CO')}
         closeModal();
       }
     });
+    // ===== ✅ VISTA CONSOLIDADA CON PAGINACIÓN POR MES =====
     function renderConsolidatedView() {
       const today = getColombianTodayStr();
       const content = document.getElementById('consolidatedContent');
@@ -2174,17 +2424,26 @@ $${eventData.pago.toLocaleString('es-CO')}
         d.setDate(d.getDate() - day + 1);
         return d;
       }
-      const weeks = {};
+      // ✅ Agrupar eventos por mes
+      const months = {};
       filtered.forEach(e => {
-        const date = new Date(e.fecha + 'T00:00:00');
-        const monday = getMondayOfWeek(date);
-        const weekKey = monday.toISOString().split('T')[0];
-        if (!weeks[weekKey]) {
-          weeks[weekKey] = { startDate: monday, events: [] };
+        const monthKey = e.fecha.substring(0, 7); // YYYY-MM
+        if (!months[monthKey]) {
+          months[monthKey] = [];
         }
-        weeks[weekKey].events.push(e);
+        months[monthKey].push(e);
       });
-      const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      // ✅ Obtener meses únicos ordenados
+      consUniqueMonths = Object.keys(months).sort();
+      consTotalPages = consUniqueMonths.length || 1;
+      if (consCurrentPage > consTotalPages) consCurrentPage = consTotalPages;
+      if (consCurrentPage < 1) consCurrentPage = 1;
+      // ✅ Actualizar información de paginación
+      document.getElementById('consPaginationInfo').textContent = `Mes ${consCurrentPage} de ${consTotalPages}`;
+      document.getElementById('btnConsPrev').disabled = consCurrentPage <= 1;
+      document.getElementById('btnConsFirst').disabled = consCurrentPage <= 1;
+      document.getElementById('btnConsNext').disabled = consCurrentPage >= consTotalPages;
+      document.getElementById('btnConsLast').disabled = consCurrentPage >= consTotalPages;
       if (filtered.length === 0) {
         content.innerHTML = `
 <div class="consolidated-header">
@@ -2198,14 +2457,31 @@ $${eventData.pago.toLocaleString('es-CO')}
 `;
         return;
       }
+      // ✅ Obtener el mes actual de la página
+      const currentMonthKey = consUniqueMonths[consCurrentPage - 1];
+      const [year, month] = currentMonthKey.split('-');
+      const monthName = getMonthName(month);
+      const monthEvents = months[currentMonthKey];
+      // ✅ Agrupar por semanas
+      const weeks = {};
+      monthEvents.forEach(e => {
+        const date = new Date(e.fecha + 'T00:00:00');
+        const monday = getMondayOfWeek(date);
+        const weekKey = monday.toISOString().split('T')[0];
+        if (!weeks[weekKey]) {
+          weeks[weekKey] = { startDate: monday, events: [] };
+        }
+        weeks[weekKey].events.push(e);
+      });
+      const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
       let html = `<div class="consolidated-header">
 <h2>📋 Agenda de Presentaciones</h2>
-<p>Temporada 2026</p>
+<p>${monthName} ${year}</p>
 </div>`;
       Object.keys(weeks).sort().forEach(weekKey => {
         const week = weeks[weekKey];
         const weekNum = getWeekNumber(week.startDate);
-        const monthName = week.startDate.toLocaleDateString('es-CO', { month: 'long', year: 'numeric', timeZone: TIMEZONE });
+        const monthNameWeek = week.startDate.toLocaleDateString('es-CO', { month: 'long', year: 'numeric', timeZone: TIMEZONE });
         const sunday = new Date(week.startDate);
         sunday.setDate(sunday.getDate() + 6);
         const daysWithEvents = {};
@@ -2219,7 +2495,7 @@ $${eventData.pago.toLocaleString('es-CO')}
         if (sortedDates.length > 0) {
           html += `<div class="week-section">
 <div class="week-title">
-📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthName}
+📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthNameWeek}
 </div>`;
           sortedDates.forEach(dateStr => {
             const currentDay = new Date(dateStr + 'T00:00:00');
@@ -2332,52 +2608,110 @@ $${e.pago.toLocaleString('es-CO')}
         grid.appendChild(cell);
       }
     }
+    // ===== ✅ VISTA LISTA CON PAGINACIÓN POR 5 DÍAS =====
     function renderList() {
       const today = getColombianTodayStr();
       const list = document.getElementById('eventList');
-      list.innerHTML = '';
       const filtered = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
         .filter(e => e.fecha >= today)
         .sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
-      filtered.forEach(e => {
-        const d = new Date(e.fecha + 'T' + e.hora);
-        const config = ENCARGADOS[e.encargadoKey];
-        const card = document.createElement('div');
-        card.className = `event-card ${config.class}`;
-        card.style.borderLeftColor = config.color;
-        card.onclick = () => openModal(e);
-        card.innerHTML = `
+      // ✅ Obtener fechas únicas
+      listUniqueDates = [...new Set(filtered.map(e => e.fecha))];
+      listTotalPages = Math.ceil(listUniqueDates.length / LIST_DAYS_PER_PAGE) || 1;
+      if (listCurrentPage > listTotalPages) listCurrentPage = listTotalPages;
+      if (listCurrentPage < 1) listCurrentPage = 1;
+      // ✅ Calcular rango de fechas para esta página
+      const startIndex = (listCurrentPage - 1) * LIST_DAYS_PER_PAGE;
+      const endIndex = startIndex + LIST_DAYS_PER_PAGE;
+      const pageDates = listUniqueDates.slice(startIndex, endIndex);
+      // ✅ Actualizar información de paginación
+      document.getElementById('listPaginationInfo').textContent = `Página ${listCurrentPage} de ${listTotalPages} (${listUniqueDates.length} días)`;
+      document.getElementById('btnListPrevPage').disabled = listCurrentPage <= 1;
+      document.getElementById('btnListFirst').disabled = listCurrentPage <= 1;
+      document.getElementById('btnListNextPage').disabled = listCurrentPage >= listTotalPages;
+      document.getElementById('btnListLast').disabled = listCurrentPage >= listTotalPages;
+      // ✅ Mostrar rango de fechas en el display
+      if (pageDates.length > 0) {
+        const firstDate = new Date(pageDates[0] + 'T00:00:00');
+        const lastDate = new Date(pageDates[pageDates.length - 1] + 'T00:00:00');
+        const firstStr = firstDate.toLocaleDateString('es-CO', { day: 'numeric', month: 'short', timeZone: TIMEZONE });
+        const lastStr = lastDate.toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric', timeZone: TIMEZONE });
+        document.getElementById('listPageDisplay').textContent = `${firstStr} - ${lastStr}`;
+      } else {
+        document.getElementById('listPageDisplay').textContent = 'Sin eventos';
+      }
+      list.innerHTML = '';
+      if (pageDates.length === 0) {
+        list.innerHTML = '<div class="no-events-message"><div class="no-events-icon">📭</div><h3>No hay eventos</h3></div>';
+        return;
+      }
+      // ✅ Renderizar eventos de las fechas de esta página
+      pageDates.forEach(dateStr => {
+        const dayEvents = filtered.filter(e => e.fecha === dateStr)
+          .sort((a, b) => a.hora.localeCompare(b.hora));
+        const dateObj = new Date(dateStr + 'T00:00:00');
+        const dateDisplay = dateObj.toLocaleDateString('es-CO', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          timeZone: TIMEZONE
+        });
+        // ✅ Título de fecha
+        const dateHeader = document.createElement('div');
+        dateHeader.style.cssText = 'background: #34495e; color: white; padding: 10px 15px; border-radius: 6px; margin: 15px 0 10px; font-weight: 600;';
+        dateHeader.textContent = `📅 ${dateDisplay.charAt(0).toUpperCase() + dateDisplay.slice(1)} (${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})`;
+        list.appendChild(dateHeader);
+        // ✅ Eventos del día
+        dayEvents.forEach(e => {
+          const d = new Date(e.fecha + 'T' + e.hora);
+          const config = ENCARGADOS[e.encargadoKey];
+          const card = document.createElement('div');
+          card.className = `event-card ${config.class}`;
+          card.style.borderLeftColor = config.color;
+          card.onclick = () => openModal(e);
+          card.innerHTML = `
 <div class="event-header">
-<div class="event-date">${d.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: TIMEZONE })}</div>
+<div class="event-date">🕐 ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', timeZone: TIMEZONE })}</div>
 <div class="event-musician" style="background: ${config.color};">
 ${config.icon} ${e.encargadoDisplay}
 </div>
 </div>
 <div class="event-details">
 <div class="event-detail-row">
-<div class="event-detail"><strong>🕐 Hora:</strong> ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', timeZone: TIMEZONE })}</div>
-</div>
-<div class="event-detail-row">
 <div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
 </div>
 <div class="event-detail-row">
 <div class="event-detail"><strong>💰 Pago:</strong> <span class="event-payment">$${e.pago.toLocaleString('es-CO')}</span></div>
 </div>
+<div class="event-detail-row">
+<div class="event-detail"><strong>🚗 Transporte:</strong> <span class="event-transport">$${e.transPago.toLocaleString('es-CO')}</span></div>
+</div>
 </div>`;
-        list.appendChild(card);
+          list.appendChild(card);
+        });
       });
     }
+    // ✅ TABLA CON PAGINACIÓN
     function renderFullTable() {
       const today = getColombianTodayStr();
       const tbody = document.getElementById('fullEventsBody');
-      const filtered = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
+      filteredEventsForTable = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
         .filter(e => e.fecha >= today)
         .sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
-      if (filtered.length === 0) {
+      // Calcular paginación
+      totalPages = Math.ceil(filteredEventsForTable.length / EVENTS_PER_PAGE) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+      const startIndex = (currentPage - 1) * EVENTS_PER_PAGE;
+      const endIndex = startIndex + EVENTS_PER_PAGE;
+      const pageEvents = filteredEventsForTable.slice(startIndex, endIndex);
+      if (pageEvents.length === 0) {
         tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:30px;color:#7f8c8d;">📭 No hay eventos</td></tr>';
+        updatePagination();
         return;
       }
-      tbody.innerHTML = filtered.map(e => {
+      tbody.innerHTML = pageEvents.map(e => {
         const config = ENCARGADOS[e.encargadoKey];
         const dateObj = new Date(e.fecha + 'T00:00:00');
         const dayName = dateObj.toLocaleDateString('es-CO', { weekday: 'short', timeZone: TIMEZONE });
@@ -2397,8 +2731,29 @@ ${config.icon} ${e.encargadoDisplay}
 </tr>
 `;
       }).join('');
+      updatePagination();
     }
-
+    // ✅ FUNCIONES DE PAGINACIÓN TABLA
+    function updatePagination() {
+      document.getElementById('paginationInfo').textContent = `Página ${currentPage} de ${totalPages} (${filteredEventsForTable.length} eventos)`;
+      document.getElementById('btnPrevPage').disabled = currentPage <= 1;
+      document.getElementById('btnFirstPage').disabled = currentPage <= 1;
+      document.getElementById('btnNextPage').disabled = currentPage >= totalPages;
+      document.getElementById('btnLastPage').disabled = currentPage >= totalPages;
+    }
+    function changePage(delta) {
+      const newPage = currentPage + delta;
+      if (newPage >= 1 && newPage <= totalPages) {
+        currentPage = newPage;
+        renderFullTable();
+      }
+    }
+    function goToPage(page) {
+      if (page >= 1 && page <= totalPages) {
+        currentPage = page;
+        renderFullTable();
+      }
+    }
     // ===== 📜 RENDERIZAR HISTÓRICO =====
     function renderHistory() {
       const monthSelect = document.getElementById('historyMonthSelect');
@@ -2406,28 +2761,21 @@ ${config.icon} ${e.encargadoDisplay}
       const historySummary = document.getElementById('historySummary');
       const historyEventsList = document.getElementById('historyEventsList');
       const historyMusicianBreakdown = document.getElementById('historyMusicianBreakdown');
-
       // Obtener mes actual
       const currentMonth = getCurrentColombianMonth();
       selectedHistoryMonth = currentMonth.key;
-
       // Llenar selector de meses
       populateMonthSelector(monthSelect);
-
       // Renderizar histórico del mes seleccionado
       renderHistoryByMonth();
     }
-
     function populateMonthSelector(select) {
       select.innerHTML = '';
-
       // Agregar meses disponibles desde registros + mes actual
       const availableMonths = new Set();
       monthlyRecords.forEach(r => availableMonths.add(r.monthKey));
       availableMonths.add(getCurrentColombianMonth().key);
-
       const sortedMonths = [...availableMonths].sort().reverse();
-
       sortedMonths.forEach(monthKey => {
         const [year, month] = monthKey.split('-');
         const monthName = getMonthName(month);
@@ -2440,23 +2788,19 @@ ${config.icon} ${e.encargadoDisplay}
         select.appendChild(option);
       });
     }
-
     function renderHistoryByMonth() {
       const monthSelect = document.getElementById('historyMonthSelect');
       const noHistoryMsg = document.getElementById('noHistoryMessage');
       const historySummary = document.getElementById('historySummary');
       const historyEventsList = document.getElementById('historyEventsList');
       const historyMusicianBreakdown = document.getElementById('historyMusicianBreakdown');
-
       selectedHistoryMonth = monthSelect.value;
       const [year, month] = selectedHistoryMonth.split('-');
       const monthName = getMonthName(month);
-
       // Obtener eventos del mes que ya se realizaron
       const colombianTime = getColombianDateTime();
       const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
-
-      const monthEvents = events.filter(e => {
+      const monthEvents = allEvents.filter(e => {
         const eventDate = e.fecha.split('-');
         const eventYear = parseInt(eventDate[0]);
         const eventMonth = parseInt(eventDate[1]);
@@ -2464,13 +2808,11 @@ ${config.icon} ${e.encargadoDisplay}
         return eventYear === parseInt(year) &&
           eventMonth === parseInt(month) &&
           eventDateTime < now;
-      }).sort((a, b) => new Date(b.fecha + 'T' + b.hora) - new Date(a.fecha + 'T' + a.hora));
-
+      }).sort((a, b) => new Date(b.fecha + 'T' + b.hora) - new Date(a.fecha + 'T' + b.hora));
       // Calcular totales
       const totalEvents = monthEvents.length;
       const totalTransport = monthEvents.reduce((sum, e) => sum + (e.transPago || 0), 0);
       const totalEarnings = monthEvents.reduce((sum, e) => sum + (e.pago || 0), 0);
-
       // Desglose por músico
       const musicianBreakdown = {};
       monthEvents.forEach(e => {
@@ -2481,7 +2823,6 @@ ${config.icon} ${e.encargadoDisplay}
         musicianBreakdown[e.encargadoKey].transport += (e.transPago || 0);
         musicianBreakdown[e.encargadoKey].earnings += (e.pago || 0);
       });
-
       // Mostrar mensaje si no hay eventos
       if (totalEvents === 0) {
         noHistoryMsg.classList.remove('hidden');
@@ -2490,9 +2831,7 @@ ${config.icon} ${e.encargadoDisplay}
         historyMusicianBreakdown.innerHTML = '';
         return;
       }
-
       noHistoryMsg.classList.add('hidden');
-
       // Renderizar resumen
       historySummary.innerHTML = `
 <h3>📊 Resumen de ${monthName} ${year}</h3>
@@ -2515,7 +2854,6 @@ ${config.icon} ${e.encargadoDisplay}
 </div>
 </div>
 `;
-
       // Renderizar lista de eventos
       historyEventsList.innerHTML = `
 <h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.1em;">📋 Detalle de Serenatas</h3>
@@ -2546,7 +2884,6 @@ ${config.icon} ${e.encargadoDisplay}
 `;
       }).join('')}
 `;
-
       // Renderizar desglose por músico
       historyMusicianBreakdown.innerHTML = `
 <h4>🎵 Desglose por Músico</h4>
@@ -2568,32 +2905,26 @@ ${Object.entries(musicianBreakdown).map(([key, data]) => {
       }).join('')}
 `;
     }
-
     function showHistory() {
       switchView('history');
     }
-
     // ===== 📊 EXPORTAR HISTÓRICO A CSV =====
     function exportHistoryToCSV() {
       if (monthlyRecords.length === 0 && events.length === 0) {
         alert('⚠️ No hay registros históricos para exportar');
         return;
       }
-
       let csv = 'Mes,Año,Eventos Realizados,Total Transporte,Total Ganancias,Fecha Registro\n';
       monthlyRecords.forEach(r => {
         csv += `${r.monthName},${r.year},${r.eventsCompleted},${r.totalTransport},${r.totalEarnings},${r.savedAt}\n`;
       });
-
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = `Historico-Mariachi-${getColombianTodayStr()}.csv`;
       link.click();
-
       alert('✅ Histórico exportado exitosamente');
     }
-
     async function exportToPDF() {
       const loading = document.getElementById('loading');
       const consolidatedView = document.getElementById('consolidatedView');
@@ -2631,7 +2962,6 @@ ${Object.entries(musicianBreakdown).map(([key, data]) => {
         loading.style.display = 'none';
       }
     }
-
     async function exportToImage() {
       const loading = document.getElementById('loading');
       const consolidatedView = document.getElementById('consolidatedView');
@@ -2668,15 +2998,12 @@ ${Object.entries(musicianBreakdown).map(([key, data]) => {
         loading.style.display = 'none';
       }
     }
-
     // ===== ✅ FUNCIÓN ACTUALIZADA DE ESTADÍSTICAS =====
     function updateStats() {
       const colombianTime = getColombianDateTime();
       const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
       const currentMonth = getCurrentColombianMonth();
-
       checkAndSaveMonthChange();
-
       const currentMonthPastEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
         .filter(e => {
           const eventDate = e.fecha.split('-');
@@ -2687,59 +3014,53 @@ ${Object.entries(musicianBreakdown).map(([key, data]) => {
             eventMonth === currentMonth.month &&
             eventDateTime < now;
         });
-
       const futureEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
         .filter(e => {
           const eventDateTime = new Date(e.fecha + 'T' + e.hora);
           return eventDateTime >= now;
         });
-
       const allPastEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
         .filter(e => {
           const eventDateTime = new Date(e.fecha + 'T' + e.hora);
           return eventDateTime < now;
         });
-
       const totalTransport = currentMonthPastEvents.reduce((sum, e) => sum + (e.transPago || 0), 0);
       const totalReal = currentMonthPastEvents.reduce((sum, e) => sum + (e.pago || 0), 0);
-
       document.getElementById('totalEvents').textContent = '$' + totalTransport.toLocaleString('es-CO');
       document.getElementById('confirmedEvents').textContent = futureEvents.filter(e => e.status === 'confirmado').length;
       document.getElementById('completedEvents').textContent = allPastEvents.length;
       document.getElementById('totalEarnings').textContent = '$' + totalReal.toLocaleString('es-CO');
-
       const monthLabel = `${getMonthName(currentMonth.month)} ${currentMonth.year}`;
       document.getElementById('currentMonthLabel').textContent = monthLabel;
       document.getElementById('transportMonthLabel').textContent = monthLabel;
       document.getElementById('earningsMonthLabel').textContent = monthLabel;
     }
-
     function render() {
       renderNextThreeDaysWithEvents();
       if (currentView === 'calendar') renderCalendar();
       else if (currentView === 'list') renderList();
       else if (currentView === 'table') renderFullTable();
+      else if (currentView === 'consolidated') renderConsolidatedView();
       else if (currentView === 'history') renderHistory();
       updateStats();
     }
-
     async function initApp() {
       const info = document.getElementById('dataInfo');
       const loading = document.getElementById('loading');
       const colombianTime = getColombianDateTime();
       document.getElementById('currentDate').textContent = colombianTime.full;
       document.getElementById('lastUpdate').textContent = colombianTime.full;
-
-      loadMonthlyRecords();
-
       try {
+        // ✅ Inicializar IndexedDB
+        await openDatabase();
+        await loadMonthlyRecords();
         loading.style.display = 'block';
         info.textContent = '🔄 Conectando con Google Sheets...';
         const start = Date.now();
-        events = await loadEventsFromSheet();
+        allEvents = await loadEventsFromSheet();
+        events = allEvents; // Eventos filtrados por fecha
         const time = ((Date.now() - start) / 1000).toFixed(2);
         loading.style.display = 'none';
-
         if (events.length > 0) {
           const byEncargado = events.reduce((acc, e) => {
             acc[e.encargadoKey] = (acc[e.encargadoKey] || 0) + 1;
@@ -2748,19 +3069,16 @@ ${Object.entries(musicianBreakdown).map(([key, data]) => {
           const summary = Object.entries(byEncargado)
             .map(([k, c]) => `${ENCARGADOS[k].icon} ${c}`)
             .join(' | ');
-          info.innerHTML = `<strong>✅ ${events.length} eventos cargados</strong> <span style="margin-left:10px;opacity:0.8">(${time}s)</span><br><small>${summary}</small>`;
+          info.innerHTML = `<strong>✅ ${events.length} eventos cargados</strong> <span style="margin-left:10px;opacity:0.8">(${time}s)</span><br><small>${summary}</small><br><small style="color:#27ae60">🚀 Optimizado: Filtro fecha + Paginación Lista/Agenda + IndexedDB</small>`;
           info.style.background = '#e8f5e9';
           info.style.color = '#2e7d32';
-
           if (events.length > 0) {
             const firstEvent = events.sort((a, b) => a.fecha.localeCompare(b.fecha))[0];
             const [year, month] = firstEvent.fecha.split('-').map(Number);
             currentCalendarMonth = new Date(year, month - 1, 1);
           }
-
           const currentMonth = getCurrentColombianMonth();
           lastSavedMonth = currentMonth.key;
-
           renderFilterButtons();
           render();
         } else {
@@ -2777,7 +3095,6 @@ ${Object.entries(musicianBreakdown).map(([key, data]) => {
       }
       switchView(currentView);
     }
-
     document.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
