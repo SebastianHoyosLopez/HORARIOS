@@ -1639,11 +1639,11 @@
         <button class="btn btn-all" onclick="switchView('consolidated')">📄 Agenda</button>
         <button class="btn btn-history" onclick="switchView('history')">📜 Histórico</button>
       </div>
-      <div class="export-buttons">
+      <!-- <div class="export-buttons">
         <button class="btn btn-export" onclick="exportToPDF()">📥 PDF</button>
         <button class="btn btn-export" onclick="exportToImage()">📷 Imagen</button>
         <button class="btn btn-export" onclick="exportHistoryToCSV()">📊 CSV Histórico</button>
-      </div>
+      </div> -->
     </div>
     <div id="calendarView" class="calendar-view hidden">
       <h2 class="view-title">
@@ -1779,7 +1779,7 @@
     const DATE_RANGE_MONTHS_BACK = 6;
     const DATE_RANGE_MONTHS_FORWARD = 12;
     // ✅ Configuración de paginación
-    const EVENTS_PER_PAGE = 50;
+    const EVENTS_PER_PAGE = 15;
     const LIST_DAYS_PER_PAGE = 5; // ✅ 5 días por página en lista
     let currentPage = 1;
     let totalPages = 1;
