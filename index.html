@@ -4,24 +4,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎺 Gestión Mariachi 2026</title>
+  <title>🎺 Mariachi - Agenda Corporativa 2026</title>
   <style>
     :root {
-      /* Paleta de Oficina Clara */
-      --bg-body: #f4f6f9;
+      --bg-body: #f5f7fa;
       --bg-card: #ffffff;
       --text-primary: #2c3e50;
       --text-secondary: #546e7a;
-      --primary: #0056b3;
+      --primary: #1976d2;
       --primary-light: #e3f2fd;
       --success: #2e7d32;
       --success-light: #e8f5e9;
       --warning: #ed6c02;
       --warning-light: #fff3e0;
       --danger: #d32f2f;
+      --purple: #7b1fa2;
+      --purple-light: #f3e5f5;
+      --orange: #f57c00;
+      --orange-light: #ffe0b2;
+      --teal: #00897b;
+      --teal-light: #e0f2f1;
       --border: #e0e0e0;
-      --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-      --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+      --radius: 8px;
     }
 
     * {
@@ -35,175 +41,356 @@
       background-color: var(--bg-body);
       color: var(--text-primary);
       line-height: 1.6;
-      font-size: 18px;
-      padding: 20px;
+      font-size: 14px;
+      padding: 0;
     }
 
     .container {
       max-width: 1400px;
       margin: 0 auto;
+      padding: 20px;
     }
 
     /* ===== HEADER ===== */
     header {
-      text-align: center;
-      padding: 30px 20px;
       background: var(--bg-card);
-      border-radius: 12px;
+      border-radius: var(--radius);
+      padding: 20px 30px;
       margin-bottom: 20px;
       box-shadow: var(--shadow);
-      border-bottom: 4px solid var(--primary);
+      border-left: 5px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
     }
 
-    header h1 {
-      font-size: 2.2rem;
-      color: var(--primary);
+    .header-title h1 {
+      font-size: 1.8rem;
+      color: var(--text-primary);
       margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    header p {
-      font-size: 1.1rem;
+    .header-title p {
+      font-size: 0.9rem;
       color: var(--text-secondary);
     }
 
-    /* ===== SELECTOR DE MESES (ARRIBA) ===== */
+    .header-info {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .header-info .version {
+      margin-top: 5px;
+      font-weight: 500;
+    }
+
+    /* ===== SELECTOR DE MESES ===== */
     .month-nav {
       background: var(--bg-card);
-      border-radius: 12px;
+      border-radius: var(--radius);
       padding: 15px 20px;
       margin-bottom: 20px;
       box-shadow: var(--shadow);
       display: flex;
-      justify-content: center;
-      align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
 
     .month-nav .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
+      padding: 8px 20px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.9rem;
       transition: all 0.2s;
-      background: #e0e0e0;
+      background: white;
       color: var(--text-primary);
     }
 
     .month-nav .btn.active {
       background: var(--primary);
       color: white;
-      box-shadow: 0 2px 4px rgba(0, 86, 179, 0.3);
+      border-color: var(--primary);
     }
 
     .month-nav .btn:hover:not(.active) {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    /* ===== DASHBOARD STATS ===== */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-bottom: 25px;
-    }
-
-    .stat-card {
-      background: var(--bg-card);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      text-align: center;
-      border-left: 5px solid var(--primary);
-      transition: transform 0.2s;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .stat-card h3 {
-      font-size: 2.5rem;
-      color: var(--text-primary);
-      margin-bottom: 5px;
-      font-weight: 700;
-    }
-
-    .stat-card p {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-    }
-
-    .stat-card.success {
-      border-left-color: var(--success);
-    }
-
-    .stat-card.success h3 {
-      color: var(--success);
-    }
-
-    .stat-card.warning {
-      border-left-color: var(--warning);
-    }
-
-    .stat-card.warning h3 {
-      color: var(--warning);
-    }
-
-    .stat-card.money {
-      border-left-color: var(--primary);
-    }
-
-    .stat-card.money h3 {
+      border-color: var(--primary);
       color: var(--primary);
     }
 
-    /* ===== SECCIONES GENERALES ===== */
-    .section-title {
-      font-size: 1.5rem;
-      color: var(--text-primary);
+    /* ===== PRÓXIMOS 3 DÍAS ===== */
+    .upcoming-section {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
       margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--border);
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--primary);
+    }
+
+    .upcoming-section.hidden {
+      display: none;
+    }
+
+    .upcoming-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .upcoming-header h2 {
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .upcoming-header .date-range {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background: var(--bg-body);
+      padding: 5px 12px;
+      border-radius: 4px;
+    }
+
+    .upcoming-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+    }
+
+    .upcoming-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+
+    .upcoming-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .upcoming-card.today {
+      border: 2px solid var(--orange);
+    }
+
+    .upcoming-card-header {
+      padding: 12px 15px;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .upcoming-card.today .upcoming-card-header {
+      background: var(--orange);
+    }
+
+    .upcoming-card.saturday .upcoming-card-header {
+      background: var(--warning);
+    }
+
+    .upcoming-card.friday .upcoming-card-header {
+      background: var(--teal);
+    }
+
+    .upcoming-card-body {
+      padding: 15px;
+      background: white;
+    }
+
+    .upcoming-event {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .upcoming-time {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .upcoming-place {
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .upcoming-person {
+      margin-left: auto;
+    }
+
+    .badge-person {
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .badge-tatan {
+      background: var(--purple);
+      color: white;
+    }
+
+    .badge-cacho {
+      background: var(--orange);
+      color: white;
+    }
+
+    .badge-default {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* ===== STATS BAR ===== */
+    .stats-bar {
+      background: var(--success-light);
+      border-radius: var(--radius);
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--success);
+    }
+
+    .stats-bar-header {
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 10px;
     }
 
-    .section-container {
+    .stats-bar-header h3 {
+      color: var(--success);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stats-bar-info {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .stats-icons {
+      display: flex;
+      gap: 25px;
+      margin-top: 8px;
+      font-size: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .stats-icons span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      padding: 5px 12px;
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .stats-icons .icon {
+      font-size: 1.2rem;
+    }
+
+    .stats-icons .value {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stats-icons .label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ===== FILTROS POR PERSONA ===== */
+    .people-filters {
       background: var(--bg-card);
-      border-radius: 12px;
-      padding: 25px;
+      border-radius: var(--radius);
+      padding: 15px 20px;
+      margin-bottom: 20px;
       box-shadow: var(--shadow);
-      margin-bottom: 30px;
-    }
-
-    /* ===== PESTAÑAS (TABS) ===== */
-    .tabs-nav {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .people-filters .filter-label {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-right: 10px;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      background: white;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .filter-btn.active {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .filter-btn:hover:not(.active) {
+      border-color: var(--primary);
+    }
+
+    /* ===== TABS ===== */
+    .tabs-nav {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 15px 20px;
       margin-bottom: 20px;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 10px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     .tab-btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px 8px 0 0;
+      padding: 10px 20px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.9rem;
       transition: all 0.2s;
-      background: #e0e0e0;
+      background: white;
       color: var(--text-primary);
       display: flex;
       align-items: center;
@@ -211,14 +398,20 @@
     }
 
     .tab-btn:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
     .tab-btn.active {
-      background: var(--primary) !important;
-      color: white !important;
-      border-bottom: 3px solid var(--primary);
+      background: var(--purple);
+      color: white;
+      border-color: var(--purple);
+    }
+
+    .tab-btn.primary {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
     }
 
     .tab-content {
@@ -242,146 +435,58 @@
       }
     }
 
-    /* ===== LAYOUT: TABLA + NOTIFICACIONES LATERALES ===== */
-    .main-content-grid {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 20px;
-      align-items: start;
-    }
-
-    /* ===== PANEL DE NOTIFICACIONES (PRÓXIMOS EVENTOS) - COMPACTO ===== */
-    .notifications-panel {
+    /* ===== BÚSQUEDA ===== */
+    .search-container {
       background: var(--bg-card);
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: var(--shadow);
-      border-top: 4px solid var(--warning);
-      position: sticky;
-      top: 20px;
-      height: fit-content;
-      max-height: 500px;
-      overflow-y: auto;
-    }
-
-    .notifications-panel h3 {
-      font-size: 1rem;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .notification-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    /* ✅ Estilos compactos para agrupación por días */
-    .notification-day-group {
-      margin-bottom: 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px dashed var(--border);
-    }
-
-    .notification-day-group:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .notification-day-header {
-      background: var(--warning);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .notification-day-header::before {
-      content: "📅";
-      font-size: 0.9rem;
-    }
-
-    .notification-item {
-      background: var(--warning-light);
-      border: 1px solid #ffe0b2;
-      border-radius: 6px;
-      padding: 8px 10px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      border-left: 3px solid var(--warning);
-      margin-left: 6px;
-      line-height: 1.3;
-    }
-
-    .notification-item:hover {
-      transform: translateX(2px);
-      box-shadow: var(--shadow);
-      background: #ffe0b2;
-    }
-
-    .notification-item .place {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .notification-item .person {
-      font-size: 0.8rem;
-      color: var(--text-primary);
-      margin-top: 2px;
-      display: block;
-      font-weight: 500;
-    }
-
-    .notification-empty {
-      text-align: center;
-      padding: 15px 10px;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      line-height: 1.4;
-    }
-
-    /* ===== CONTROLES Y BÚSQUEDA ===== */
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: flex-end;
-      align-items: center;
+      border-radius: var(--radius);
+      padding: 15px 20px;
       margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 300px;
     }
 
     .search-box input {
-      padding: 12px 20px;
+      width: 100%;
+      padding: 10px 15px;
       border: 2px solid var(--border);
       border-radius: 6px;
-      font-size: 1rem;
-      width: 300px;
-      background: #fafafa;
+      font-size: 0.95rem;
+      transition: all 0.2s;
     }
 
     .search-box input:focus {
       outline: none;
       border-color: var(--primary);
-      background: white;
     }
 
-    /* ===== TABLAS ===== */
+    /* ===== TABLA COMPLETA ===== */
+    .table-section {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .table-header {
+      margin-bottom: 20px;
+    }
+
+    .table-header h2 {
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .table-responsive {
       overflow-x: auto;
     }
@@ -389,25 +494,25 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--bg-card);
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
     thead {
-      background: var(--primary);
+      background: #37474f;
       color: white;
     }
 
     th {
-      padding: 15px;
+      padding: 12px 10px;
       text-align: left;
       font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
+      user-select: none;
     }
 
     th:hover {
-      background: rgba(0, 86, 179, 0.9);
+      background: #263238;
     }
 
     tbody tr {
@@ -421,41 +526,276 @@
     }
 
     td {
-      padding: 15px;
+      padding: 12px 10px;
       vertical-align: middle;
+    }
+
+    .table-date {
+      font-weight: 600;
       color: var(--text-primary);
     }
 
-    /* Tabla Historial - Estilo diferenciado */
-    #historialTable thead {
-      background: var(--success);
-    }
-
-    #historialTable tbody tr {
-      background: var(--success-light);
-    }
-
-    #historialTable tbody tr:hover {
-      background: #c8e6c9;
-    }
-
-    /* Badges */
-    .badge {
-      padding: 6px 12px;
-      border-radius: 20px;
+    .table-day {
       font-size: 0.85rem;
-      font-weight: 700;
-      display: inline-block;
+      color: var(--text-secondary);
     }
 
-    .badge-past {
-      background: var(--success-light);
+    .table-money {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    .table-money.paid {
       color: var(--success);
     }
 
-    .badge-future {
-      background: var(--warning-light);
-      color: var(--warning);
+    .badge-status {
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: inline-block;
+    }
+
+    .badge-confirmed {
+      background: var(--success);
+      color: white;
+    }
+
+    .badge-pending {
+      background: var(--warning);
+      color: white;
+    }
+
+    .musicians-count {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+    }
+
+    /* ===== HISTÓRICO - RESUMEN DEL MES ===== */
+    .history-section {
+      margin-bottom: 30px;
+    }
+
+    .history-section-title {
+      font-size: 1.4rem;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* Resumen del mes - Estilo imagen */
+    .month-resume {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: var(--radius);
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: var(--shadow-hover);
+    }
+
+    .month-resume-header {
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .resume-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .resume-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      transition: transform 0.2s, background 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .resume-card:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .resume-card-value {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .resume-card-label {
+      font-size: 0.9rem;
+      opacity: 0.95;
+      font-weight: 500;
+    }
+
+    /* ===== DETALLE DE SERENATAS - TARJETAS ===== */
+    .detalle-serenatas-section {
+      margin-top: 25px;
+    }
+
+    .detalle-serenatas-title {
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .serenata-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 15px 20px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--success);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .serenata-card:hover {
+      transform: translateX(4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .serenata-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .serenata-date-time {
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+
+    .serenata-date-time .calendar-icon {
+      background: var(--danger);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .serenata-date-time .clock-icon {
+      color: var(--text-secondary);
+    }
+
+    .serenata-badge {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .serenata-badge-tatan {
+      background: var(--purple);
+      color: white;
+    }
+
+    .serenata-badge-cacho {
+      background: var(--orange);
+      color: white;
+    }
+
+    .serenata-badge-default {
+      background: var(--primary);
+      color: white;
+    }
+
+    .serenata-card-body {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+
+    .serenata-detail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+    }
+
+    .serenata-detail .icon {
+      font-size: 1.1rem;
+    }
+
+    .serenata-detail.money-transport {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .serenata-detail.money-payment {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* ===== HISTORIAL POR MES ===== */
+    .history-month-section {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .history-month-header {
+      background: var(--success-light);
+      border-left: 4px solid var(--success);
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    .history-month-header h3 {
+      color: var(--success);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .history-month-stats {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .history-month-stats span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     /* ===== MODAL ===== */
@@ -479,12 +819,14 @@
 
     .modal-content {
       background: white;
-      border-radius: 12px;
+      border-radius: var(--radius);
       max-width: 600px;
       width: 100%;
       padding: 30px;
       position: relative;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal-close {
@@ -494,10 +836,19 @@
       font-size: 2rem;
       cursor: pointer;
       color: var(--text-secondary);
+      line-height: 1;
     }
 
     .modal-close:hover {
       color: var(--danger);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border);
     }
 
     .modal-row {
@@ -505,7 +856,7 @@
       justify-content: space-between;
       padding: 12px 0;
       border-bottom: 1px solid #eee;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     .modal-label {
@@ -525,84 +876,108 @@
       text-align: center;
       padding: 40px;
       color: var(--text-secondary);
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
 
     .error {
       color: var(--danger);
       background: #ffebee;
       border-radius: 8px;
+      padding: 20px;
     }
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      margin-top: 40px;
-      border-top: 1px solid var(--border);
+    .historical-month-notice {
+      background: var(--warning-light);
+      border-left: 4px solid var(--warning);
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      color: var(--warning);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 1100px) {
-      .main-content-grid {
+    @media (max-width: 1024px) {
+      .upcoming-cards {
         grid-template-columns: 1fr;
       }
 
-      .notifications-panel {
-        position: static;
-        max-height: none;
+      .search-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        min-width: 100%;
+      }
+
+      .resume-cards {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 768px) {
       body {
-        font-size: 16px;
-        padding: 10px;
+        font-size: 13px;
       }
 
-      header h1 {
-        font-size: 1.8rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .controls {
+      header {
         flex-direction: column;
-        align-items: stretch;
+        text-align: center;
       }
 
-      .search-box input {
-        width: 100%;
+      .header-info {
+        text-align: center;
       }
 
+      .month-nav,
+      .people-filters,
       .tabs-nav {
         flex-direction: column;
       }
 
+      .month-nav .btn,
+      .filter-btn,
       .tab-btn {
         width: 100%;
         justify-content: center;
       }
 
       table {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
 
       th,
       td {
-        padding: 10px;
+        padding: 8px 6px;
       }
 
-      .month-nav {
+      .resume-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .serenata-card-header {
         flex-direction: column;
+        align-items: flex-start;
       }
 
-      .month-nav .btn {
-        width: 100%;
-        max-width: 200px;
+      .serenata-card-body {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .stats-icons {
+        gap: 10px;
+      }
+
+      .stats-icons span {
+        flex: 1;
+        min-width: 150px;
+        justify-content: center;
       }
     }
   </style>
@@ -610,100 +985,86 @@
 
 <body>
   <div class="container">
+    <!-- HEADER -->
     <header>
-      <h1>🎺 Gestión Mariachi 2026</h1>
-      <p>Panel de Control y Agenda de Eventos</p>
+      <div class="header-title">
+        <h1>📋 Mariachi - Agenda Corporativa 2026</h1>
+        <p>Sistema de Gestión de Presentaciones y Reservas</p>
+      </div>
+      <div class="header-info">
+        <div id="currentDateTime"></div>
+        <div class="version">Versión 2.0 - Tabla Futuros / Histórico Pasados 🎯</div>
+      </div>
     </header>
 
-    <!-- ✅ SELECTOR DE MESES (ARRIBA) -->
+    <!-- SELECTOR DE MESES -->
     <div class="month-nav" id="monthSelector"></div>
 
-    <!-- ESTADÍSTICAS GENERALES -->
-    <div class="stats-grid" id="statsContainer">
-      <div class="stat-card">
-        <h3>...</h3>
-        <p>Cargando</p>
+    <!-- PRÓXIMOS 3 DÍAS CON EVENTOS -->
+    <div class="upcoming-section" id="upcomingSection">
+      <div class="upcoming-header">
+        <h2>📅 Próximos 3 Días con Eventos</h2>
+        <div class="date-range" id="dateRange"></div>
+      </div>
+      <div class="upcoming-cards" id="upcomingCards">
+        <div class="loading">Cargando eventos próximos...</div>
       </div>
     </div>
 
-    <!-- CONTROLES Y BÚSQUEDA -->
-    <div class="controls">
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stats-bar-header">
+        <h3>📊 Resumen del Mes</h3>
+        <span class="stats-bar-info" id="loadTime">(0.00s)</span>
+      </div>
+      <div class="stats-icons" id="statsIcons">
+        <!-- Icons will be inserted here -->
+      </div>
+    </div>
+
+    <!-- FILTROS POR PERSONA -->
+    <div class="people-filters" id="peopleFilters">
+      <span class="filter-label">👥 Filtros:</span>
+      <!-- Filter buttons will be inserted here -->
+    </div>
+
+    <!-- BÚSQUEDA -->
+    <div class="search-container">
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="🔍 Buscar evento, lugar o encargado...">
       </div>
     </div>
 
-    <!-- SECCIÓN CON PESTAÑAS: PENDIENTES / HISTORIAL -->
-    <div class="section-container">
-      <!-- Navegación de pestañas -->
-      <div class="tabs-nav">
-        <button class="tab-btn active" id="tab-pendientes" onclick="switchTab('pendientes')">
-          📋 Agenda Pendiente
-        </button>
-        <button class="tab-btn" id="tab-historial" onclick="switchTab('historial')">
-          📜 Historial Realizados
-        </button>
-      </div>
+    <!-- TABS -->
+    <div class="tabs-nav" id="tabsNav">
+      <!-- Los tabs se generarán dinámicamente -->
+    </div>
 
-      <!-- Contenido: Agenda Pendiente (visible por defecto) -->
-      <div id="content-pendientes" class="tab-content active">
-        <p style="color:var(--text-secondary); margin-bottom:15px; font-size:0.95rem">
-          💡 Mostrando solo eventos futuros. Los realizados aparecen en el historial.
-        </p>
-
-        <!-- ✅ LAYOUT: TABLA + NOTIFICACIONES LATERALES -->
-        <div class="main-content-grid">
-          <!-- Tabla de eventos pendientes -->
-          <div class="table-responsive">
-            <table id="eventsTable">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Hora</th>
-                  <th>Lugar</th>
-                  <th>Encargado</th>
-                  <th>Pago Estimado</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody id="tableBody">
-                <tr>
-                  <td colspan="6" class="loading">Cargando datos...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- ✅ PANEL LATERAL: PRÓXIMOS 3 DÍAS (como notificación) -->
-          <div class="notifications-panel">
-            <h3>🔔 Próximos Eventos</h3>
-            <div class="notification-list" id="upcomingContainer">
-              <div class="loading" style="padding:10px;font-size:0.9rem">Cargando...</div>
-            </div>
-          </div>
+    <!-- CONTENIDO TABLA -->
+    <div id="tab-tabla" class="tab-content active">
+      <div class="table-section">
+        <div class="table-header">
+          <h2>📊 Eventos Futuros</h2>
         </div>
-      </div>
-
-      <!-- Contenido: Historial (oculto por defecto) -->
-      <div id="content-historial" class="tab-content">
-        <p style="color:var(--text-secondary); margin-bottom:15px; font-size:0.95rem">
-          ✅ Eventos completados este mes con pagos confirmados.
-        </p>
         <div class="table-responsive">
-          <table id="historialTable">
+          <table id="eventsTable">
             <thead>
               <tr>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Lugar</th>
-                <th>Encargado</th>
-                <th>Pago Confirmado</th>
-                <th>TransPago</th>
+                <th>FECHA</th>
+                <th>DÍA</th>
+                <th>HORA</th>
+                <th>LUGAR</th>
+                <th>ENCARGADO</th>
+                <th>NOTAS</th>
+                <th>TRANSP.</th>
+                <th>PAGO</th>
+                <th>ESTADO</th>
+                <th>👥 MÚSICOS</th>
               </tr>
             </thead>
-            <tbody id="historialBody">
+            <tbody id="tableBody">
               <tr>
-                <td colspan="6" class="loading">Cargando historial...</td>
+                <td colspan="10" class="loading">Cargando datos...</td>
               </tr>
             </tbody>
           </table>
@@ -711,45 +1072,59 @@
       </div>
     </div>
 
-    <!-- MONITOREO DE ENCARGADOS E INGRESOS -->
-    <div class="section-container">
-      <h2 class="section-title">👥 Monitoreo de Encargados</h2>
-      <p style="color:var(--text-secondary); margin-bottom:15px; font-size:0.95rem">
-        📊 Estadísticas de eventos por encargado: totales, realizados y pendientes.
-      </p>
-      <div class="table-responsive">
-        <table id="encargadosTable">
-          <thead>
-            <tr>
-              <th>Encargado</th>
-              <th>Eventos Totales</th>
-              <th>Realizados</th>
-              <th>Pendientes</th>
-            </tr>
-          </thead>
-          <tbody id="encargadosBody">
-            <tr>
-              <td colspan="4" class="loading">Calculando estadísticas...</td>
-            </tr>
-          </tbody>
-        </table>
+    <!-- CONTENIDO LISTA -->
+    <div id="tab-lista" class="tab-content">
+      <div class="table-section">
+        <div class="table-header">
+          <h2>📝 Vista de Lista (Próximos)</h2>
+        </div>
+        <div id="listaView" class="loading">Cargando...</div>
       </div>
     </div>
 
-    <footer>
-      <p>💡 Sistema de Gestión Mariachi • Diseño Oficina 2026</p>
-      <p style="margin-top:5px; font-size:0.9rem">
-        Los próximos eventos solo se muestran cuando se visualiza el mes actual.
-      </p>
-    </footer>
+    <!-- CONTENIDO CALENDARIO -->
+    <div id="tab-calendario" class="tab-content">
+      <div class="table-section">
+        <div class="table-header">
+          <h2>📅 Vista de Calendario</h2>
+        </div>
+        <div id="calendarView" class="loading">Cargando...</div>
+      </div>
+    </div>
+
+    <!-- CONTENIDO AGENDA -->
+    <div id="tab-agenda" class="tab-content">
+      <div class="table-section">
+        <div class="table-header">
+          <h2>📋 Vista de Agenda</h2>
+        </div>
+        <div id="agendaView" class="loading">Cargando...</div>
+      </div>
+    </div>
+
+    <!-- CONTENIDO HISTÓRICO -->
+    <div id="tab-historico" class="tab-content">
+      <div class="table-section">
+        <div class="table-header">
+          <h2>📜 Histórico de Serenatas Realizadas</h2>
+        </div>
+
+        <!-- Resumen del mes seleccionado -->
+        <div id="monthResumeContainer"></div>
+
+        <!-- Detalle de Serenatas -->
+        <div id="historicoView">
+          <div class="loading">Cargando histórico...</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL DETALLE -->
   <div class="modal" id="eventModal">
     <div class="modal-content">
       <span class="modal-close" id="modalClose">&times;</span>
-      <h3 class="modal-title" id="modalTitle" style="color:var(--primary); margin-bottom:20px; font-size:1.5rem">
-        Detalles</h3>
+      <h3 class="modal-title" id="modalTitle">Detalles del Evento</h3>
       <div id="modalBody"></div>
     </div>
   </div>
@@ -763,37 +1138,74 @@
         label: 'Marzo 2026',
         month: 2,
         year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=443976092&single=true&output=csv    '
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=443976092&single=true&output=csv'
       },
       'abril-2026': {
         label: 'Abril 2026',
         month: 3,
         year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=72877865&single=true&output=csv    '
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=72877865&single=true&output=csv'
       },
       'mayo-2026': {
         label: 'Mayo 2026',
         month: 4,
         year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=2102285288&single=true&output=csv    '
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=2102285288&single=true&output=csv'
+      },
+      'junio-2026': {
+        label: 'Junio 2026',
+        month: 5,
+        year: 2026,
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=1122972528&single=true&output=csv'
+      },
+      'julio-2026': {
+        label: 'Julio 2026',
+        month: 6,
+        year: 2026,
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=777653076&single=true&output=csv'
+      },
+      'agosto-2026': {
+        label: 'Agosto 2026',
+        month: 7,
+        year: 2026,
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=317038201&single=true&output=csv'
       }
     };
 
     // ========================================
     // ESTADO GLOBAL
     // ========================================
-    let currentMonth = 'marzo-2026';
+    let currentMonth = 'abril-2026';
     let allEvents = [];
     let filteredEvents = [];
+    let currentFilter = 'todos';
+    let loadStartTime = 0;
 
     // ========================================
     // INICIALIZACIÓN
     // ========================================
     document.addEventListener('DOMContentLoaded', () => {
+      updateDateTime();
+      setInterval(updateDateTime, 60000);
       initMonthSelector();
       loadMonthData(currentMonth);
       setupEventListeners();
     });
+
+    function updateDateTime() {
+      const now = new Date();
+      const options = {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      };
+      document.getElementById('currentDateTime').textContent =
+        now.toLocaleString('es-CO', options);
+    }
 
     function initMonthSelector() {
       const container = document.getElementById('monthSelector');
@@ -816,13 +1228,13 @@
     }
 
     async function loadMonthData(monthKey) {
+      loadStartTime = performance.now();
       const config = SHEETS_CONFIG[monthKey];
       const tbody = document.getElementById('tableBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="loading">Cargando ${config.label}...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="10" class="loading">Cargando ${config.label}...</td></tr>`;
 
-      document.getElementById('upcomingContainer').innerHTML = '<div class="loading" style="padding:10px;font-size:0.9rem">Actualizando...</div>';
-      document.getElementById('encargadosBody').innerHTML = '<tr><td colspan="4" class="loading">Calculando...</td></tr>';
-      document.getElementById('historialBody').innerHTML = '<tr><td colspan="6" class="loading">Cargando historial...</td></tr>';
+      document.getElementById('upcomingCards').innerHTML = '<div class="loading">Cargando...</div>';
+      document.getElementById('historicoView').innerHTML = '<div class="loading">Cargando histórico...</div>';
 
       try {
         const response = await fetch(config.csvUrl);
@@ -831,28 +1243,102 @@
         allEvents = parseCSV(csvText);
         applyFilters();
 
-        renderTable();
-        renderHistorial();
-        renderUpcomingNotifications();
-        renderEncargadosStats();
-        updateStats();
+        const loadTime = ((performance.now() - loadStartTime) / 1000).toFixed(2);
+        renderAll(loadTime);
+
+        // Cambiar automáticamente al tab correspondiente según el tipo de mes
+        switchToDefaultTab(monthKey);
       } catch (error) {
         console.error('Error:', error);
-        tbody.innerHTML = `<tr><td colspan="6" class="error">⚠️ Error al cargar datos. Verifica la URL de la hoja de cálculo.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" class="error">⚠️ Error al cargar datos. Verifica la URL de la hoja de cálculo.</td></tr>`;
       }
     }
 
     // ========================================
-    // FUNCIÓN PARA CAMBIAR PESTAÑAS
+    // CAMBIO DE TABS
     // ========================================
     function switchTab(tabName) {
-      document.getElementById('tab-pendientes').classList.toggle('active', tabName === 'pendientes');
-      document.getElementById('tab-historial').classList.toggle('active', tabName === 'historial');
-      document.getElementById('content-pendientes').classList.toggle('active', tabName === 'pendientes');
-      document.getElementById('content-historial').classList.toggle('active', tabName === 'historial');
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-      if (tabName === 'pendientes') renderTable();
-      if (tabName === 'historial') renderHistorial();
+      event.target.classList.add('active');
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+
+      if (tabName === 'tabla') renderTable();
+      if (tabName === 'lista') renderLista();
+      if (tabName === 'calendario') renderCalendario();
+      if (tabName === 'agenda') renderAgenda();
+      if (tabName === 'historico') {
+        renderHistoricoCompleto();
+      }
+    }
+
+    // ========================================
+    // CAMBIAR AUTOMÁTICAMENTE AL TAB POR DEFECTO
+    // ========================================
+    function switchToDefaultTab(monthKey) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      if (isPastMonth(monthKey)) {
+        // Mes pasado: mostrar Histórico
+        document.getElementById('tab-historico').classList.add('active');
+        renderHistoricoCompleto();
+      } else if (isFutureMonth(monthKey)) {
+        // Mes futuro: mostrar Tabla
+        document.getElementById('tab-tabla').classList.add('active');
+        renderTable();
+      } else {
+        // Mes actual: mostrar Tabla por defecto
+        document.getElementById('tab-tabla').classList.add('active');
+        renderTable();
+      }
+    }
+
+    // ========================================
+    // RENDERIZADO DINÁMICO DE TABS
+    // ========================================
+    function renderTabs() {
+      const tabsNav = document.getElementById('tabsNav');
+
+      let html = '';
+
+      if (isPastMonth(currentMonth)) {
+        // Mes pasado: Solo mostrar Histórico
+        html = `
+          <button class="tab-btn primary active" onclick="switchTab('historico')">
+            📜 Histórico
+          </button>
+        `;
+      } else if (isFutureMonth(currentMonth)) {
+        // Mes futuro: Solo mostrar Tabla
+        html = `
+          <button class="tab-btn primary active" onclick="switchTab('tabla')">
+            📊 Tabla
+          </button>
+        `;
+      } else {
+        // Mes actual: Mostrar todos los tabs
+        html = `
+          <button class="tab-btn primary active" onclick="switchTab('tabla')">
+            📊 Tabla
+          </button>
+          <button class="tab-btn" onclick="switchTab('lista')">
+            📝 Lista
+          </button>
+          <button class="tab-btn" onclick="switchTab('calendario')">
+            📅 Calendario
+          </button>
+          <button class="tab-btn" onclick="switchTab('agenda')">
+            📋 Agenda
+          </button>
+          <button class="tab-btn" onclick="switchTab('historico')">
+            📜 Histórico
+          </button>
+        `;
+      }
+
+      tabsNav.innerHTML = html;
     }
 
     // ========================================
@@ -879,10 +1365,15 @@
     }
 
     function parseCSVLine(line) {
-      const row = []; let current = ''; let inQuotes = false;
+      const row = [];
+      let current = '';
+      let inQuotes = false;
       for (let char of line) {
         if (char === '"') inQuotes = !inQuotes;
-        else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+        else if (char === ',' && !inQuotes) {
+          row.push(current.trim());
+          current = '';
+        }
         else current += char;
       }
       row.push(current.trim());
@@ -935,6 +1426,8 @@
         const eventMes = parseEventMonth(event.fecha);
         if (eventMes !== config.month) return false;
 
+        if (currentFilter !== 'todos' && event.encargado !== currentFilter) return false;
+
         if (term) {
           const searchStr = Object.values(event).join(' ').toLowerCase();
           return searchStr.includes(term);
@@ -952,100 +1445,176 @@
       return meses[parts[2]?.replace('de', '')] ?? -1;
     }
 
-    // ========================================
-    // RENDERIZADO
-    // ========================================
-
-    // 1. ESTADÍSTICAS DASHBOARD
-    function updateStats() {
-      const total = filteredEvents.length;
-      const past = filteredEvents.filter(e => e.isPast).length;
-      const future = total - past;
-      const totalPago = filteredEvents.filter(e => e.isPast && e.pago)
-        .reduce((sum, e) => sum + (parseFloat(e.pago) || 0), 0);
-
-      const container = document.getElementById('statsContainer');
-      container.innerHTML = `
-        <div class="stat-card">
-            <h3>${total}</h3>
-            <p>Total Serenatas Mes</p>
-        </div>
-        <div class="stat-card success">
-            <h3>${past}</h3>
-            <p>Serenatas Realizadas Del Mes</p>
-        </div>
-        <div class="stat-card warning">
-            <h3>${future}</h3>
-            <p>Serenatas Pendientes Del Mes</p>
-        </div>
-        <div class="stat-card money">
-            <h3>${formatMoney(totalPago)}</h3>
-            <p>Ingresos Confirmados Mes</p>
-        </div>
-    `;
+    function getMonthName(monthNum) {
+      const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      return meses[monthNum] || '';
     }
 
-    // ✅ 2. NOTIFICACIONES LATERALES: PRÓXIMOS EVENTOS AGRUPADOS POR DÍAS (COMPACTO)
-    function renderUpcomingNotifications() {
-      const container = document.getElementById('upcomingContainer');
+    function getShortDayName(dateObj) {
+      const days = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+      return days[dateObj.getDay()];
+    }
 
+    function getShortMonthName(dateObj) {
+      const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+      return months[dateObj.getMonth()];
+    }
+
+    // ========================================
+    // FUNCIÓN PARA VERIFICAR SI ES MES PASADO
+    // ========================================
+    function isPastMonth(monthKey) {
+      const config = SHEETS_CONFIG[monthKey];
       const now = new Date();
-      const currentRealMonth = now.getMonth();
-      const currentRealYear = now.getFullYear();
-      const config = SHEETS_CONFIG[currentMonth];
+      const currentYear = now.getFullYear();
+      const currentMonthNum = now.getMonth(); // 0-11 (enero=0, abril=3, etc.)
 
-      if (config.month !== currentRealMonth || config.year !== currentRealYear) {
-        container.innerHTML = `
-          <div class="notification-empty">
-            📭 Eventos visibles solo en el mes actual<br>
-            <small style="display:block;margin-top:5px;opacity:0.8">
-              Selecciona "${new Date().toLocaleString('es-CO', { month: 'long', year: 'numeric' })}"
-            </small>
-          </div>`;
+      // Si el año es menor, es pasado
+      if (config.year < currentYear) return true;
+      // Si es el mismo año pero el mes es menor, es pasado
+      if (config.year === currentYear && config.month < currentMonthNum) return true;
+      return false;
+    }
+
+    // ========================================
+    // FUNCIÓN PARA VERIFICAR SI ES EL MES ACTUAL
+    // ========================================
+    function isCurrentMonth(monthKey) {
+      const config = SHEETS_CONFIG[monthKey];
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonthNum = now.getMonth(); // 0-11
+
+      // Verifica si el año y mes coinciden con el mes actual
+      return config.year === currentYear && config.month === currentMonthNum;
+    }
+
+    // ========================================
+    // FUNCIÓN PARA VERIFICAR SI ES MES FUTURO
+    // ========================================
+    function isFutureMonth(monthKey) {
+      const config = SHEETS_CONFIG[monthKey];
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonthNum = now.getMonth(); // 0-11
+
+      // Si el año es mayor, es futuro
+      if (config.year > currentYear) return true;
+      // Si es el mismo año pero el mes es mayor, es futuro
+      if (config.year === currentYear && config.month > currentMonthNum) return true;
+      return false;
+    }
+
+    // ========================================
+    // RENDERIZADO PRINCIPAL
+    // ========================================
+    function renderAll(loadTime) {
+      renderTabs(); // Renderizar tabs dinámicamente
+      renderUpcomingCards();
+      renderStats(loadTime);
+      renderPeopleFilters();
+      renderTable();
+      renderDateRange();
+    }
+
+    function renderDateRange() {
+      const config = SHEETS_CONFIG[currentMonth];
+      const firstDay = new Date(config.year, config.month, 1);
+      const lastDay = new Date(config.year, config.month + 1, 0);
+
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      const startStr = firstDay.toLocaleDateString('es-CO', options);
+      const endStr = lastDay.toLocaleDateString('es-CO', options);
+
+      document.getElementById('dateRange').textContent = `${startStr} al ${endStr}`;
+    }
+
+    // ===== PRÓXIMOS 3 DÍAS =====
+    function renderUpcomingCards() {
+      const container = document.getElementById('upcomingCards');
+      const section = document.getElementById('upcomingSection');
+      const config = SHEETS_CONFIG[currentMonth];
+      const now = new Date();
+
+      // MODIFICACIÓN: VERIFICAR SI ES EL MES ACTUAL (no pasado ni futuro)
+      if (!isCurrentMonth(currentMonth)) {
+        section.classList.add('hidden');
         return;
+      } else {
+        section.classList.remove('hidden');
       }
 
+      // Filtrar eventos futuros del mes seleccionado
       const futureEvents = allEvents
-        .filter(e => !e.isPast)
+        .filter(e => {
+          const eventDate = parseEventDateObject(e.fecha, e.hora);
+          return !e.isPast && eventDate &&
+            eventDate.getMonth() === config.month &&
+            eventDate.getFullYear() === config.year;
+        })
         .sort((a, b) => parseEventDateObject(a.fecha, a.hora) - parseEventDateObject(b.fecha, b.hora));
 
       if (futureEvents.length === 0) {
-        container.innerHTML = '<div class="notification-empty">✨ Sin eventos próximos</div>';
+        container.innerHTML = '<div class="loading">No hay eventos próximos en este mes</div>';
         return;
       }
 
-      // Agrupar eventos por fecha
+      // Agrupar por fecha única
       const eventsByDate = {};
       for (const event of futureEvents) {
         const dateKey = getDateKey(event.fecha, event.hora);
         if (!dateKey) continue;
         if (!eventsByDate[dateKey]) {
-          eventsByDate[dateKey] = { displayDate: event.fecha, events: [] };
+          eventsByDate[dateKey] = { displayDate: event.fecha, events: [], dateObj: parseEventDateObject(event.fecha, event.hora) };
         }
         eventsByDate[dateKey].events.push(event);
       }
 
-      const uniqueDates = Object.keys(eventsByDate).slice(0, 3);
+      // Obtener los próximos 3 días con eventos
+      const uniqueDates = Object.keys(eventsByDate)
+        .sort()
+        .slice(0, 3);
+
       if (uniqueDates.length === 0) {
-        container.innerHTML = '<div class="notification-empty">📭 Sin eventos próximos</div>';
+        container.innerHTML = '<div class="loading">No hay eventos próximos</div>';
         return;
       }
 
-      // Renderizar compacto agrupado por días
       let html = '';
-      uniqueDates.forEach(dateKey => {
+      uniqueDates.forEach((dateKey, index) => {
         const group = eventsByDate[dateKey];
-        const dayEvents = group.events.slice(0, 5);
+        const isToday = group.dateObj.toDateString() === now.toDateString();
+        const dayOfWeek = group.dateObj.getDay();
+
+        let cardClass = '';
+        if (isToday) cardClass = 'today';
+        else if (dayOfWeek === 6) cardClass = 'saturday';
+        else if (dayOfWeek === 5) cardClass = 'friday';
+
+        const dayName = group.dateObj.toLocaleDateString('es-CO', { weekday: 'long' });
+        const dayDate = group.dateObj.getDate();
+        const monthName = group.dateObj.toLocaleDateString('es-CO', { month: 'long' });
 
         html += `
-          <div class="notification-day-group">
-            <div class="notification-day-header">${group.displayDate}</div>
-            ${dayEvents.map(event => `
-              <div class="notification-item" onclick="showModalEvent('${escapeHtml(event.fecha)}','${escapeHtml(event.hora)}')">
-                  <span class="place">🕐${event.hora} • ${event.lugar || 'Lugar'}</span>
-                  <span class="person">👤 ${event.encargado || '-'}</span>
-              </div>
-            `).join('')}
+          <div class="upcoming-card ${cardClass}">
+            <div class="upcoming-card-header">
+              <span>📅 ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayDate} de ${monthName}</span>
+              <span>${group.events.length} evento${group.events.length > 1 ? 's' : ''}</span>
+            </div>
+            <div class="upcoming-card-body">
+              ${group.events.map(event => `
+                <div class="upcoming-event" onclick="showModalEvent('${escapeHtml(event.fecha)}','${escapeHtml(event.hora)}')" style="cursor:pointer">
+                  <span class="upcoming-time">🕐 ${event.hora}</span>
+                  <span class="upcoming-place">📍 ${event.lugar || 'Sin lugar'}</span>
+                  <div class="upcoming-person">
+                    <span class="badge-person ${getPersonBadgeClass(event.encargado)}">
+                      ${getPersonIcon(event.encargado)} ${event.encargado || '-'}
+                    </span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
           </div>
         `;
       });
@@ -1053,88 +1622,322 @@
       container.innerHTML = html;
     }
 
-    // 3. TABLA PRINCIPAL: SOLO PENDIENTES
+    function getPersonBadgeClass(person) {
+      if (!person) return 'badge-default';
+      const p = person.toLowerCase();
+      if (p.includes('tatan')) return 'badge-tatan';
+      if (p.includes('cacho')) return 'badge-cacho';
+      return 'badge-default';
+    }
+
+    function getPersonIcon(person) {
+      if (!person) return '👤';
+      const p = person.toLowerCase();
+      if (p.includes('tatan')) return '🎹';
+      if (p.includes('cacho')) return '🎺';
+      return '👤';
+    }
+
+    // ===== STATS =====
+    function renderStats(loadTime) {
+      const pastEvents = filteredEvents.filter(e => e.isPast);
+      const futureEvents = filteredEvents.filter(e => !e.isPast);
+
+      const eventosRealizados = pastEvents.length;
+      const eventosPendientes = futureEvents.length;
+
+      // Calcular total de ganancias (suma simple de todos los pagos de eventos realizados)
+      // El pago ya es por músico y por evento, solo sumamos
+      const totalGanancias = pastEvents.reduce((sum, event) => {
+        return sum + (parseFloat(event.pago) || 0);
+      }, 0);
+
+      document.getElementById('loadTime').textContent = `(${loadTime}s)`;
+
+      const iconsHtml = `
+        <span>
+          <span class="icon">✅</span>
+          <div>
+            <div class="value">${eventosRealizados}</div>
+            <div class="label">Realizados</div>
+          </div>
+        </span>
+        <span>
+          <span class="icon">⏳</span>
+          <div>
+            <div class="value">${eventosPendientes}</div>
+            <div class="label">Pendientes</div>
+          </div>
+        </span>
+        <span>
+          <span class="icon">💰</span>
+          <div>
+            <div class="value">${formatMoney(totalGanancias)}</div>
+            <div class="label">Total Ganancias</div>
+          </div>
+        </span>
+      `;
+      document.getElementById('statsIcons').innerHTML = iconsHtml;
+    }
+
+    // ===== FILTROS POR PERSONA =====
+    function renderPeopleFilters() {
+      const container = document.getElementById('peopleFilters');
+      const people = ['todos', ...new Set(allEvents.map(e => e.encargado).filter(Boolean))];
+
+      let html = '<span class="filter-label">👥 Filtros:</span>';
+      html += people.map(person => `
+        <button class="filter-btn ${person === currentFilter ? 'active' : ''}" 
+                onclick="setPersonFilter('${person}')">
+          ${person === 'todos' ? '📋 Todos' : getPersonIcon(person) + ' ' + person}
+        </button>
+      `).join('');
+
+      container.innerHTML = html;
+    }
+
+    function setPersonFilter(person) {
+      currentFilter = person;
+      applyFilters();
+      renderPeopleFilters();
+      renderTable();
+      renderUpcomingCards();
+      renderStats(((performance.now() - loadStartTime) / 1000).toFixed(2));
+    }
+
+    // ===== TABLA COMPLETA - SOLO EVENTOS FUTUROS =====
     function renderTable() {
       const tbody = document.getElementById('tableBody');
-      const pendingEvents = filteredEvents.filter(e => !e.isPast);
 
-      if (pendingEvents.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-results">✨ ¡No hay eventos pendientes! Todos completados.</td></tr>';
+      // VERIFICAR SI ES UN MES PASADO
+      if (isPastMonth(currentMonth)) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" class="no-results">
+              📜 Este es un mes histórico (${getMonthName(SHEETS_CONFIG[currentMonth].month)} ${SHEETS_CONFIG[currentMonth].year}).<br>
+              Consulta la pestaña <strong>"Histórico"</strong> para ver los eventos realizados.
+            </td>
+          </tr>
+        `;
         return;
       }
 
-      tbody.innerHTML = pendingEvents.map(event => `
-        <tr style="cursor:pointer" onclick="showModalEvent('${escapeHtml(event.fecha)}', '${escapeHtml(event.hora)}')">
-            <td><strong>${formatDate(event.fecha)}</strong><br><small style="color:#666">${event.dia}</small></td>
-            <td>${event.hora}</td>
-            <td>${event.lugar || '-'}</td>
-            <td><span style="background:#e3f2fd; color:#0056b3; padding:4px 8px; border-radius:4px; font-size:0.9rem">${event.encargado || '-'}</span></td>
-            <td style="font-weight:bold; color:#999">
-                ${formatMoney(event.pago)} <small style="font-weight:normal; font-size:0.85rem">(estimado)</small>
-            </td>
-            <td>
-                <span class="badge badge-future">⏳ Pendiente</span>
-            </td>
+      // Filtrar solo eventos futuros para la tabla principal
+      const futureEvents = filteredEvents.filter(e => !e.isPast);
+
+      if (futureEvents.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="no-results">✨ No hay eventos futuros para mostrar</td></tr>';
+        return;
+      }
+
+      // Ordenar por fecha
+      const sortedEvents = [...futureEvents].sort((a, b) => {
+        return parseEventDateObject(a.fecha, a.hora) - parseEventDateObject(b.fecha, b.hora);
+      });
+
+      tbody.innerHTML = sortedEvents.map(event => `
+        <tr onclick="showModalEvent('${escapeHtml(event.fecha)}', '${escapeHtml(event.hora)}')" style="cursor:pointer">
+          <td><span class="table-date">${formatDate(event.fecha)}</span></td>
+          <td><span class="table-day">${event.dia}</span></td>
+          <td>${event.hora}</td>
+          <td>${event.lugar || '-'}</td>
+          <td><span class="badge-person ${getPersonBadgeClass(event.encargado)}">${getPersonIcon(event.encargado)} ${event.encargado || '-'}</span></td>
+          <td>${event.notas || '-'}</td>
+          <td class="table-money">${formatMoney(event.transPago)}</td>
+          <td class="table-money ${event.isPast ? 'paid' : ''}">${formatMoney(event.pago)}</td>
+          <td><span class="badge-status ${event.isPast ? 'badge-confirmed' : 'badge-pending'}">${event.isPast ? '✓ CONFIRMADO' : '⏳ PENDIENTE'}</span></td>
+          <td><span class="musicians-count">👥 ${event.numMusicos || '0'}</span></td>
         </tr>
       `).join('');
     }
 
-    // 4. HISTORIAL DE EVENTOS REALIZADOS
-    function renderHistorial() {
-      const tbody = document.getElementById('historialBody');
-      const pastEvents = filteredEvents.filter(e => e.isPast);
+    // ===== RESUMEN DEL MES (ESTILO IMAGEN) =====
+    function renderMonthResume() {
+      const container = document.getElementById('monthResumeContainer');
+      const config = SHEETS_CONFIG[currentMonth];
+      const monthName = getMonthName(config.month);
+      const year = config.year;
+
+      // Filtrar eventos pasados del mes seleccionado
+      const pastEvents = allEvents.filter(e => {
+        const eventDate = parseEventDateObject(e.fecha, e.hora);
+        return e.isPast && eventDate &&
+          eventDate.getMonth() === config.month &&
+          eventDate.getFullYear() === config.year;
+      });
+
+      // Calcular estadísticas
+      const serenatasRealizadas = pastEvents.length;
+      const totalTransporte = pastEvents.reduce((sum, e) => sum + (parseFloat(e.transPago) || 0), 0);
+      const totalGanancias = pastEvents.reduce((sum, e) => sum + (parseFloat(e.pago) || 0), 0);
+      const musicosEncargados = new Set(pastEvents.map(e => e.encargado).filter(Boolean)).size;
+
+      if (serenatasRealizadas === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="month-resume">
+          <div class="month-resume-header">
+            📊 Resumen de ${monthName} ${year}
+          </div>
+          <div class="resume-cards">
+            <div class="resume-card">
+              <span class="resume-card-value">${serenatasRealizadas}</span>
+              <span class="resume-card-label">Serenatas Realizadas</span>
+            </div>
+            <div class="resume-card">
+              <span class="resume-card-value">${formatMoney(totalTransporte)}</span>
+              <span class="resume-card-label">Total Transporte</span>
+            </div>
+            <div class="resume-card">
+              <span class="resume-card-value">${formatMoney(totalGanancias)}</span>
+              <span class="resume-card-label">Total Ganancias</span>
+            </div>
+            <div class="resume-card">
+              <span class="resume-card-value">${musicosEncargados}</span>
+              <span class="resume-card-label">Músicos Encargados</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ===== HISTÓRICO COMPLETO POR MES - TARJETAS COMO EN LA IMAGEN =====
+    function renderHistoricoCompleto() {
+      const container = document.getElementById('historicoView');
+
+      // Renderizar resumen del mes
+      renderMonthResume();
+
+      // Filtrar eventos pasados del mes seleccionado
+      const config = SHEETS_CONFIG[currentMonth];
+      const pastEvents = allEvents.filter(e => {
+        const eventDate = parseEventDateObject(e.fecha, e.hora);
+        return e.isPast && eventDate &&
+          eventDate.getMonth() === config.month &&
+          eventDate.getFullYear() === config.year;
+      });
 
       if (pastEvents.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-results">📭 Aún no hay eventos realizados este mes.</td></tr>';
+        container.innerHTML = '<div class="no-results">📭 No hay eventos realizados en este mes aún</div>';
         return;
       }
 
-      pastEvents.sort((a, b) => {
-        return parseEventDateObject(b.fecha, b.hora) - parseEventDateObject(a.fecha, a.hora);
+      // Ordenar eventos por fecha (más reciente primero)
+      const sortedEvents = [...pastEvents].sort((a, b) =>
+        parseEventDateObject(b.fecha, b.hora) - parseEventDateObject(a.fecha, a.hora)
+      );
+
+      let html = `
+        <div class="detalle-serenatas-section">
+          <div class="detalle-serenatas-title">
+            📋 Detalle de Serenatas
+          </div>
+      `;
+
+      sortedEvents.forEach(event => {
+        const eventDate = parseEventDateObject(event.fecha, event.hora);
+        const shortDay = getShortDayName(eventDate);
+        const dayNum = eventDate.getDate();
+        const shortMonth = getShortMonthName(eventDate);
+        const badgeClass = getPersonBadgeClass(event.encargado);
+        const personIcon = getPersonIcon(event.encargado);
+
+        html += `
+          <div class="serenata-card" onclick="showModalEvent('${escapeHtml(event.fecha)}', '${escapeHtml(event.hora)}')">
+            <div class="serenata-card-header">
+              <div class="serenata-date-time">
+                <span class="calendar-icon">${dayNum}</span>
+                <span>${shortDay}, ${dayNum} de ${shortMonth}</span>
+                <span class="clock-icon">🕐 ${event.hora}</span>
+              </div>
+              <div class="serenata-badge ${badgeClass}">
+                ${personIcon} ${event.encargado || '-'}
+              </div>
+            </div>
+            <div class="serenata-card-body">
+              <div class="serenata-detail">
+                <span class="icon">📍</span>
+                <span>${event.lugar || 'Sin lugar'}</span>
+              </div>
+              <div class="serenata-detail">
+                <span class="icon">👥</span>
+                <span>${event.numMusicos || '0'} músicos</span>
+              </div>
+              <div class="serenata-detail money-transport">
+                <span class="icon">🚗</span>
+                <span>${formatMoney(event.transPago)}</span>
+              </div>
+              <div class="serenata-detail money-payment">
+                <span class="icon">💰</span>
+                <span>${formatMoney(event.pago)}</span>
+              </div>
+            </div>
+          </div>
+        `;
       });
 
-      tbody.innerHTML = pastEvents.map(event => `
-        <tr style="cursor:pointer" onclick="showModalEvent('${escapeHtml(event.fecha)}', '${escapeHtml(event.hora)}')">
-            <td><strong>${formatDate(event.fecha)}</strong><br><small style="color:#666">${event.dia}</small></td>
-            <td>${event.hora}</td>
-            <td>${event.lugar || '-'}</td>
-            <td><span style="background:#c8e6c9; color:#2e7d32; padding:4px 8px; border-radius:4px; font-size:0.9rem">${event.encargado || '-'}</span></td>
-            <td style="font-weight:bold; color:var(--success)">
-                ${formatMoney(event.pago)}
-            </td>
-            <td style="color:var(--text-secondary)">
-                ${formatMoney(event.transPago)}
-            </td>
-        </tr>
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    // ===== VISTA LISTA - SOLO EVENTOS FUTUROS =====
+    function renderLista() {
+      const container = document.getElementById('listaView');
+
+      // VERIFICAR SI ES UN MES PASADO
+      if (isPastMonth(currentMonth)) {
+        container.innerHTML = `
+          <div class="historical-month-notice">
+            📜 ${getMonthName(SHEETS_CONFIG[currentMonth].month)} ${SHEETS_CONFIG[currentMonth].year} es un mes histórico
+          </div>
+          <div class="no-results">
+            Consulta la pestaña <strong>"Histórico"</strong> para ver los eventos realizados en este mes.
+          </div>
+        `;
+        return;
+      }
+
+      // Filtrar solo eventos futuros para la vista de lista
+      const futureEvents = filteredEvents.filter(e => !e.isPast);
+
+      if (futureEvents.length === 0) {
+        container.innerHTML = '<div class="no-results">No hay eventos futuros</div>';
+        return;
+      }
+
+      const sortedEvents = [...futureEvents].sort((a, b) =>
+        parseEventDateObject(a.fecha, a.hora) - parseEventDateObject(b.fecha, b.hora)
+      );
+
+      container.innerHTML = sortedEvents.map(event => `
+        <div style="background:#f5f5f5; padding:15px; margin-bottom:10px; border-radius:6px; border-left:4px solid ${event.isPast ? 'var(--success)' : 'var(--warning)'}; cursor:pointer" 
+             onclick="showModalEvent('${escapeHtml(event.fecha)}','${escapeHtml(event.hora)}')">
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+            <strong>${event.fecha} - ${event.hora}</strong>
+            <span class="badge-status ${event.isPast ? 'badge-confirmed' : 'badge-pending'}">
+              ${event.isPast ? '✓ Realizado' : '⏳ Pendiente'}
+            </span>
+          </div>
+          <div>📍 ${event.lugar || '-'}</div>
+          <div>👤 ${getPersonIcon(event.encargado)} ${event.encargado || '-'}</div>
+          <div>💰 ${formatMoney(event.pago)}</div>
+        </div>
       `).join('');
     }
 
-    // ✅ 5. MONITOREO DE ENCARGADOS
-    function renderEncargadosStats() {
-      const tbody = document.getElementById('encargadosBody');
-      const stats = {};
+    // ===== VISTA CALENDARIO =====
+    function renderCalendario() {
+      const container = document.getElementById('calendarView');
+      container.innerHTML = '<div class="loading">Vista de calendario en desarrollo...</div>';
+    }
 
-      filteredEvents.forEach(e => {
-        const name = e.encargado || 'Sin Asignar';
-        if (!stats[name]) stats[name] = { total: 0, past: 0, future: 0 };
-        stats[name].total++;
-        if (e.isPast) { stats[name].past++; } else { stats[name].future++; }
-      });
-
-      const sortedStats = Object.entries(stats).sort((a, b) => b[1].total - a[1].total);
-      if (sortedStats.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="no-results">Sin datos de encargados</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = sortedStats.map(([name, data]) => `
-        <tr>
-            <td><strong>${name}</strong></td>
-            <td>${data.total}</td>
-            <td style="color:var(--success); font-weight:600">${data.past}</td>
-            <td style="color:var(--warning); font-weight:600">${data.future}</td>
-        </tr>
-      `).join('');
+    // ===== VISTA AGENDA =====
+    function renderAgenda() {
+      const container = document.getElementById('agendaView');
+      container.innerHTML = '<div class="loading">Vista de agenda en desarrollo...</div>';
     }
 
     // ========================================
@@ -1144,10 +1947,8 @@
       document.getElementById('searchInput')?.addEventListener('input', () => {
         applyFilters();
         renderTable();
-        renderHistorial();
-        renderUpcomingNotifications();
-        renderEncargadosStats();
-        updateStats();
+        renderUpcomingCards();
+        renderStats(((performance.now() - loadStartTime) / 1000).toFixed(2));
       });
 
       const modal = document.getElementById('eventModal');
@@ -1160,17 +1961,18 @@
     window.showModalEvent = function (fecha, hora) {
       const event = allEvents.find(e => e.fecha === fecha && e.hora === hora);
       if (!event) return;
+
       const modal = document.getElementById('eventModal');
       document.getElementById('modalTitle').textContent = `${event.fecha} - ${event.hora}`;
       document.getElementById('modalBody').innerHTML = `
         <div class="modal-row"><span class="modal-label">Día:</span><span class="modal-value">${event.dia}</span></div>
         <div class="modal-row"><span class="modal-label">Lugar:</span><span class="modal-value">${event.lugar || '-'}</span></div>
-        <div class="modal-row"><span class="modal-label">Encargado:</span><span class="modal-value">${event.encargado || '-'}</span></div>
+        <div class="modal-row"><span class="modal-label">Encargado:</span><span class="modal-value">${getPersonIcon(event.encargado)} ${event.encargado || '-'}</span></div>
         <div class="modal-row"><span class="modal-label">Notas:</span><span class="modal-value">${event.notas || 'Sin notas'}</span></div>
-        <div class="modal-row"><span class="modal-label">Músicos:</span><span class="modal-value">${event.numMusicos || '-'}</span></div>
-        <div class="modal-row"><span class="modal-label">Pago:</span><span class="modal-value" style="color:${event.isPast ? 'var(--success)' : 'var(--warning)'}">${event.isPast ? formatMoney(event.pago) : formatMoney(event.pago) + ' (pendiente)'}</span></div>
+        <div class="modal-row"><span class="modal-label">Músicos:</span><span class="modal-value">👥 ${event.numMusicos || '-'}</span></div>
+        <div class="modal-row"><span class="modal-label">Pago:</span><span class="modal-value" style="color:${event.isPast ? 'var(--success)' : 'var(--warning)'}">${formatMoney(event.pago)} ${event.isPast ? '(Confirmado)' : '(Pendiente)'}</span></div>
         <div class="modal-row"><span class="modal-label">TransPago:</span><span class="modal-value">${formatMoney(event.transPago)}</span></div>
-        <div class="modal-row"><span class="modal-label">Estado:</span><span class="modal-value"><span class="badge ${event.isPast ? 'badge-past' : 'badge-future'}">${event.isPast ? '✓ Realizado' : '⏳ Pendiente'}</span></span></div>
+        <div class="modal-row"><span class="modal-label">Estado:</span><span class="modal-value"><span class="badge-status ${event.isPast ? 'badge-confirmed' : 'badge-pending'}">${event.isPast ? '✓ Realizado' : '⏳ Pendiente'}</span></span></div>
       `;
       modal.classList.add('active');
     }
@@ -1182,7 +1984,11 @@
 
     function formatMoney(amount) {
       if (!amount || isNaN(parseFloat(amount))) return '$0';
-      return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(parseFloat(amount));
+      return new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        minimumFractionDigits: 0
+      }).format(parseFloat(amount));
     }
 
     function escapeHtml(text) {
