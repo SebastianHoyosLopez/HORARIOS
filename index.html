@@ -2,609 +2,238 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="theme-color" content="#3498db">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>🎺 Mariachi - Agenda 2026</title>
-  <!-- ✅ PAPAPARSE - Parser CSV optimizado -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎺 Gestión Mariachi 2026</title>
   <style>
+    :root {
+      /* Paleta de Oficina Clara */
+      --bg-body: #f4f6f9;
+      --bg-card: #ffffff;
+      --text-primary: #2c3e50;
+      --text-secondary: #546e7a;
+      --primary: #0056b3;
+      --primary-light: #e3f2fd;
+      --success: #2e7d32;
+      --success-light: #e8f5e9;
+      --warning: #ed6c02;
+      --warning-light: #fff3e0;
+      --danger: #d32f2f;
+      --border: #e0e0e0;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
-      min-height: 100vh;
-      color: #2c3e50;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-primary);
       line-height: 1.6;
-      font-size: 16px;
-      overflow-x: hidden;
+      font-size: 18px;
+      padding: 20px;
     }
 
     .container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 15px;
     }
 
     /* ===== HEADER ===== */
     header {
-      background: #ffffff;
-      border-bottom: 3px solid #3498db;
-      padding: 20px 15px;
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--bg-card);
+      border-radius: 12px;
       margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      border-radius: 8px;
+      box-shadow: var(--shadow);
+      border-bottom: 4px solid var(--primary);
     }
 
-    .header-content h1 {
-      font-size: 1.5em;
-      color: #2c3e50;
-      font-weight: 600;
+    header h1 {
+      font-size: 2.2rem;
+      color: var(--primary);
       margin-bottom: 5px;
     }
 
-    .header-content p {
-      font-size: 0.9em;
-      color: #7f8c8d;
+    header p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
     }
 
-    .header-meta {
-      text-align: right;
-      font-size: 0.85em;
-      color: #7f8c8d;
-    }
-
-    /* ===== PRÓXIMOS 3 DÍAS ===== */
-    .next-weekend-section {
-      background: #ffffff;
-      border-left: 4px solid #3498db;
-      padding: 20px 15px;
+    /* ===== SELECTOR DE MESES (ARRIBA) ===== */
+    .month-nav {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 15px 20px;
       margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      border-radius: 8px;
-    }
-
-    .next-weekend-header {
-      margin-bottom: 15px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #e0e0e0;
+      box-shadow: var(--shadow);
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
       gap: 10px;
-    }
-
-    .next-weekend-header h2 {
-      font-size: 1.2em;
-      color: #2c3e50;
-      font-weight: 600;
-    }
-
-    .next-weekend-header .dates {
-      font-size: 0.9em;
-      color: #7f8c8d;
-      background: #ecf0f1;
-      padding: 5px 12px;
-      border-radius: 4px;
-    }
-
-    .weekend-days {
-      display: grid;
-      gap: 15px;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-
-    .weekend-day {
-      background: #f8f9fa;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      border: 1px solid #e0e0e0;
-    }
-
-    .weekend-day-header {
-      padding: 12px 15px;
-      font-weight: 600;
-      font-size: 1em;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
-      color: white;
     }
 
-    .weekend-day-events {
-      padding: 0;
-    }
-
-    .weekend-event {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 15px;
-      background: #ffffff;
-      border-bottom: 1px solid #e0e0e0;
-      transition: all 0.2s;
+    .month-nav .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      min-height: 60px;
-    }
-
-    .weekend-event:last-child {
-      border-bottom: none;
-    }
-
-    .weekend-event:active {
-      background: #e8f4f8;
-    }
-
-    .weekend-event-time {
       font-weight: 600;
-      color: #2c3e50;
-      min-width: 70px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.95em;
+      font-size: 1rem;
+      transition: all 0.2s;
+      background: #e0e0e0;
+      color: var(--text-primary);
     }
 
-    .weekend-event-location {
-      flex: 1;
-      color: #555;
-      font-size: 1.1em;
+    .month-nav .btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 2px 4px rgba(0, 86, 179, 0.3);
     }
 
-    .weekend-event-musician {
-      padding: 4px 10px;
-      border-radius: 4px;
-      color: #ffffff;
-      font-weight: 500;
-      font-size: 0.85em;
-      white-space: nowrap;
+    .month-nav .btn:hover:not(.active) {
+      opacity: 0.9;
+      transform: translateY(-1px);
     }
 
-    /* ===== ESTADÍSTICAS ===== */
-    .stats {
+    /* ===== DASHBOARD STATS ===== */
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
     }
 
     .stat-card {
-      background: #ffffff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      border-top: 3px solid #3498db;
+      background: var(--bg-card);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
       text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
+      border-left: 5px solid var(--primary);
+      transition: transform 0.2s;
     }
 
     .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
     }
 
     .stat-card h3 {
-      font-size: 1.8em;
-      color: #2c3e50;
+      font-size: 2.5rem;
+      color: var(--text-primary);
       margin-bottom: 5px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .stat-card p {
-      color: #7f8c8d;
-      font-size: 0.8em;
+      font-size: 1rem;
+      color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .stat-card .month-label {
-      font-size: 0.7em;
-      color: #3498db;
-      margin-top: 5px;
+      letter-spacing: 1px;
       font-weight: 600;
     }
 
-    /* ===== CONTROLES ===== */
-    .controls {
-      background: #ffffff;
-      padding: 15px;
+    .stat-card.success {
+      border-left-color: var(--success);
+    }
+
+    .stat-card.success h3 {
+      color: var(--success);
+    }
+
+    .stat-card.warning {
+      border-left-color: var(--warning);
+    }
+
+    .stat-card.warning h3 {
+      color: var(--warning);
+    }
+
+    .stat-card.money {
+      border-left-color: var(--primary);
+    }
+
+    .stat-card.money h3 {
+      color: var(--primary);
+    }
+
+    /* ===== SECCIONES GENERALES ===== */
+    .section-title {
+      font-size: 1.5rem;
+      color: var(--text-primary);
       margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      border-radius: 8px;
-    }
-
-    .data-info {
-      background: #e8f4f8;
-      padding: 10px 12px;
-      border-radius: 6px;
-      margin-bottom: 12px;
-      font-size: 0.9em;
-      color: #2980b9;
-      border-left: 4px solid #3498db;
-      word-wrap: break-word;
-    }
-
-    .filter-buttons {
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #e0e0e0;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-
-    .filter-buttons::-webkit-scrollbar {
-      display: none;
-    }
-
-    .view-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 5px;
-    }
-
-    .view-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .btn {
-      padding: 10px 16px;
-      border: 1px solid #bdc3c7;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.2s;
-      font-size: 0.9em;
-      background: #ffffff;
-      color: #2c3e50;
-      white-space: nowrap;
-      touch-action: manipulation;
-      min-height: 44px;
-      min-width: 44px;
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn:hover {
-      background: #ecf0f1;
-      border-color: #95a5a6;
-    }
-
-    .btn.active {
-      background: #3498db;
-      color: #ffffff;
-      border-color: #3498db;
-    }
-
-    .btn-export {
-      background: #27ae60;
-      color: #ffffff;
-      border-color: #27ae60;
-      flex: 1;
-      min-width: 120px;
-      text-align: center;
-    }
-
-    .btn-export:hover {
-      background: #229954;
-    }
-
-    .btn-nav {
-      background: #34495e;
-      color: #ffffff;
-      border-color: #34495e;
-      padding: 8px 14px;
-      font-size: 0.95em;
-    }
-
-    .btn-nav:hover {
-      background: #2c3e50;
-    }
-
-    .btn-nav:disabled {
-      background: #bdc3c7;
-      border-color: #bdc3c7;
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    .btn-history {
-      background: #9b59b6;
-      color: #ffffff;
-      border-color: #9b59b6;
-    }
-
-    .btn-history:hover {
-      background: #8e44ad;
-    }
-
-    .export-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-      flex-wrap: wrap;
-      padding-top: 12px;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    /* ✅ PAGINACIÓN GENERAL */
-    .pagination {
-      display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 10px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    .pagination-info {
-      font-size: 0.9em;
-      color: #7f8c8d;
-    }
-
-    .pagination-btn {
-      padding: 8px 16px;
-      border: 1px solid #3498db;
-      border-radius: 6px;
-      background: #ffffff;
-      color: #3498db;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-
-    .pagination-btn:hover:not(:disabled) {
-      background: #3498db;
-      color: #ffffff;
-    }
-
-    .pagination-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* ===== VISTAS ===== */
-    .calendar-view,
-    .list-view,
-    .consolidated-view,
-    .table-view,
-    .history-view {
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      margin-bottom: 20px;
-    }
-
-    .view-title {
-      font-size: 1.2em;
-      color: #2c3e50;
-      margin-bottom: 15px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid #3498db;
-      font-weight: 600;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
       gap: 10px;
     }
 
-    .calendar-controls {
+    .section-container {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+
+    /* ===== PESTAÑAS (TABS) ===== */
+    .tabs-nav {
       display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .calendar-month-display {
-      font-size: 1em;
-      font-weight: 600;
-      color: #2c3e50;
-      min-width: 150px;
-      text-align: center;
-    }
-
-    /* ===== CALENDARIO ===== */
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      background: #bdc3c7;
-      border: 1px solid #bdc3c7;
-      margin-top: 15px;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .calendar-header {
-      text-align: center;
-      font-weight: 600;
-      padding: 8px 4px;
-      background: #34495e;
-      color: #ffffff;
-      font-size: 0.8em;
-      text-transform: uppercase;
-    }
-
-    .calendar-day {
-      min-height: 120px;
-      background: #ffffff;
-      padding: 3px;
-      font-size: 0.8em;
-      position: relative;
-      overflow: visible;
-      cursor: pointer;
-    }
-
-    .calendar-day.empty {
-      background: #f8f9fa;
-      cursor: default;
-    }
-
-    .calendar-day.today {
-      background: #e8f4f8;
-      border: 2px solid #3498db;
-    }
-
-    .calendar-day.has-events {
-      background: #fef9e7;
-    }
-
-    .calendar-day.no-events-month {
-      background: #f8f9fa;
-      cursor: default;
-    }
-
-    .day-number {
-      font-weight: 600;
-      margin-bottom: 3px;
-      color: #2c3e50;
-      font-size: 0.9em;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2px 4px;
-      background: #ecf0f1;
-      border-radius: 3px;
-    }
-
-    .day-event-count {
-      font-size: 0.7em;
-      background: #3498db;
-      color: white;
-      padding: 1px 5px;
-      border-radius: 10px;
-      min-width: 18px;
-      text-align: center;
-    }
-
-    .event {
-      padding: 3px 5px;
-      margin: 2px 0;
-      border-radius: 3px;
-      font-size: 0.7em;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: #ffffff;
-      font-weight: 500;
-      border-left: 2px solid rgba(255, 255, 255, 0.5);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.2;
-      min-height: 20px;
-    }
-
-    .event:active {
-      transform: scale(0.98);
-    }
-
-    .event:hover {
-      opacity: 0.9;
-      z-index: 10;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    /* ===== MENSAJE SIN EVENTOS ===== */
-    .no-events-message {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 60px 20px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-
-    .no-events-icon {
-      font-size: 4em;
-      margin-bottom: 15px;
-      opacity: 0.5;
-    }
-
-    .no-events-message h3 {
-      color: #2c3e50;
-      font-size: 1.5em;
-      margin-bottom: 10px;
-    }
-
-    .no-events-message p {
-      color: #7f8c8d;
-      font-size: 1em;
+      gap: 10px;
       margin-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px;
+      flex-wrap: wrap;
     }
 
-    .no-events-message .btn {
-      background: #3498db;
-      color: white;
+    .tab-btn {
+      padding: 12px 24px;
       border: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.2s;
+      background: #e0e0e0;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* ===== MODAL DE EVENTOS - OPTIMIZADO PARA MÓVIL ===== */
-    .modal-overlay {
+    .tab-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .tab-btn.active {
+      background: var(--primary) !important;
+      color: white !important;
+      border-bottom: 3px solid var(--primary);
+    }
+
+    .tab-content {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 3000;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      backdrop-filter: blur(4px);
       animation: fadeIn 0.3s ease;
     }
 
-    .modal-overlay.active {
-      display: flex;
+    .tab-content.active {
+      display: block;
     }
 
     @keyframes fadeIn {
       from {
         opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(5px);
       }
 
       to {
@@ -613,976 +242,368 @@
       }
     }
 
-    .modal-content {
-      background: #ffffff;
+    /* ===== LAYOUT: TABLA + NOTIFICACIONES LATERALES ===== */
+    .main-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* ===== PANEL DE NOTIFICACIONES (PRÓXIMOS EVENTOS) - COMPACTO ===== */
+    .notifications-panel {
+      background: var(--bg-card);
       border-radius: 12px;
-      max-width: 500px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      animation: slideIn 0.3s ease;
-      position: relative;
-      margin: 10px;
-    }
-
-    .modal-header {
-      background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
-      color: white;
-      padding: 20px;
-      border-radius: 12px 12px 0 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .modal-header h3 {
-      font-size: 1.3em;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .modal-close {
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.2em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      flex-shrink: 0;
-      min-width: 40px;
-      min-height: 40px;
-    }
-
-    .modal-close:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: rotate(90deg);
-    }
-
-    .modal-body {
-      padding: 25px;
-    }
-
-    .modal-event-date {
-      background: #e8f4f8;
       padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      border-left: 4px solid #3498db;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--warning);
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+      max-height: 500px;
+      overflow-y: auto;
     }
 
-    .modal-event-date h4 {
-      color: #2c3e50;
-      font-size: 1.1em;
-      margin-bottom: 5px;
-    }
-
-    .modal-event-date p {
-      color: #7f8c8d;
-      font-size: 1em;
-    }
-
-    .modal-detail-row {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 15px 0;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .modal-detail-row:last-child {
-      border-bottom: none;
-    }
-
-    .modal-detail-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2em;
-      flex-shrink: 0;
-    }
-
-    .modal-detail-content {
-      flex: 1;
-    }
-
-    .modal-detail-label {
-      font-size: 0.85em;
-      color: #7f8c8d;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 3px;
-    }
-
-    .modal-detail-value {
-      font-size: 1.05em;
-      color: #2c3e50;
-      font-weight: 500;
-    }
-
-    .modal-musician-badge {
-      display: inline-block;
-      padding: 6px 15px;
-      border-radius: 20px;
-      color: white;
-      font-weight: 600;
-      font-size: 0.95em;
-      margin-top: 5px;
-    }
-
-    .modal-footer {
-      padding: 15px 25px 25px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .modal-footer .btn {
-      flex: 1;
-      min-width: 120px;
-    }
-
-    /* ===== LISTA DE EVENTOS ===== */
-    .event-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .event-card {
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-left: 4px solid #3498db;
-      padding: 16px;
-      transition: all 0.2s;
-      border-radius: 8px;
+    .notifications-panel h3 {
+      font-size: 1rem;
+      color: var(--text-primary);
       margin-bottom: 12px;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-      min-height: 60px;
-    }
-
-    .event-card:active {
-      background: #f8f9fa;
-      transform: scale(0.99);
-    }
-
-    .event-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .event-date {
-      font-size: 1.05em;
-      font-weight: 600;
-      color: #2c3e50;
-      flex: 1;
-    }
-
-    .event-musician {
-      padding: 5px 12px;
-      border-radius: 4px;
-      color: #ffffff;
-      font-weight: 500;
-      font-size: 0.9em;
-      white-space: nowrap;
-    }
-
-    .event-details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding-top: 12px;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    .event-detail-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1 1 45%;
-      min-width: 140px;
-      padding: 6px 0;
-    }
-
-    .event-detail {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #555;
-      font-size: 0.95em;
-    }
-
-    .event-detail strong {
-      color: #2c3e50;
-      font-weight: 600;
-      min-width: 50px;
-    }
-
-    .event-notes-row {
-      width: 100%;
-      margin-top: 8px;
-      padding-top: 10px;
-      border-top: 1px dashed #e0e0e0;
-    }
-
-    .event-notes {
-      background: #f8f9fa;
-      padding: 10px 12px;
-      border-radius: 6px;
-      font-size: 0.95em;
-      color: #555;
-      line-height: 1.5;
-      margin-top: 6px;
-    }
-
-    .event-payment {
-      color: #27ae60;
-      font-weight: 700;
-      font-size: 1em;
-    }
-
-    .event-transport {
-      color: #e67e22;
-      font-weight: 700;
-      font-size: 1em;
-    }
-
-    /* ✅ PAGINACIÓN LISTA - NUEVO */
-    .list-pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    .list-pagination-info {
-      font-size: 0.9em;
-      color: #7f8c8d;
-    }
-
-    .list-pagination-btn {
-      padding: 8px 16px;
-      border: 1px solid #9b59b6;
-      border-radius: 6px;
-      background: #ffffff;
-      color: #9b59b6;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-
-    .list-pagination-btn:hover:not(:disabled) {
-      background: #9b59b6;
-      color: #ffffff;
-    }
-
-    .list-pagination-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* ===== VISTA CONSOLIDADA ===== */
-    .consolidated-content {
-      background: #ffffff;
-      color: #2c3e50;
-      padding: 25px;
-    }
-
-    .consolidated-header {
-      text-align: center;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 2px solid #3498db;
-    }
-
-    .consolidated-header h2 {
-      color: #2c3e50;
-      font-size: 1.6em;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-
-    .consolidated-header p {
-      color: #7f8c8d;
-      font-size: 1em;
-    }
-
-    .week-section {
-      margin-bottom: 30px;
-      page-break-inside: avoid;
-    }
-
-    .week-title {
-      background: #34495e;
-      color: #ffffff;
-      padding: 12px 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      font-weight: 600;
-      font-size: 1em;
-    }
-
-    .day-section {
-      margin-bottom: 15px;
-      padding: 15px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      border-left: 4px solid #3498db;
-    }
-
-    .day-title {
-      font-weight: 600;
-      color: #2c3e50;
-      margin-bottom: 12px;
-      font-size: 1em;
       padding-bottom: 8px;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .event-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 0.95em;
-      flex-wrap: wrap;
-      cursor: pointer;
-      min-height: 50px;
-    }
-
-    .event-item:last-child {
-      border-bottom: none;
-    }
-
-    .event-item:active {
-      background: #e8f4f8;
-    }
-
-    .event-time {
-      font-weight: 600;
-      color: #2c3e50;
-      min-width: 75px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.95em;
-    }
-
-    .event-location {
-      flex: 2;
-      color: #555;
-      font-size: 0.95em;
-      min-width: 120px;
-    }
-
-    .event-musician-badge {
-      padding: 5px 12px;
-      border-radius: 4px;
-      color: #ffffff;
-      font-weight: 500;
-      font-size: 0.9em;
-      min-width: 100px;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .event-transport-badge {
-      min-width: 80px;
-      text-align: right;
-      color: #e67e22;
-      font-weight: 700;
-      font-size: 0.9em;
-    }
-
-    .event-payment {
-      min-width: 100px;
-      text-align: right;
-      color: #27ae60;
-      font-weight: 700;
-      font-size: 0.95em;
-    }
-
-    .footer-info {
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 2px solid #3498db;
-      text-align: center;
-      color: #7f8c8d;
-      font-size: 0.95em;
-      line-height: 1.8;
-    }
-
-    /* ✅ PAGINACIÓN AGENDA - NUEVO */
-    .consolidated-pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    .consolidated-pagination-info {
-      font-size: 0.9em;
-      color: #7f8c8d;
-    }
-
-    .consolidated-pagination-btn {
-      padding: 8px 16px;
-      border: 1px solid #27ae60;
-      border-radius: 6px;
-      background: #ffffff;
-      color: #27ae60;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-
-    .consolidated-pagination-btn:hover:not(:disabled) {
-      background: #27ae60;
-      color: #ffffff;
-    }
-
-    .consolidated-pagination-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* ===== TABLA COMPLETA ===== */
-    .table-container {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin: 0 -15px;
-      padding: 0 15px;
-    }
-
-    .full-events-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95em;
-      margin-top: 15px;
-      min-width: 950px;
-    }
-
-    .full-events-table th {
-      background: #34495e;
-      color: #ffffff;
-      padding: 12px 15px;
-      text-align: left;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-size: 0.85em;
-      white-space: nowrap;
-    }
-
-    .full-events-table td {
-      padding: 12px 15px;
-      border-bottom: 1px solid #e0e0e0;
-      white-space: nowrap;
-      font-size: 0.95em;
-    }
-
-    .full-events-table tr:hover {
-      background: #f8f9fa;
-    }
-
-    .full-events-table tr:nth-child(even) {
-      background: #fafafa;
-    }
-
-    .status-badge {
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 0.8em;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .status-confirmed {
-      background: #27ae60;
-      color: #ffffff;
-    }
-
-    /* ===== VISTA HISTÓRICO ===== */
-    .history-summary {
-      background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
-      color: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
-    .history-summary h3 {
-      font-size: 1.3em;
-      margin-bottom: 15px;
-    }
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-    }
-
-    .summary-item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 15px;
-      border-radius: 6px;
-      text-align: center;
-    }
-
-    .summary-item .value {
-      font-size: 1.8em;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    .summary-item .label {
-      font-size: 0.85em;
-      opacity: 0.9;
-    }
-
-    .history-month-selector {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .history-month-selector select {
-      padding: 10px 15px;
-      border: 1px solid #bdc3c7;
-      border-radius: 6px;
-      font-size: 0.95em;
-      background: white;
-      min-width: 200px;
-    }
-
-    .history-events-list {
+    .notification-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .history-event-card {
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-left: 4px solid #27ae60;
-      padding: 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-    }
-
-    .history-event-card:active {
-      background: #f8f9fa;
-      transform: scale(0.99);
-    }
-
-    .history-event-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* ✅ Estilos compactos para agrupación por días */
+    .notification-day-group {
       margin-bottom: 10px;
-      flex-wrap: wrap;
-      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border);
     }
 
-    .history-event-date {
-      font-weight: 600;
-      color: #2c3e50;
-      font-size: 1em;
+    .notification-day-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
 
-    .history-event-musician {
-      padding: 4px 10px;
-      border-radius: 4px;
+    .notification-day-header {
+      background: var(--warning);
       color: white;
-      font-weight: 500;
-      font-size: 0.85em;
-    }
-
-    .history-event-details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      font-size: 0.9em;
-      color: #555;
-    }
-
-    .history-event-detail {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 5px;
     }
 
-    .history-event-amount {
-      font-weight: 700;
-      color: #27ae60;
+    .notification-day-header::before {
+      content: "📅";
+      font-size: 0.9rem;
     }
 
-    .history-event-transport {
-      font-weight: 700;
-      color: #e67e22;
+    .notification-item {
+      background: var(--warning-light);
+      border: 1px solid #ffe0b2;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 3px solid var(--warning);
+      margin-left: 6px;
+      line-height: 1.3;
     }
 
-    .history-musician-breakdown {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 20px;
+    .notification-item:hover {
+      transform: translateX(2px);
+      box-shadow: var(--shadow);
+      background: #ffe0b2;
     }
 
-    .history-musician-breakdown h4 {
-      color: #2c3e50;
-      margin-bottom: 15px;
-      font-size: 1.1em;
+    .notification-item .place {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .musician-stat {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .musician-stat:last-child {
-      border-bottom: none;
-    }
-
-    .musician-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .musician-icon {
-      font-size: 1.2em;
-    }
-
-    .musician-name {
+    .notification-item .person {
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      margin-top: 2px;
+      display: block;
       font-weight: 500;
-      color: #2c3e50;
     }
 
-    .musician-stats {
-      display: flex;
-      gap: 20px;
-      font-size: 0.9em;
-    }
-
-    .musician-stat-value {
-      font-weight: 600;
-    }
-
-    /* ===== FOOTER ===== */
-    footer {
+    .notification-empty {
       text-align: center;
-      color: #7f8c8d;
-      margin-top: 20px;
-      padding: 15px;
-      font-size: 0.9em;
-      border-top: 1px solid #e0e0e0;
-      background: #ffffff;
-      border-radius: 8px;
+      padding: 15px 10px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.4;
     }
 
-    /* ===== LOADING ===== */
-    .loading {
+    /* ===== CONTROLES Y BÚSQUEDA ===== */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      padding: 12px 20px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+      width: 300px;
+      background: #fafafa;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+    }
+
+    /* ===== TABLAS ===== */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      font-size: 1rem;
+    }
+
+    thead {
+      background: var(--primary);
+      color: white;
+    }
+
+    th {
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    th:hover {
+      background: rgba(0, 86, 179, 0.9);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background-color: #f5f5f5;
+      cursor: pointer;
+    }
+
+    td {
+      padding: 15px;
+      vertical-align: middle;
+      color: var(--text-primary);
+    }
+
+    /* Tabla Historial - Estilo diferenciado */
+    #historialTable thead {
+      background: var(--success);
+    }
+
+    #historialTable tbody tr {
+      background: var(--success-light);
+    }
+
+    #historialTable tbody tr:hover {
+      background: #c8e6c9;
+    }
+
+    /* Badges */
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .badge-past {
+      background: var(--success-light);
+      color: var(--success);
+    }
+
+    .badge-future {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+
+    /* ===== MODAL ===== */
+    .modal {
       display: none;
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #ffffff;
-      padding: 25px 30px;
-      border-radius: 8px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-      z-index: 2000;
-      text-align: center;
-      border: 1px solid #e0e0e0;
-      min-width: 200px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
 
-    .loading-spinner {
-      border: 3px solid #ecf0f1;
-      border-top: 3px solid #3498db;
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 12px;
+    .modal.active {
+      display: flex;
     }
 
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    }
 
-      100% {
-        transform: rotate(360deg);
-      }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+
+    .modal-close:hover {
+      color: var(--danger);
+    }
+
+    .modal-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 1.1rem;
+    }
+
+    .modal-label {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .modal-value {
+      font-weight: 700;
+      color: var(--text-primary);
     }
 
     /* ===== UTILIDADES ===== */
-    .hidden {
-      display: none !important;
+    .loading,
+    .error,
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
     }
 
-    .export-visible {
-      display: block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
+    .error {
+      color: var(--danger);
+      background: #ffebee;
+      border-radius: 8px;
     }
 
-    /* ===== COLORES POR ENCARGADO ===== */
-    .musician-manuela {
-      --musician-color: #e91e63;
-    }
-
-    .musician-andres {
-      --musician-color: #946434;
-    }
-
-    .musician-ricardo {
-      --musician-color: #f1c40f;
-    }
-
-    .musician-alquibar {
-      --musician-color: #3498db;
-    }
-
-    .musician-cacho {
-      --musician-color: #ff6b35;
-    }
-
-    .musician-tatan {
-      --musician-color: #9b59b6;
-    }
-
-    .musician-menucho {
-      --musician-color: #2ecc71;
-    }
-
-    .event-musician-badge,
-    .event-musician,
-    .event,
-    .week-title,
-    .btn,
-    .weekend-event-musician,
-    .modal-musician-badge {
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 40px;
+      border-top: 1px solid var(--border);
     }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 1024px) {
-      .container {
-        padding: 12px;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-
-      .stat-card h3 {
-        font-size: 1.6em;
-      }
-
-      .calendar-day {
-        min-height: 100px;
-      }
-
-      .weekend-days {
+    @media (max-width: 1100px) {
+      .main-content-grid {
         grid-template-columns: 1fr;
+      }
+
+      .notifications-panel {
+        position: static;
+        max-height: none;
       }
     }
 
     @media (max-width: 768px) {
-      .container {
+      body {
+        font-size: 16px;
         padding: 10px;
       }
 
-      header {
-        flex-direction: column;
-        text-align: center;
-        padding: 15px 12px;
+      header h1 {
+        font-size: 1.8rem;
       }
 
-      .header-content h1 {
-        font-size: 1.35em;
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .header-meta {
-        text-align: center;
-        min-width: auto;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-
-      .stat-card {
-        padding: 12px;
-      }
-
-      .stat-card h3 {
-        font-size: 1.5em;
-      }
-
-      .stat-card p {
-        font-size: 0.8em;
-      }
-
-      .btn {
-        padding: 9px 14px;
-        font-size: 0.9em;
-      }
-
-      .history-month-selector {
+      .controls {
         flex-direction: column;
         align-items: stretch;
       }
 
-      .history-month-selector select {
+      .search-box input {
         width: 100%;
       }
 
-      .summary-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .tabs-nav {
+        flex-direction: column;
       }
 
-      .pagination {
-        flex-wrap: wrap;
+      .tab-btn {
+        width: 100%;
+        justify-content: center;
       }
 
-      .list-pagination,
-      .consolidated-pagination {
-        flex-wrap: wrap;
-      }
-    }
-
-    @media (max-width: 480px) {
-      body {
-        font-size: 15px;
+      table {
+        font-size: 0.9rem;
       }
 
-      .container {
+      th,
+      td {
         padding: 10px;
       }
 
-      header {
-        padding: 14px 12px;
-        margin-bottom: 15px;
-      }
-
-      .header-content h1 {
-        font-size: 1.25em;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-
-      .stat-card {
-        padding: 12px;
-        border-radius: 8px;
-      }
-
-      .stat-card h3 {
-        font-size: 1.5em;
-      }
-
-      .stat-card p {
-        font-size: 0.75em;
-      }
-
-      .btn {
-        padding: 12px 13px;
-        font-size: 0.85em;
-        border-radius: 6px;
-      }
-
-      .summary-item .value {
-        font-size: 1.5em;
-      }
-
-      .history-event-details {
+      .month-nav {
         flex-direction: column;
-        gap: 8px;
       }
 
-      .musician-stats {
-        flex-direction: column;
-        gap: 5px;
+      .month-nav .btn {
+        width: 100%;
+        max-width: 200px;
       }
-    }
-
-    @media print {
-      body {
-        background: #ffffff;
-        font-size: 12pt;
-      }
-
-      .container {
-        max-width: 100%;
-        padding: 0;
-      }
-
-      header,
-      .controls,
-      .stats,
-      .next-weekend-section,
-      footer,
-      .calendar-controls,
-      .modal-overlay,
-      .pagination,
-      .list-pagination,
-      .consolidated-pagination {
-        display: none;
-      }
-
-      .consolidated-view {
-        box-shadow: none;
-        padding: 0;
-      }
-
-      .export-visible {
-        display: block !important;
-      }
-
-      .hidden {
-        display: none !important;
-      }
-    }
-
-    .stats {
-      display: none !important;
     }
   </style>
 </head>
@@ -1590,1512 +611,586 @@
 <body>
   <div class="container">
     <header>
-      <div class="header-content">
-        <h1>📋 Mariachi - Agenda Corporativa 2026</h1>
-        <p>Sistema de Gestión de Presentaciones y Reservas</p>
-      </div>
-      <div class="header-meta">
-        <div id="currentDate"></div>
-        <div style="margin-top: 5px;">Versión 3.1 - Paginación Mejorada 🚀</div>
-      </div>
+      <h1>🎺 Gestión Mariachi 2026</h1>
+      <p>Panel de Control y Agenda de Eventos</p>
     </header>
-    <div class="stats">
-      <div class="stat-card" onclick="showHistory()">
-        <h3 id="completedEvents">0</h3>
-        <p>Eventos Realizados</p>
-        <div class="month-label" id="currentMonthLabel">Mes Actual</div>
-      </div>
+
+    <!-- ✅ SELECTOR DE MESES (ARRIBA) -->
+    <div class="month-nav" id="monthSelector"></div>
+
+    <!-- ESTADÍSTICAS GENERALES -->
+    <div class="stats-grid" id="statsContainer">
       <div class="stat-card">
-        <h3 id="confirmedEvents">0</h3>
-        <p>Eventos Confirmados</p>
-      </div>
-      <div class="stat-card" onclick="showHistory()">
-        <h3 id="totalEvents">$0</h3>
-        <p>Total Transporte (Mes)</p>
-        <div class="month-label" id="transportMonthLabel">Mes Actual</div>
-      </div>
-      <div class="stat-card" onclick="showHistory()">
-        <h3 id="totalEarnings">$0</h3>
-        <p>Ganancias Cada uno</p>
-        <div class="month-label" id="earningsMonthLabel">Mes Actual</div>
+        <h3>...</h3>
+        <p>Cargando</p>
       </div>
     </div>
-    <div id="nextWeekendSection" class="next-weekend-section">
-      <div class="next-weekend-header">
-        <h2>📅 Próximos 3 Días con Eventos</h2>
-        <div class="dates" id="weekendDates"></div>
-      </div>
-      <div class="weekend-days" id="weekendDays"></div>
-    </div>
+
+    <!-- CONTROLES Y BÚSQUEDA -->
     <div class="controls">
-      <div class="data-info" id="dataInfo">🔄 Cargando datos desde Google Sheets...</div>
-      <div class="filter-buttons" id="filterButtons">
-        <button class="btn btn-all active" onclick="filterMusician('all')">📅 Todos</button>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar evento, lugar o encargado...">
       </div>
-      <div class="view-tabs">
-        <button class="btn btn-all active" onclick="switchView('table')">📊 Tabla</button>
-        <button class="btn btn-all" onclick="switchView('list')">📋 Lista</button>
-        <button class="btn btn-all" onclick="switchView('calendar')">📆 Calendario</button>
-        <button class="btn btn-all" onclick="switchView('consolidated')">📄 Agenda</button>
-        <button class="btn btn-history" onclick="switchView('history')">📜 Histórico</button>
-      </div>
-      <!-- <div class="export-buttons">
-        <button class="btn btn-export" onclick="exportToPDF()">📥 PDF</button>
-        <button class="btn btn-export" onclick="exportToImage()">📷 Imagen</button>
-        <button class="btn btn-export" onclick="exportHistoryToCSV()">📊 CSV Histórico</button>
-      </div> -->
     </div>
-    <div id="calendarView" class="calendar-view hidden">
-      <h2 class="view-title">
-        📆 Calendario Mensual
-        <div class="calendar-controls">
-          <button class="btn btn-nav" onclick="changeMonth(-1)" id="btnPrevMonth">◀ Ant</button>
-          <span class="calendar-month-display" id="calendarMonthDisplay"></span>
-          <button class="btn btn-nav" onclick="changeMonth(1)" id="btnNextMonth">Sig ▶</button>
+
+    <!-- SECCIÓN CON PESTAÑAS: PENDIENTES / HISTORIAL -->
+    <div class="section-container">
+      <!-- Navegación de pestañas -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" id="tab-pendientes" onclick="switchTab('pendientes')">
+          📋 Agenda Pendiente
+        </button>
+        <button class="tab-btn" id="tab-historial" onclick="switchTab('historial')">
+          📜 Historial Realizados
+        </button>
+      </div>
+
+      <!-- Contenido: Agenda Pendiente (visible por defecto) -->
+      <div id="content-pendientes" class="tab-content active">
+        <p style="color:var(--text-secondary); margin-bottom:15px; font-size:0.95rem">
+          💡 Mostrando solo eventos futuros. Los realizados aparecen en el historial.
+        </p>
+
+        <!-- ✅ LAYOUT: TABLA + NOTIFICACIONES LATERALES -->
+        <div class="main-content-grid">
+          <!-- Tabla de eventos pendientes -->
+          <div class="table-responsive">
+            <table id="eventsTable">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Lugar</th>
+                  <th>Encargado</th>
+                  <th>Pago Estimado</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <tr>
+                  <td colspan="6" class="loading">Cargando datos...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ✅ PANEL LATERAL: PRÓXIMOS 3 DÍAS (como notificación) -->
+          <div class="notifications-panel">
+            <h3>🔔 Próximos Eventos</h3>
+            <div class="notification-list" id="upcomingContainer">
+              <div class="loading" style="padding:10px;font-size:0.9rem">Cargando...</div>
+            </div>
+          </div>
         </div>
-      </h2>
-      <div class="calendar-grid" id="calendarGrid"></div>
-    </div>
-    <div id="listView" class="list-view hidden">
-      <h2 class="view-title">
-        📋 Lista de Eventos
-        <div class="calendar-controls">
-          <button class="btn btn-nav" onclick="changeListPage(-1)" id="btnListPrev">◀ Ant</button>
-          <span class="calendar-month-display" id="listPageDisplay"></span>
-          <button class="btn btn-nav" onclick="changeListPage(1)" id="btnListNext">Sig ▶</button>
+      </div>
+
+      <!-- Contenido: Historial (oculto por defecto) -->
+      <div id="content-historial" class="tab-content">
+        <p style="color:var(--text-secondary); margin-bottom:15px; font-size:0.95rem">
+          ✅ Eventos completados este mes con pagos confirmados.
+        </p>
+        <div class="table-responsive">
+          <table id="historialTable">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Lugar</th>
+                <th>Encargado</th>
+                <th>Pago Confirmado</th>
+                <th>TransPago</th>
+              </tr>
+            </thead>
+            <tbody id="historialBody">
+              <tr>
+                <td colspan="6" class="loading">Cargando historial...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </h2>
-      <div class="event-list" id="eventList"></div>
-      <!-- ✅ PAGINACIÓN LISTA -->
-      <div class="list-pagination" id="listPagination">
-        <button class="list-pagination-btn" id="btnListFirst" onclick="goToListPage(1)">⏮ Inicio</button>
-        <button class="list-pagination-btn" id="btnListPrevPage" onclick="changeListPage(-1)">◀ Ant</button>
-        <span class="list-pagination-info" id="listPaginationInfo">Página 1 de 1</span>
-        <button class="list-pagination-btn" id="btnListNextPage" onclick="changeListPage(1)">Sig ▶</button>
-        <button class="list-pagination-btn" id="btnListLast" onclick="goToListPage(listTotalPages)">Fin ⏭</button>
       </div>
     </div>
-    <div id="tableView" class="table-view">
-      <h2 class="view-title">📊 Tabla Completa de Eventos</h2>
-      <div class="table-container">
-        <table class="full-events-table" id="fullEventsTable">
+
+    <!-- MONITOREO DE ENCARGADOS E INGRESOS -->
+    <div class="section-container">
+      <h2 class="section-title">👥 Monitoreo de Encargados</h2>
+      <p style="color:var(--text-secondary); margin-bottom:15px; font-size:0.95rem">
+        📊 Estadísticas de eventos por encargado: totales, realizados y pendientes.
+      </p>
+      <div class="table-responsive">
+        <table id="encargadosTable">
           <thead>
             <tr>
-              <th>Fecha</th>
-              <th>Día</th>
-              <th>Hora</th>
-              <th>Lugar</th>
               <th>Encargado</th>
-              <th>Notas</th>
-              <th>Transp.</th>
-              <th>Pago</th>
-              <th>Estado</th>
-              <th>👥 Músicos</th>
+              <th>Eventos Totales</th>
+              <th>Realizados</th>
+              <th>Pendientes</th>
             </tr>
           </thead>
-          <tbody id="fullEventsBody"></tbody>
+          <tbody id="encargadosBody">
+            <tr>
+              <td colspan="4" class="loading">Calculando estadísticas...</td>
+            </tr>
+          </tbody>
         </table>
       </div>
-      <!-- ✅ PAGINACIÓN TABLA -->
-      <div class="pagination" id="tablePagination">
-        <button class="pagination-btn" id="btnFirstPage" onclick="goToPage(1)">⏮ Inicio</button>
-        <button class="pagination-btn" id="btnPrevPage" onclick="changePage(-1)">◀ Ant</button>
-        <span class="pagination-info" id="paginationInfo">Página 1 de 1</span>
-        <button class="pagination-btn" id="btnNextPage" onclick="changePage(1)">Sig ▶</button>
-        <button class="pagination-btn" id="btnLastPage" onclick="goToPage(totalPages)">Fin ⏭</button>
-      </div>
     </div>
-    <div id="consolidatedView" class="consolidated-view hidden">
-      <div id="consolidatedContent" class="consolidated-content"></div>
-      <!-- ✅ PAGINACIÓN AGENDA -->
-      <div class="consolidated-pagination" id="consolidatedPagination">
-        <button class="consolidated-pagination-btn" id="btnConsFirst" onclick="goToConsPage(1)">⏮ Inicio</button>
-        <button class="consolidated-pagination-btn" id="btnConsPrev" onclick="changeConsPage(-1)">◀ Ant</button>
-        <span class="consolidated-pagination-info" id="consPaginationInfo">Mes 1 de 1</span>
-        <button class="consolidated-pagination-btn" id="btnConsNext" onclick="changeConsPage(1)">Sig ▶</button>
-        <button class="consolidated-pagination-btn" id="btnConsLast" onclick="goToConsPage(consTotalPages)">Fin
-          ⏭</button>
-      </div>
-    </div>
-    <div id="historyView" class="history-view hidden">
-      <h2 class="view-title">
-        📜 Histórico de Serenatas Realizadas
-      </h2>
-      <div class="history-month-selector">
-        <label style="font-weight: 600; color: #2c3e50;">📅 Seleccionar Mes:</label>
-        <select id="historyMonthSelect" onchange="renderHistoryByMonth()">
-          <!-- Opciones generadas dinámicamente -->
-        </select>
-      </div>
-      <div id="historySummary" class="history-summary">
-        <!-- Resumen generado dinámicamente -->
-      </div>
-      <div id="historyEventsList" class="history-events-list">
-        <!-- Lista de eventos generada dinámicamente -->
-      </div>
-      <div id="historyMusicianBreakdown" class="history-musician-breakdown">
-        <!-- Desglose por músico generado dinámicamente -->
-      </div>
-      <div id="noHistoryMessage" class="no-events-message hidden" style="margin-top: 20px;">
-        <div class="no-events-icon">📊</div>
-        <h3>No hay serenatas registradas</h3>
-        <p>Las serenatas se registran automáticamente al realizarse</p>
-      </div>
-    </div>
+
     <footer>
-      <p>🎵 Mariachi - Sistema de Agenda Corporativa 2026</p>
-      <p style="margin-top: 8px; font-size: 0.85em;">Última actualización: <span id="lastUpdate"></span></p>
+      <p>💡 Sistema de Gestión Mariachi • Diseño Oficina 2026</p>
+      <p style="margin-top:5px; font-size:0.9rem">
+        Los próximos eventos solo se muestran cuando se visualiza el mes actual.
+      </p>
     </footer>
   </div>
-  <!-- ✅ MODAL PARA DETALLES DE EVENTO -->
-  <div class="modal-overlay" id="eventModal" onclick="closeModal(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <h3 id="modalTitle">📅 Detalles del Evento</h3>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-      <div class="modal-body" id="modalBody">
-        <!-- Contenido dinámico -->
-      </div>
-      <div class="modal-footer">
-        <button class="btn" onclick="closeModal()" style="background: #95a5a6; color: white;">Cerrar</button>
-      </div>
+
+  <!-- MODAL DETALLE -->
+  <div class="modal" id="eventModal">
+    <div class="modal-content">
+      <span class="modal-close" id="modalClose">&times;</span>
+      <h3 class="modal-title" id="modalTitle" style="color:var(--primary); margin-bottom:20px; font-size:1.5rem">
+        Detalles</h3>
+      <div id="modalBody"></div>
     </div>
   </div>
-  <div id="loading" class="loading">
-    <div class="loading-spinner"></div>
-    <p>Generando archivo...</p>
-  </div>
+
   <script>
-    // ===== CONFIGURACIÓN =====
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?output=csv';
-    const CURRENT_YEAR = 2026;
-    const TIMEZONE = 'America/Bogota';
-    // ✅ IndexedDB en lugar de localStorage
-    const DB_NAME = 'MariachiDB';
-    const DB_VERSION = 1;
-    const STORE_NAME = 'monthlyRecords';
-    // ✅ Configuración de filtro de fechas (6 meses atrás + 12 meses adelante)
-    const DATE_RANGE_MONTHS_BACK = 6;
-    const DATE_RANGE_MONTHS_FORWARD = 12;
-    // ✅ Configuración de paginación
-    const EVENTS_PER_PAGE = 30;
-    const LIST_DAYS_PER_PAGE = 3; // ✅ 3 días por página en lista
-    let currentPage = 1;
-    let totalPages = 1;
-    let filteredEventsForTable = [];
-    // ✅ NUEVAS VARIABLES PARA PAGINACIÓN LISTA Y AGENDA
-    let listCurrentPage = 1;
-    let listTotalPages = 1;
-    let listUniqueDates = [];
-    let consCurrentPage = 1;
-    let consTotalPages = 1;
-    let consUniqueMonths = [];
-    const MONTHS_MAP = {
-      'enero': '01', 'febrero': '02', 'marzo': '03', 'abril': '04',
-      'mayo': '05', 'junio': '06', 'julio': '07', 'agosto': '08',
-      'septiembre': '09', 'octubre': '10', 'noviembre': '11', 'diciembre': '12'
+    // ========================================
+    // CONFIGURACIÓN
+    // ========================================
+    const SHEETS_CONFIG = {
+      'marzo-2026': {
+        label: 'Marzo 2026',
+        month: 2,
+        year: 2026,
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=443976092&single=true&output=csv    '
+      },
+      'abril-2026': {
+        label: 'Abril 2026',
+        month: 3,
+        year: 2026,
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=72877865&single=true&output=csv    '
+      },
+      'mayo-2026': {
+        label: 'Mayo 2026',
+        month: 4,
+        year: 2026,
+        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=2102285288&single=true&output=csv    '
+      }
     };
-    const ENCARGADOS = {
-      manuela: { name: 'Manuela', icon: '🪗', color: '#e91e63', class: 'musician-manuela' },
-      andres: { name: 'Andres', icon: '🎸', color: '#946434', class: 'musician-andres' },
-      ricardo: { name: 'Ricardo', icon: '🎺', color: '#f1c40f', class: 'musician-ricardo' },
-      alquibar: { name: 'Alquibar', icon: '🎻', color: '#3498db', class: 'musician-alquibar' },
-      cacho: { name: 'Cacho', icon: '🎤', color: '#ff6b35', class: 'musician-cacho' },
-      tatan: { name: 'Tatan', icon: '🎹', color: '#9b59b6', class: 'musician-tatan' },
-      menucho: { name: 'Menucho', icon: '🥁', color: '#2ecc71', class: 'musician-menucho' }
-    };
-    const NAME_MAPPING = {
-      'manuela': 'manuela', 'manu': 'manuela', 'manny': 'manuela',
-      'andres': 'andres', 'andrés': 'andres', 'andre': 'andres', 'andy': 'andres',
-      'ricardo': 'ricardo', 'richard': 'ricardo', 'richi': 'ricardo',
-      'alquibar': 'alquibar', 'alqui': 'alquibar', 'alquim': 'alquibar', 'alqui bar': 'alquibar',
-      'cacho': 'cacho', 'carlos': 'cacho', 'carlitos': 'cacho',
-      'tatan': 'tatan', 'tatán': 'tatan', 'tata': 'tatan',
-      'menucho': 'menucho', 'menuch': 'menucho', 'manuel': 'menucho'
-    };
-    let events = [];
-    let allEvents = []; // ✅ Todos los eventos sin filtro
-    let currentFilter = 'all';
-    let currentView = 'table';
-    let currentCalendarMonth = new Date(CURRENT_YEAR, 0, 1);
-    let selectedEvent = null;
-    let monthlyRecords = [];
-    let lastSavedMonth = null;
-    let selectedHistoryMonth = null;
-    let db = null;
-    // ===== ✅ INDEXEDDB - Reemplaza localStorage =====
-    function openDatabase() {
-      return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onupgradeneeded = (event) => {
-          db = event.target.result;
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME, { keyPath: 'monthKey' });
-          }
-        };
-        request.onsuccess = (event) => {
-          db = event.target.result;
-          resolve(db);
-        };
-        request.onerror = (event) => {
-          reject(event.target.error);
-        };
-      });
-    }
-    async function loadMonthlyRecords() {
-      try {
-        if (!db) await openDatabase();
-        return new Promise((resolve, reject) => {
-          const transaction = db.transaction([STORE_NAME], 'readonly');
-          const store = transaction.objectStore(STORE_NAME);
-          const request = store.getAll();
-          request.onsuccess = () => {
-            monthlyRecords = request.result || [];
-            console.log(`📊 ${monthlyRecords.length} registros mensuales cargados (IndexedDB)`);
-            resolve(monthlyRecords);
-          };
-          request.onerror = () => reject(request.error);
-        });
-      } catch (e) {
-        console.error('Error cargando registros:', e);
-        monthlyRecords = [];
-      }
-    }
-    async function saveMonthlyRecords() {
-      try {
-        if (!db) await openDatabase();
-        return new Promise((resolve, reject) => {
-          const transaction = db.transaction([STORE_NAME], 'readwrite');
-          const store = transaction.objectStore(STORE_NAME);
-          monthlyRecords.forEach(record => {
-            store.put(record);
-          });
-          transaction.oncomplete = () => {
-            console.log('💾 Registros mensuales guardados (IndexedDB)');
-            resolve();
-          };
-          transaction.onerror = () => reject(transaction.error);
-        });
-      } catch (e) {
-        console.error('Error guardando registros:', e);
-      }
-    }
-    function addMonthlyRecord(monthKey, data) {
-      const existingIndex = monthlyRecords.findIndex(r => r.monthKey === monthKey);
-      const record = {
-        monthKey: monthKey,
-        monthName: getMonthName(monthKey.split('-')[1]),
-        year: parseInt(monthKey.split('-')[0]),
-        month: parseInt(monthKey.split('-')[1]),
-        eventsCompleted: data.eventsCompleted,
-        totalTransport: data.totalTransport,
-        totalEarnings: data.totalEarnings,
-        musicianData: data.musicianData,
-        events: data.events || [],
-        savedAt: new Date().toISOString()
-      };
-      if (existingIndex >= 0) {
-        monthlyRecords[existingIndex] = record;
-        console.log(`📝 Registro actualizado para ${monthKey}`);
-      } else {
-        monthlyRecords.push(record);
-        console.log(`📝 Nuevo registro para ${monthKey}`);
-      }
-      saveMonthlyRecords();
-    }
-    function getMonthlyRecord(monthKey) {
-      return monthlyRecords.find(r => r.monthKey === monthKey);
-    }
-    // ===== ✅ FUNCIONES DE HORA COLOMBIANA =====
-    function getColombianDate() {
-      return new Date().toLocaleString('es-CO', { timeZone: TIMEZONE });
-    }
-    function getColombianTodayStr() {
-      const now = new Date();
-      const options = {
-        timeZone: TIMEZONE,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      };
-      const dateStr = new Intl.DateTimeFormat('es-CO', options).format(now);
-      const [day, month, year] = dateStr.split('/');
-      return `${year}-${month}-${day}`;
-    }
-    function getColombianTime() {
-      const now = new Date();
-      const options = {
-        timeZone: TIMEZONE,
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      };
-      return new Intl.DateTimeFormat('es-CO', options).format(now);
-    }
-    function getColombianDateTime() {
-      return {
-        date: getColombianTodayStr(),
-        time: getColombianTime(),
-        full: getColombianDate()
-      };
-    }
-    // ===== ✅ FUNCIONES DE MES =====
-    function getCurrentColombianMonth() {
-      const now = new Date();
-      const options = {
-        timeZone: TIMEZONE,
-        year: 'numeric',
-        month: '2-digit'
-      };
-      const dateStr = new Intl.DateTimeFormat('es-CO', options).format(now);
-      const [month, year] = dateStr.split('/');
-      return {
-        year: parseInt(year),
-        month: parseInt(month),
-        key: `${year}-${month}`
-      };
-    }
-    function getMonthName(monthNum) {
-      const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-      return months[parseInt(monthNum) - 1] || 'Desconocido';
-    }
-    // ===== ✅ FILTRO DE FECHAS PARA OPTIMIZACIÓN =====
-    function getDateRangeLimits() {
-      const today = new Date();
-      const startDate = new Date(today);
-      startDate.setMonth(startDate.getMonth() - DATE_RANGE_MONTHS_BACK);
-      const endDate = new Date(today);
-      endDate.setMonth(endDate.getMonth() + DATE_RANGE_MONTHS_FORWARD);
-      return {
-        start: startDate.toISOString().split('T')[0].substring(0, 7), // YYYY-MM
-        end: endDate.toISOString().split('T')[0].substring(0, 7) // YYYY-MM
-      };
-    }
-    function isEventInDateRange(eventDate) {
-      const range = getDateRangeLimits();
-      const eventMonth = eventDate.substring(0, 7); // YYYY-MM
-      return eventMonth >= range.start && eventMonth <= range.end;
-    }
-    // ===== ✅ GUARDADO AUTOMÁTICO AL CAMBIAR DE MES =====
-    function checkAndSaveMonthChange() {
-      const currentMonth = getCurrentColombianMonth();
-      const currentMonthKey = currentMonth.key;
-      if (lastSavedMonth !== currentMonthKey) {
-        if (lastSavedMonth) {
-          savePreviousMonthRecord(lastSavedMonth);
-        }
-        lastSavedMonth = currentMonthKey;
-      }
-      saveCurrentMonthProgress(currentMonthKey);
-    }
-    function savePreviousMonthRecord(monthKey) {
-      const colombianTime = getColombianDateTime();
-      const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
-      const pastEvents = allEvents.filter(e => {
-        const eventDate = e.fecha.split('-');
-        const eventYear = parseInt(eventDate[0]);
-        const eventMonth = parseInt(eventDate[1]);
-        const eventDateTime = new Date(e.fecha + 'T' + e.hora);
-        return eventYear === parseInt(monthKey.split('-')[0]) &&
-          eventMonth === parseInt(monthKey.split('-')[1]) &&
-          eventDateTime < now;
-      });
-      if (pastEvents.length > 0) {
-        const totalTransport = pastEvents.reduce((sum, e) => sum + (e.transPago || 0), 0);
-        const totalEarnings = pastEvents.reduce((sum, e) => sum + (e.pago || 0), 0);
-        const musicianData = {};
-        pastEvents.forEach(e => {
-          if (!musicianData[e.encargadoKey]) {
-            musicianData[e.encargadoKey] = { events: 0, transport: 0, earnings: 0 };
-          }
-          musicianData[e.encargadoKey].events += 1;
-          musicianData[e.encargadoKey].transport += (e.transPago || 0);
-          musicianData[e.encargadoKey].earnings += (e.pago || 0);
-        });
-        addMonthlyRecord(monthKey, {
-          eventsCompleted: pastEvents.length,
-          totalTransport: totalTransport,
-          totalEarnings: totalEarnings,
-          musicianData: musicianData,
-          events: pastEvents
-        });
-      }
-    }
-    function saveCurrentMonthProgress(monthKey) {
-      setInterval(() => {
-        const colombianTime = getColombianDateTime();
-        const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
-        const pastEvents = allEvents.filter(e => {
-          const eventDate = e.fecha.split('-');
-          const eventYear = parseInt(eventDate[0]);
-          const eventMonth = parseInt(eventDate[1]);
-          const eventDateTime = new Date(e.fecha + 'T' + e.hora);
-          return eventYear === parseInt(monthKey.split('-')[0]) &&
-            eventMonth === parseInt(monthKey.split('-')[1]) &&
-            eventDateTime < now;
-        });
-        if (pastEvents.length > 0) {
-          const totalTransport = pastEvents.reduce((sum, e) => sum + (e.transPago || 0), 0);
-          const totalEarnings = pastEvents.reduce((sum, e) => sum + (e.pago || 0), 0);
-          const musicianData = {};
-          pastEvents.forEach(e => {
-            if (!musicianData[e.encargadoKey]) {
-              musicianData[e.encargadoKey] = { events: 0, transport: 0, earnings: 0 };
-            }
-            musicianData[e.encargadoKey].events += 1;
-            musicianData[e.encargadoKey].transport += (e.transPago || 0);
-            musicianData[e.encargadoKey].earnings += (e.pago || 0);
-          });
-          addMonthlyRecord(monthKey, {
-            eventsCompleted: pastEvents.length,
-            totalTransport: totalTransport,
-            totalEarnings: totalEarnings,
-            musicianData: musicianData,
-            events: pastEvents
-          });
-        }
-      }, 300000);
-    }
-    // ===== FUNCIONES DE CONVERSIÓN =====
-    function parseSpanishDate(dateStr) {
-      if (!dateStr) return null;
-      dateStr = dateStr.trim().toLowerCase();
-      const match = dateStr.match(/(\d{1,2})\s*(?:de)?[-\s]*([a-z]+)/);
-      if (!match) return null;
-      const day = match[1].padStart(2, '0');
-      const month = MONTHS_MAP[match[2]];
-      if (!month) {
-        console.error(`Mes no reconocido: ${match[2]}`);
-        return null;
-      }
-      return `${CURRENT_YEAR}-${month}-${day}`;
-    }
-    function convertTo24Hour(timeStr) {
-      if (!timeStr) return '00:00';
-      timeStr = timeStr.trim().toLowerCase().replace(/\s/g, '');
-      const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(am|pm)?/);
-      if (!match) return timeStr;
-      let hours = parseInt(match[1]);
-      const minutes = match[2], period = match[3];
-      if (period) {
-        if (period === 'pm' && hours !== 12) hours += 12;
-        else if (period === 'am' && hours === 12) hours = 0;
-      }
-      return `${String(hours).padStart(2, '0')}:${minutes}`;
-    }
-    function normalizeEncargadoName(rawName) {
-      if (!rawName) return null;
-      const normalized = rawName.trim().toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .replace(/\s+/g, '');
-      return NAME_MAPPING[normalized] || null;
-    }
-    // ===== ✅ PARSEADOR CSV CON PAPAPARSE =====
-    function parseCSV(csvText) {
-      return new Promise((resolve, reject) => {
-        Papa.parse(csvText, {
-          header: false,
-          skipEmptyLines: true,
-          complete: (results) => {
-            const lines = results.data;
-            if (lines.length < 2) {
-              resolve([]);
-              return;
-            }
-            const parsed = [];
-            for (let i = 1; i < lines.length; i++) {
-              const values = lines[i];
-              if (!values || values.length < 9) continue;
-              const fecha = parseSpanishDate(values[0]);
-              if (!fecha) continue;
-              // ✅ FILTRO DE FECHAS - Solo eventos dentro del rango
-              if (!isEventInDateRange(fecha)) continue;
-              const encargadoRaw = values[5] || '';
-              const encargadoKey = normalizeEncargadoName(encargadoRaw);
-              if (!encargadoKey || !ENCARGADOS[encargadoKey]) continue;
-              parsed.push({
-                fechaOriginal: values[0],
-                dia: values[1],
-                fecha: fecha,
-                hora: convertTo24Hour(values[2]),
-                horaOriginal: values[2],
-                notas: values[3] || '',
-                lugar: values[4] || '',
-                encargadoKey: encargadoKey,
-                encargadoDisplay: ENCARGADOS[encargadoKey].name,
-                pago: parseFloat(values[6]) || 0,
-                transPago: parseFloat(values[8]) || 0,
-                numMusicos: parseInt(values[7]) || 0,
-                status: 'confirmado'
-              });
-            }
-            console.log(`✅ ${parsed.length} eventos parseados (PapaParse + Filtro Fecha)`);
-            resolve(parsed);
-          },
-          error: (error) => {
-            reject(error);
-          }
-        });
-      });
-    }
-    // ===== CARGA DE EVENTOS =====
-    async function loadEventsFromSheet() {
-      const response = await fetch(SHEET_CSV_URL);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const csvText = await response.text();
-      return await parseCSV(csvText);
-    }
-    // ===== RENDERIZADO =====
-    function formatDateShort(date) {
-      return date.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric', timeZone: TIMEZONE });
-    }
-    function renderFilterButtons() {
-      const container = document.getElementById('filterButtons');
-      let html = `<button class="btn ${currentFilter === 'all' ? 'active' : ''}" onclick="filterMusician('all')">📅 Todos</button>`;
-      Object.entries(ENCARGADOS).forEach(([key, config]) => {
-        const isActive = currentFilter === key ? 'active' : '';
-        html += `<button class="btn ${isActive}" onclick="filterMusician('${key}')" style="border-left: 3px solid ${config.color};">
-${config.icon} ${config.name}
-</button>`;
-      });
-      container.innerHTML = html;
-    }
-    // ✅ FUNCIÓN ACTUALIZADA - HORA COLOMBIANA
-    function renderNextThreeDaysWithEvents() {
-      const colombianTime = getColombianDateTime();
-      const todayStr = colombianTime.date;
-      const currentTime = colombianTime.time;
-      const filtered = currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter);
-      const upcomingEvents = filtered.filter(e => {
-        const eventDate = e.fecha;
-        if (eventDate === todayStr) {
-          return true;
-        }
-        return eventDate > todayStr;
-      });
-      const uniqueDates = [...new Set(upcomingEvents.map(e => e.fecha))]
-        .sort()
-        .slice(0, 3);
-      const container = document.getElementById('weekendDays');
-      if (uniqueDates.length === 0) {
-        document.getElementById('weekendDates').textContent = 'Sin eventos programados';
-        container.innerHTML = `
-<div class="weekend-day">
-<div style="text-align:center;padding:50px;color:#7f8c8d;">
-<div style="font-size:3em;margin-bottom:10px;">📭</div>
-<p><strong>No hay eventos reservados</strong></p>
-<small style="opacity:0.8">Los próximos días están disponibles</small>
-</div>
-</div>
-`;
-        return;
-      }
-      const startDate = formatDateShort(new Date(uniqueDates[0] + 'T00:00:00'));
-      const endDate = formatDateShort(new Date(uniqueDates[uniqueDates.length - 1] + 'T00:00:00'));
-      document.getElementById('weekendDates').textContent =
-        uniqueDates.length === 1 ? startDate : `${startDate} al ${endDate}`;
-      const dayColors = {
-        0: '#e74c3c', 1: '#3498db', 2: '#2ecc71',
-        3: '#f39c12', 4: '#9b59b6', 5: '#1abc9c', 6: '#e67e22'
-      };
-      const html = uniqueDates.map(dateStr => {
-        const date = new Date(dateStr + 'T00:00:00');
-        const dayName = date.toLocaleDateString('es-CO', { weekday: 'long', timeZone: TIMEZONE });
-        const dayNum = date.getDate();
-        const monthName = date.toLocaleDateString('es-CO', { month: 'long', timeZone: TIMEZONE });
-        const color = dayColors[date.getDay()] || '#3498db';
-        const dayEvents = upcomingEvents
-          .filter(e => e.fecha === dateStr)
-          .sort((a, b) => a.hora.localeCompare(b.hora));
-        const isToday = dateStr === todayStr;
-        const dayLabel = isToday ? '🔴 HOY' : dayName.charAt(0).toUpperCase() + dayName.slice(1);
-        return `
-<div class="weekend-day">
-<div class="weekend-day-header" style="background: ${color};">
-<span>📅 ${dayLabel} ${dayNum} de ${monthName}</span>
-<span style="font-size:0.9em;opacity:0.9;">${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''}</span>
-</div>
-<div class="weekend-day-events">
-${dayEvents.map(e => {
-          const config = ENCARGADOS[e.encargadoKey];
-          return `
-<div class="weekend-event ${config.class}" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})" style="border-left-color:${config.color};">
-<div class="weekend-event-time">🕐 ${e.hora}</div>
-<div class="weekend-event-location">📍 ${e.lugar}</div>
-<div class="weekend-event-musician" style="background:${config.color};">
-${config.icon} ${e.encargadoDisplay}
-</div>
-</div>
-`;
-        }).join('')}
-</div>
-</div>
-`;
-      }).join('');
-      container.innerHTML = html;
-    }
-    function filterMusician(musician) {
-      currentFilter = musician;
-      currentPage = 1;
-      listCurrentPage = 1; // ✅ Resetear paginación lista
-      consCurrentPage = 1; // ✅ Resetear paginación agenda
-      renderFilterButtons();
-      render();
-    }
-    function switchView(view) {
-      currentView = view;
-      ['calendarView', 'listView', 'tableView', 'consolidatedView', 'historyView'].forEach(id =>
-        document.getElementById(id).classList.add('hidden'));
-      document.getElementById(view + 'View').classList.remove('hidden');
-      document.querySelectorAll('.view-tabs .btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.view-tabs .btn').forEach(btn => {
-        if (btn.getAttribute('onclick').includes(`'${view}'`)) {
-          btn.classList.add('active');
-        }
-      });
-      if (view === 'consolidated') {
-        consCurrentPage = 1;
-        renderConsolidatedView();
-      }
-      else if (view === 'table') {
-        currentPage = 1;
-        renderFullTable();
-      }
-      else if (view === 'calendar') renderCalendar();
-      else if (view === 'list') {
-        listCurrentPage = 1;
-        renderList();
-      }
-      else if (view === 'history') renderHistory();
-      render();
-    }
-    function changeMonth(delta) {
-      currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + delta);
-      renderCalendar();
-    }
-    // ===== ✅ NUEVAS FUNCIONES DE PAGINACIÓN PARA LISTA =====
-    function changeListPage(delta) {
-      const newPage = listCurrentPage + delta;
-      if (newPage >= 1 && newPage <= listTotalPages) {
-        listCurrentPage = newPage;
-        renderList();
-      }
-    }
-    function goToListPage(page) {
-      if (page >= 1 && page <= listTotalPages) {
-        listCurrentPage = page;
-        renderList();
-      }
-    }
-    // ===== ✅ NUEVAS FUNCIONES DE PAGINACIÓN PARA AGENDA =====
-    function changeConsPage(delta) {
-      const newPage = consCurrentPage + delta;
-      if (newPage >= 1 && newPage <= consTotalPages) {
-        consCurrentPage = newPage;
-        renderConsolidatedView();
-      }
-    }
-    function goToConsPage(page) {
-      if (page >= 1 && page <= consTotalPages) {
-        consCurrentPage = page;
-        renderConsolidatedView();
-      }
-    }
-    function openModal(eventData) {
-      selectedEvent = eventData;
-      const modal = document.getElementById('eventModal');
-      const modalBody = document.getElementById('modalBody');
-      const config = ENCARGADOS[eventData.encargadoKey];
-      const dateObj = new Date(eventData.fecha + 'T00:00:00');
-      const fullDate = dateObj.toLocaleDateString('es-CO', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: TIMEZONE
-      });
-      const timeObj = new Date(`2000-01-01T${eventData.hora}`);
-      const time12h = timeObj.toLocaleTimeString('es-CO', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      });
-      modalBody.innerHTML = `
-<div class="modal-event-date">
-<h4>📅 ${fullDate.charAt(0).toUpperCase() + fullDate.slice(1)}</h4>
-<p>🕐 ${time12h}</p>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #e8f4f8;">📍</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Lugar del Evento</div>
-<div class="modal-detail-value">${eventData.lugar || 'No especificado'}</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: ${config.color}20;">${config.icon}</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Encargado / Músico</div>
-<div class="modal-detail-value">
-${config.name}
-<span class="modal-musician-badge" style="background:${config.color};">
-${config.icon} ${config.name}
-</span>
-</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #fff3e0;">👥</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Número de Músicos</div>
-<div class="modal-detail-value">${eventData.numMusicos || 0} integrante${(eventData.numMusicos || 0) !== 1 ? 's' : ''}</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #fef9e7;">📝</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Notas / Canciones</div>
-<div class="modal-detail-value">${eventData.notas || 'Sin indicaciones especiales'}</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #fff3e0;">🚗</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Pago Transporte</div>
-<div class="modal-detail-value" style="color: #e67e22; font-weight: 700;">
-$${eventData.transPago.toLocaleString('es-CO')}
-</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #e8f5e9;">💰</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Valor del Evento</div>
-<div class="modal-detail-value" style="color: #27ae60; font-weight: 700;">
-$${eventData.pago.toLocaleString('es-CO')}
-</div>
-</div>
-</div>
-<div class="modal-detail-row">
-<div class="modal-detail-icon" style="background: #f3e5f5;">✅</div>
-<div class="modal-detail-content">
-<div class="modal-detail-label">Estado</div>
-<div class="modal-detail-value">
-<span class="status-badge status-confirmed">${eventData.status}</span>
-</div>
-</div>
-</div>
-`;
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal(event) {
-      if (event && event.target !== event.currentTarget) return;
-      const modal = document.getElementById('eventModal');
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-      selectedEvent = null;
-    }
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-      }
+
+    // ========================================
+    // ESTADO GLOBAL
+    // ========================================
+    let currentMonth = 'marzo-2026';
+    let allEvents = [];
+    let filteredEvents = [];
+
+    // ========================================
+    // INICIALIZACIÓN
+    // ========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      initMonthSelector();
+      loadMonthData(currentMonth);
+      setupEventListeners();
     });
-    // ===== ✅ VISTA CONSOLIDADA CON PAGINACIÓN POR MES =====
-    function renderConsolidatedView() {
-      const today = getColombianTodayStr();
-      const content = document.getElementById('consolidatedContent');
-      const filtered = currentFilter === 'all'
-        ? events.filter(e => e.fecha >= today)
-        : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
-      function getWeekNumber(date) {
-        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-        const dayNum = d.getUTCDay() || 7;
-        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-        return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-      }
-      function getMondayOfWeek(date) {
-        const d = new Date(date);
-        const day = d.getDay() || 7;
-        d.setHours(0, 0, 0, 0);
-        d.setDate(d.getDate() - day + 1);
-        return d;
-      }
-      // ✅ Agrupar eventos por mes
-      const months = {};
-      filtered.forEach(e => {
-        const monthKey = e.fecha.substring(0, 7); // YYYY-MM
-        if (!months[monthKey]) {
-          months[monthKey] = [];
-        }
-        months[monthKey].push(e);
-      });
-      // ✅ Obtener meses únicos ordenados
-      consUniqueMonths = Object.keys(months).sort();
-      consTotalPages = consUniqueMonths.length || 1;
-      if (consCurrentPage > consTotalPages) consCurrentPage = consTotalPages;
-      if (consCurrentPage < 1) consCurrentPage = 1;
-      // ✅ Actualizar información de paginación
-      document.getElementById('consPaginationInfo').textContent = `Mes ${consCurrentPage} de ${consTotalPages}`;
-      document.getElementById('btnConsPrev').disabled = consCurrentPage <= 1;
-      document.getElementById('btnConsFirst').disabled = consCurrentPage <= 1;
-      document.getElementById('btnConsNext').disabled = consCurrentPage >= consTotalPages;
-      document.getElementById('btnConsLast').disabled = consCurrentPage >= consTotalPages;
-      if (filtered.length === 0) {
-        content.innerHTML = `
-<div class="consolidated-header">
-<h2>📋 Agenda de Presentaciones</h2>
-<p>Temporada 2026</p>
-</div>
-<div style="text-align:center;padding:50px;color:#7f8c8d;">
-<p style="font-size:1.5em;margin-bottom:20px;">📭</p>
-<p style="font-size:1.2em;">No hay eventos para mostrar</p>
-</div>
-`;
-        return;
-      }
-      // ✅ Obtener el mes actual de la página
-      const currentMonthKey = consUniqueMonths[consCurrentPage - 1];
-      const [year, month] = currentMonthKey.split('-');
-      const monthName = getMonthName(month);
-      const monthEvents = months[currentMonthKey];
-      // ✅ Agrupar por semanas
-      const weeks = {};
-      monthEvents.forEach(e => {
-        const date = new Date(e.fecha + 'T00:00:00');
-        const monday = getMondayOfWeek(date);
-        const weekKey = monday.toISOString().split('T')[0];
-        if (!weeks[weekKey]) {
-          weeks[weekKey] = { startDate: monday, events: [] };
-        }
-        weeks[weekKey].events.push(e);
-      });
-      const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-      let html = `<div class="consolidated-header">
-<h2>📋 Agenda de Presentaciones</h2>
-<p>${monthName} ${year}</p>
-</div>`;
-      Object.keys(weeks).sort().forEach(weekKey => {
-        const week = weeks[weekKey];
-        const weekNum = getWeekNumber(week.startDate);
-        const monthNameWeek = week.startDate.toLocaleDateString('es-CO', { month: 'long', year: 'numeric', timeZone: TIMEZONE });
-        const sunday = new Date(week.startDate);
-        sunday.setDate(sunday.getDate() + 6);
-        const daysWithEvents = {};
-        week.events.forEach(e => {
-          if (!daysWithEvents[e.fecha]) {
-            daysWithEvents[e.fecha] = [];
-          }
-          daysWithEvents[e.fecha].push(e);
-        });
-        const sortedDates = Object.keys(daysWithEvents).sort();
-        if (sortedDates.length > 0) {
-          html += `<div class="week-section">
-<div class="week-title">
-📅 Semana ${weekNum} | ${week.startDate.getDate()} - ${sunday.getDate()} de ${monthNameWeek}
-</div>`;
-          sortedDates.forEach(dateStr => {
-            const currentDay = new Date(dateStr + 'T00:00:00');
-            const dayEvents = daysWithEvents[dateStr].sort((a, b) => a.hora.localeCompare(b.hora));
-            const dayName = dayNames[currentDay.getDay()];
-            const dayNum = currentDay.getDate();
-            const monthDay = currentDay.toLocaleDateString('es-CO', { month: 'long', timeZone: TIMEZONE });
-            html += `<div class="day-section">
-<div class="day-title">
-${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayNum} de ${monthDay}
-</div>`;
-            dayEvents.forEach(e => {
-              const config = ENCARGADOS[e.encargadoKey];
-              html += `<div class="event-item" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
-<div class="event-time">🕐 ${e.hora}</div>
-<div class="event-location" style="flex: 2;">📍 ${e.lugar}</div>
-<div class="event-musician-badge" style="background:${config.color};">
-${config.icon} ${e.encargadoDisplay}
-</div>
-<div style="min-width: 60px; text-align: center; font-weight: 600; color: #3498db;">
-👥 ${e.numMusicos || 0}
-</div>
-<div class="event-transport-badge">
-🚗 $${e.transPago.toLocaleString('es-CO')}
-</div>
-<div style="min-width: 100px; text-align: right; color: #27ae60; font-weight: 700;">
-$${e.pago.toLocaleString('es-CO')}
-</div>
-</div>`;
-            });
-            html += `</div>`;
-          });
-          html += `</div>`;
-        }
-      });
-      content.innerHTML = html;
-    }
-    function renderCalendar() {
-      const grid = document.getElementById('calendarGrid');
-      const monthDisplay = document.getElementById('calendarMonthDisplay');
-      const btnPrev = document.getElementById('btnPrevMonth');
-      const btnNext = document.getElementById('btnNextMonth');
-      grid.innerHTML = '';
-      const year = currentCalendarMonth.getFullYear();
-      const month = currentCalendarMonth.getMonth();
-      const monthName = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric', timeZone: TIMEZONE });
-      monthDisplay.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
-      const today = new Date();
-      const todayColombia = getColombianTodayStr();
-      btnPrev.disabled = (year < today.getFullYear()) || (year === today.getFullYear() && month <= today.getMonth());
-      btnNext.disabled = (year >= CURRENT_YEAR + 1);
-      const monthEvents = events.filter(e => {
-        const eventDate = new Date(e.fecha + 'T00:00:00');
-        return eventDate.getFullYear() === year && eventDate.getMonth() === month;
-      });
-      const filteredEvents = currentFilter === 'all'
-        ? monthEvents
-        : monthEvents.filter(e => e.encargadoKey === currentFilter);
-      if (filteredEvents.length === 0) {
-        const monthNameLong = new Date(year, month).toLocaleDateString('es-CO', { month: 'long', year: 'numeric', timeZone: TIMEZONE });
-        grid.innerHTML = `
-<div class="no-events-message">
-<div class="no-events-icon">📅</div>
-<h3>Sin eventos en ${monthNameLong.charAt(0).toUpperCase() + monthNameLong.slice(1)}</h3>
-</div>
-`;
-        return;
-      }
-      ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].forEach(d => {
-        const h = document.createElement('div');
-        h.className = 'calendar-header';
-        h.textContent = d;
-        grid.appendChild(h);
-      });
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      for (let i = 0; i < firstDay; i++) {
-        const e = document.createElement('div');
-        e.className = 'calendar-day empty';
-        grid.appendChild(e);
-      }
-      for (let day = 1; day <= daysInMonth; day++) {
-        const cell = document.createElement('div');
-        cell.className = 'calendar-day';
-        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        if (dateStr === todayColombia) {
-          cell.classList.add('today');
-        }
-        const dayEvents = filteredEvents.filter(e => e.fecha === dateStr);
-        if (dayEvents.length > 0) {
-          cell.classList.add('has-events');
-        }
-        const num = document.createElement('div');
-        num.className = 'day-number';
-        num.innerHTML = `<span>${day}</span>${dayEvents.length > 0 ? `<span class="day-event-count">${dayEvents.length}</span>` : ''}`;
-        cell.appendChild(num);
-        dayEvents.forEach(e => {
-          const ev = document.createElement('div');
-          const config = ENCARGADOS[e.encargadoKey];
-          ev.className = `event ${config.class}`;
-          ev.style.background = config.color;
-          ev.textContent = `${e.hora} ${config.icon}`;
-          ev.title = `${e.hora} - ${e.lugar} - ${e.encargadoDisplay}`;
-          ev.onclick = (event) => {
-            event.stopPropagation();
-            openModal(e);
-          };
-          cell.appendChild(ev);
-        });
-        grid.appendChild(cell);
-      }
-    }
-    // ===== ✅ VISTA LISTA CON PAGINACIÓN POR 5 DÍAS =====
-    function renderList() {
-      const today = getColombianTodayStr();
-      const list = document.getElementById('eventList');
-      const filtered = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
-        .filter(e => e.fecha >= today)
-        .sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
-      // ✅ Obtener fechas únicas
-      listUniqueDates = [...new Set(filtered.map(e => e.fecha))];
-      listTotalPages = Math.ceil(listUniqueDates.length / LIST_DAYS_PER_PAGE) || 1;
-      if (listCurrentPage > listTotalPages) listCurrentPage = listTotalPages;
-      if (listCurrentPage < 1) listCurrentPage = 1;
-      // ✅ Calcular rango de fechas para esta página
-      const startIndex = (listCurrentPage - 1) * LIST_DAYS_PER_PAGE;
-      const endIndex = startIndex + LIST_DAYS_PER_PAGE;
-      const pageDates = listUniqueDates.slice(startIndex, endIndex);
-      // ✅ Actualizar información de paginación
-      document.getElementById('listPaginationInfo').textContent = `Página ${listCurrentPage} de ${listTotalPages} (${listUniqueDates.length} días)`;
-      document.getElementById('btnListPrevPage').disabled = listCurrentPage <= 1;
-      document.getElementById('btnListFirst').disabled = listCurrentPage <= 1;
-      document.getElementById('btnListNextPage').disabled = listCurrentPage >= listTotalPages;
-      document.getElementById('btnListLast').disabled = listCurrentPage >= listTotalPages;
-      // ✅ Mostrar rango de fechas en el display
-      if (pageDates.length > 0) {
-        const firstDate = new Date(pageDates[0] + 'T00:00:00');
-        const lastDate = new Date(pageDates[pageDates.length - 1] + 'T00:00:00');
-        const firstStr = firstDate.toLocaleDateString('es-CO', { day: 'numeric', month: 'short', timeZone: TIMEZONE });
-        const lastStr = lastDate.toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric', timeZone: TIMEZONE });
-        document.getElementById('listPageDisplay').textContent = `${firstStr} - ${lastStr}`;
-      } else {
-        document.getElementById('listPageDisplay').textContent = 'Sin eventos';
-      }
-      list.innerHTML = '';
-      if (pageDates.length === 0) {
-        list.innerHTML = '<div class="no-events-message"><div class="no-events-icon">📭</div><h3>No hay eventos</h3></div>';
-        return;
-      }
-      // ✅ Renderizar eventos de las fechas de esta página
-      pageDates.forEach(dateStr => {
-        const dayEvents = filtered.filter(e => e.fecha === dateStr)
-          .sort((a, b) => a.hora.localeCompare(b.hora));
-        const dateObj = new Date(dateStr + 'T00:00:00');
-        const dateDisplay = dateObj.toLocaleDateString('es-CO', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          timeZone: TIMEZONE
-        });
-        // ✅ Título de fecha
-        const dateHeader = document.createElement('div');
-        dateHeader.style.cssText = 'background: #34495e; color: white; padding: 10px 15px; border-radius: 6px; margin: 15px 0 10px; font-weight: 600;';
-        dateHeader.textContent = `📅 ${dateDisplay.charAt(0).toUpperCase() + dateDisplay.slice(1)} (${dayEvents.length} evento${dayEvents.length !== 1 ? 's' : ''})`;
-        list.appendChild(dateHeader);
-        // ✅ Eventos del día
-        dayEvents.forEach(e => {
-          const d = new Date(e.fecha + 'T' + e.hora);
-          const config = ENCARGADOS[e.encargadoKey];
-          const card = document.createElement('div');
-          card.className = `event-card ${config.class}`;
-          card.style.borderLeftColor = config.color;
-          card.onclick = () => openModal(e);
-          card.innerHTML = `
-<div class="event-header">
-<div class="event-date">🕐 ${d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', timeZone: TIMEZONE })}</div>
-<div class="event-musician" style="background: ${config.color};">
-${config.icon} ${e.encargadoDisplay}
-</div>
-</div>
-<div class="event-details">
-<div class="event-detail-row">
-<div class="event-detail"><strong>📍 Lugar:</strong> ${e.lugar}</div>
-</div>
-<div class="event-detail-row">
-<div class="event-detail"><strong>💰 Pago:</strong> <span class="event-payment">$${e.pago.toLocaleString('es-CO')}</span></div>
-</div>
-<div class="event-detail-row">
-<div class="event-detail"><strong>🚗 Transporte:</strong> <span class="event-transport">$${e.transPago.toLocaleString('es-CO')}</span></div>
-</div>
-</div>`;
-          list.appendChild(card);
-        });
+
+    function initMonthSelector() {
+      const container = document.getElementById('monthSelector');
+      container.innerHTML = '';
+      Object.entries(SHEETS_CONFIG).forEach(([key, config]) => {
+        const btn = document.createElement('button');
+        btn.className = `btn ${key === currentMonth ? 'active' : ''}`;
+        btn.textContent = config.label;
+        btn.addEventListener('click', () => switchMonth(key));
+        container.appendChild(btn);
       });
     }
-    // ✅ TABLA CON PAGINACIÓN
-    function renderFullTable() {
-      const today = getColombianTodayStr();
-      const tbody = document.getElementById('fullEventsBody');
-      filteredEventsForTable = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
-        .filter(e => e.fecha >= today)
-        .sort((a, b) => new Date(a.fecha + 'T' + a.hora) - new Date(b.fecha + 'T' + b.hora));
-      // Calcular paginación
-      totalPages = Math.ceil(filteredEventsForTable.length / EVENTS_PER_PAGE) || 1;
-      if (currentPage > totalPages) currentPage = totalPages;
-      if (currentPage < 1) currentPage = 1;
-      const startIndex = (currentPage - 1) * EVENTS_PER_PAGE;
-      const endIndex = startIndex + EVENTS_PER_PAGE;
-      const pageEvents = filteredEventsForTable.slice(startIndex, endIndex);
-      if (pageEvents.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:30px;color:#7f8c8d;">📭 No hay eventos</td></tr>';
-        updatePagination();
-        return;
-      }
-      tbody.innerHTML = pageEvents.map(e => {
-        const config = ENCARGADOS[e.encargadoKey];
-        const dateObj = new Date(e.fecha + 'T00:00:00');
-        const dayName = dateObj.toLocaleDateString('es-CO', { weekday: 'short', timeZone: TIMEZONE });
-        const dateDisplay = dateObj.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: TIMEZONE });
-        return `
-<tr style="cursor:pointer;" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
-<td><strong>${dateDisplay}</strong></td>
-<td>${dayName}</td>
-<td>${e.hora}</td>
-<td>${e.lugar}</td>
-<td><span class="event-musician" style="background:${config.color};">${config.icon} ${e.encargadoDisplay}</span></td>
-<td>${e.notas || '---'}</td>
-<td style="color: #e67e22; font-weight: 700;">$${e.transPago.toLocaleString('es-CO')}</td>
-<td style="color: #27ae60; font-weight: 700;">$${e.pago.toLocaleString('es-CO')}</td>
-<td><span class="status-badge status-confirmed">${e.status}</span></td>
-<td style="text-align: center;">👥 ${e.numMusicos || 0}</td>
-</tr>
-`;
-      }).join('');
-      updatePagination();
-    }
-    // ✅ FUNCIONES DE PAGINACIÓN TABLA
-    function updatePagination() {
-      document.getElementById('paginationInfo').textContent = `Página ${currentPage} de ${totalPages} (${filteredEventsForTable.length} eventos)`;
-      document.getElementById('btnPrevPage').disabled = currentPage <= 1;
-      document.getElementById('btnFirstPage').disabled = currentPage <= 1;
-      document.getElementById('btnNextPage').disabled = currentPage >= totalPages;
-      document.getElementById('btnLastPage').disabled = currentPage >= totalPages;
-    }
-    function changePage(delta) {
-      const newPage = currentPage + delta;
-      if (newPage >= 1 && newPage <= totalPages) {
-        currentPage = newPage;
-        renderFullTable();
-      }
-    }
-    function goToPage(page) {
-      if (page >= 1 && page <= totalPages) {
-        currentPage = page;
-        renderFullTable();
-      }
-    }
-    // ===== 📜 RENDERIZAR HISTÓRICO =====
-    function renderHistory() {
-      const monthSelect = document.getElementById('historyMonthSelect');
-      const noHistoryMsg = document.getElementById('noHistoryMessage');
-      const historySummary = document.getElementById('historySummary');
-      const historyEventsList = document.getElementById('historyEventsList');
-      const historyMusicianBreakdown = document.getElementById('historyMusicianBreakdown');
-      // Obtener mes actual
-      const currentMonth = getCurrentColombianMonth();
-      selectedHistoryMonth = currentMonth.key;
-      // Llenar selector de meses
-      populateMonthSelector(monthSelect);
-      // Renderizar histórico del mes seleccionado
-      renderHistoryByMonth();
-    }
-    function populateMonthSelector(select) {
-      select.innerHTML = '';
-      // Agregar meses disponibles desde registros + mes actual
-      const availableMonths = new Set();
-      monthlyRecords.forEach(r => availableMonths.add(r.monthKey));
-      availableMonths.add(getCurrentColombianMonth().key);
-      const sortedMonths = [...availableMonths].sort().reverse();
-      sortedMonths.forEach(monthKey => {
-        const [year, month] = monthKey.split('-');
-        const monthName = getMonthName(month);
-        const option = document.createElement('option');
-        option.value = monthKey;
-        option.textContent = `${monthName} ${year}`;
-        if (monthKey === selectedHistoryMonth) {
-          option.selected = true;
-        }
-        select.appendChild(option);
+
+    function switchMonth(monthKey) {
+      currentMonth = monthKey;
+      document.querySelectorAll('.month-nav .btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === SHEETS_CONFIG[monthKey].label);
       });
+      loadMonthData(monthKey);
     }
-    function renderHistoryByMonth() {
-      const monthSelect = document.getElementById('historyMonthSelect');
-      const noHistoryMsg = document.getElementById('noHistoryMessage');
-      const historySummary = document.getElementById('historySummary');
-      const historyEventsList = document.getElementById('historyEventsList');
-      const historyMusicianBreakdown = document.getElementById('historyMusicianBreakdown');
-      selectedHistoryMonth = monthSelect.value;
-      const [year, month] = selectedHistoryMonth.split('-');
-      const monthName = getMonthName(month);
-      // Obtener eventos del mes que ya se realizaron
-      const colombianTime = getColombianDateTime();
-      const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
-      const monthEvents = allEvents.filter(e => {
-        const eventDate = e.fecha.split('-');
-        const eventYear = parseInt(eventDate[0]);
-        const eventMonth = parseInt(eventDate[1]);
-        const eventDateTime = new Date(e.fecha + 'T' + e.hora);
-        return eventYear === parseInt(year) &&
-          eventMonth === parseInt(month) &&
-          eventDateTime < now;
-      }).sort((a, b) => new Date(b.fecha + 'T' + b.hora) - new Date(a.fecha + 'T' + b.hora));
-      // Calcular totales
-      const totalEvents = monthEvents.length;
-      const totalTransport = monthEvents.reduce((sum, e) => sum + (e.transPago || 0), 0);
-      const totalEarnings = monthEvents.reduce((sum, e) => sum + (e.pago || 0), 0);
-      // Desglose por músico
-      const musicianBreakdown = {};
-      monthEvents.forEach(e => {
-        if (!musicianBreakdown[e.encargadoKey]) {
-          musicianBreakdown[e.encargadoKey] = { events: 0, transport: 0, earnings: 0 };
-        }
-        musicianBreakdown[e.encargadoKey].events += 1;
-        musicianBreakdown[e.encargadoKey].transport += (e.transPago || 0);
-        musicianBreakdown[e.encargadoKey].earnings += (e.pago || 0);
-      });
-      // Mostrar mensaje si no hay eventos
-      if (totalEvents === 0) {
-        noHistoryMsg.classList.remove('hidden');
-        historySummary.innerHTML = '';
-        historyEventsList.innerHTML = '';
-        historyMusicianBreakdown.innerHTML = '';
-        return;
-      }
-      noHistoryMsg.classList.add('hidden');
-      // Renderizar resumen
-      historySummary.innerHTML = `
-<h3>📊 Resumen de ${monthName} ${year}</h3>
-<div class="summary-grid">
-<div class="summary-item">
-<div class="value">${totalEvents}</div>
-<div class="label">Serenatas Realizadas</div>
-</div>
-<div class="summary-item">
-<div class="value">$${totalTransport.toLocaleString('es-CO')}</div>
-<div class="label">Total Transporte</div>
-</div>
-<div class="summary-item">
-<div class="value">$${totalEarnings.toLocaleString('es-CO')}</div>
-<div class="label">Total Ganancias Por Músico</div>
-</div>
-<div class="summary-item">
-<div class="value">${Object.keys(musicianBreakdown).length}</div>
-<div class="label">Músicos Encargados</div>
-</div>
-</div>
-`;
-      // Renderizar lista de eventos
-      historyEventsList.innerHTML = `
-<h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.1em;">📋 Detalle de Serenatas</h3>
-${monthEvents.map(e => {
-        const config = ENCARGADOS[e.encargadoKey];
-        const dateObj = new Date(e.fecha + 'T00:00:00');
-        const dateDisplay = dateObj.toLocaleDateString('es-CO', {
-          weekday: 'short',
-          day: '2-digit',
-          month: 'short',
-          timeZone: TIMEZONE
-        });
-        return `
-<div class="history-event-card" onclick="openModal(${JSON.stringify(e).replace(/"/g, '&quot;')})">
-<div class="history-event-header">
-<div class="history-event-date">📅 ${dateDisplay} - 🕐 ${e.hora}</div>
-<div class="history-event-musician" style="background: ${config.color};">
-${config.icon} ${e.encargadoDisplay}
-</div>
-</div>
-<div class="history-event-details">
-<div class="history-event-detail">📍 ${e.lugar}</div>
-<div class="history-event-detail">👥 ${e.numMusicos || 0} músicos</div>
-<div class="history-event-detail history-event-transport">🚗 $${e.transPago.toLocaleString('es-CO')}</div>
-<div class="history-event-detail history-event-amount">💰 $${e.pago.toLocaleString('es-CO')}</div>
-</div>
-</div>
-`;
-      }).join('')}
-`;
-      // Renderizar desglose por músico
-      historyMusicianBreakdown.innerHTML = `
-<h4>🎵 Desglose por Músico</h4>
-${Object.entries(musicianBreakdown).map(([key, data]) => {
-        const config = ENCARGADOS[key];
-        return `
-<div class="musician-stat">
-<div class="musician-info">
-<span class="musician-icon">${config.icon}</span>
-<span class="musician-name">${config.name}</span>
-</div>
-<div class="musician-stats">
-<span class="musician-stat-value" style="color: #3498db;">📅 ${data.events} eventos</span>
-<span class="musician-stat-value" style="color: #e67e22;">🚗 $${data.transport.toLocaleString('es-CO')}</span>
-<span class="musician-stat-value" style="color: #27ae60;">💰 $${data.earnings.toLocaleString('es-CO')}</span>
-</div>
-</div>
-`;
-      }).join('')}
-`;
-    }
-    function showHistory() {
-      switchView('history');
-    }
-    // ===== 📊 EXPORTAR HISTÓRICO A CSV =====
-    function exportHistoryToCSV() {
-      if (monthlyRecords.length === 0 && events.length === 0) {
-        alert('⚠️ No hay registros históricos para exportar');
-        return;
-      }
-      let csv = 'Mes,Año,Eventos Realizados,Total Transporte,Total Ganancias,Fecha Registro\n';
-      monthlyRecords.forEach(r => {
-        csv += `${r.monthName},${r.year},${r.eventsCompleted},${r.totalTransport},${r.totalEarnings},${r.savedAt}\n`;
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `Historico-Mariachi-${getColombianTodayStr()}.csv`;
-      link.click();
-      alert('✅ Histórico exportado exitosamente');
-    }
-    async function exportToPDF() {
-      const loading = document.getElementById('loading');
-      const consolidatedView = document.getElementById('consolidatedView');
-      const consolidatedContent = document.getElementById('consolidatedContent');
-      const today = getColombianTodayStr();
-      const filtered = currentFilter === 'all'
-        ? events.filter(e => e.fecha >= today)
-        : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
-      if (filtered.length === 0) {
-        alert('⚠️ No hay eventos para exportar');
-        return;
-      }
-      loading.style.display = 'block';
+
+    async function loadMonthData(monthKey) {
+      const config = SHEETS_CONFIG[monthKey];
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = `<tr><td colspan="6" class="loading">Cargando ${config.label}...</td></tr>`;
+
+      document.getElementById('upcomingContainer').innerHTML = '<div class="loading" style="padding:10px;font-size:0.9rem">Actualizando...</div>';
+      document.getElementById('encargadosBody').innerHTML = '<tr><td colspan="4" class="loading">Calculando...</td></tr>';
+      document.getElementById('historialBody').innerHTML = '<tr><td colspan="6" class="loading">Cargando historial...</td></tr>';
+
       try {
-        consolidatedView.classList.remove('hidden');
-        consolidatedView.classList.add('export-visible');
-        if (consolidatedContent.innerHTML.trim() === '') {
-          renderConsolidatedView();
-        }
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        const opt = {
-          margin: 10,
-          filename: `Agenda-Mariachi-2026.pdf`,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true, logging: false, windowWidth: 1200 },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        const response = await fetch(config.csvUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csvText = await response.text();
+        allEvents = parseCSV(csvText);
+        applyFilters();
+
+        renderTable();
+        renderHistorial();
+        renderUpcomingNotifications();
+        renderEncargadosStats();
+        updateStats();
+      } catch (error) {
+        console.error('Error:', error);
+        tbody.innerHTML = `<tr><td colspan="6" class="error">⚠️ Error al cargar datos. Verifica la URL de la hoja de cálculo.</td></tr>`;
+      }
+    }
+
+    // ========================================
+    // FUNCIÓN PARA CAMBIAR PESTAÑAS
+    // ========================================
+    function switchTab(tabName) {
+      document.getElementById('tab-pendientes').classList.toggle('active', tabName === 'pendientes');
+      document.getElementById('tab-historial').classList.toggle('active', tabName === 'historial');
+      document.getElementById('content-pendientes').classList.toggle('active', tabName === 'pendientes');
+      document.getElementById('content-historial').classList.toggle('active', tabName === 'historial');
+
+      if (tabName === 'pendientes') renderTable();
+      if (tabName === 'historial') renderHistorial();
+    }
+
+    // ========================================
+    // LÓGICA DE DATOS
+    // ========================================
+    function parseCSV(csvText) {
+      const lines = csvText.trim().split('\n');
+      if (lines.length < 2) return [];
+      return lines.slice(1).map(line => {
+        const row = parseCSVLine(line);
+        return {
+          fecha: row[0] || '',
+          dia: row[1] || '',
+          hora: row[2] || '',
+          notas: row[3] || '',
+          lugar: row[4] || '',
+          encargado: row[5] || '',
+          pago: row[6] || '',
+          numMusicos: row[7] || '',
+          transPago: row[8] || '',
+          isPast: isEventPast(row[0], row[2])
         };
-        await html2pdf().set(opt).from(consolidatedContent).save();
-        alert('✅ PDF descargado exitosamente');
-      } catch (error) {
-        console.error('Error exportando PDF:', error);
-        alert('❌ Error al exportar PDF: ' + error.message);
-      } finally {
-        consolidatedView.classList.remove('export-visible');
-        loading.style.display = 'none';
-      }
+      }).filter(e => e.fecha);
     }
-    async function exportToImage() {
-      const loading = document.getElementById('loading');
-      const consolidatedView = document.getElementById('consolidatedView');
-      const consolidatedContent = document.getElementById('consolidatedContent');
-      const today = getColombianTodayStr();
-      const filtered = currentFilter === 'all'
-        ? events.filter(e => e.fecha >= today)
-        : events.filter(e => e.encargadoKey === currentFilter && e.fecha >= today);
-      if (filtered.length === 0) {
-        alert('⚠️ No hay eventos para exportar');
+
+    function parseCSVLine(line) {
+      const row = []; let current = ''; let inQuotes = false;
+      for (let char of line) {
+        if (char === '"') inQuotes = !inQuotes;
+        else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+        else current += char;
+      }
+      row.push(current.trim());
+      return row;
+    }
+
+    function isEventPast(fechaStr, horaStr) {
+      if (!fechaStr || !horaStr) return false;
+      const eventDate = parseEventDateObject(fechaStr, horaStr);
+      if (!eventDate) return false;
+      return eventDate < new Date();
+    }
+
+    function parseEventDateObject(fechaStr, horaStr) {
+      const meses = {
+        'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5,
+        'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11
+      };
+      const parts = fechaStr.toLowerCase().split(' ');
+      if (parts.length < 3) return null;
+
+      const dia = parseInt(parts[0]);
+      const mes = meses[parts[2]?.replace('de', '')];
+      const anio = parseInt(parts[4]) || SHEETS_CONFIG[currentMonth]?.year || 2026;
+
+      let hora = 0, minuto = 0;
+      if (horaStr) {
+        const timeMatch = horaStr.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
+        if (timeMatch) {
+          hora = parseInt(timeMatch[1]);
+          minuto = parseInt(timeMatch[2]) || 0;
+          if (timeMatch[3]?.toLowerCase() === 'pm' && hora < 12) hora += 12;
+          if (timeMatch[3]?.toLowerCase() === 'am' && hora === 12) hora = 0;
+        }
+      }
+      return new Date(anio, mes, dia, hora, minuto);
+    }
+
+    function getDateKey(fechaStr, horaStr) {
+      const eventDate = parseEventDateObject(fechaStr, horaStr);
+      if (!eventDate) return null;
+      return eventDate.toISOString().split('T')[0];
+    }
+
+    function applyFilters() {
+      const term = document.getElementById('searchInput')?.value?.toLowerCase().trim() || '';
+      const config = SHEETS_CONFIG[currentMonth];
+
+      filteredEvents = allEvents.filter(event => {
+        const eventMes = parseEventMonth(event.fecha);
+        if (eventMes !== config.month) return false;
+
+        if (term) {
+          const searchStr = Object.values(event).join(' ').toLowerCase();
+          return searchStr.includes(term);
+        }
+        return true;
+      });
+    }
+
+    function parseEventMonth(fechaStr) {
+      const meses = {
+        'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5,
+        'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11
+      };
+      const parts = fechaStr?.toLowerCase().split(' ') || [];
+      return meses[parts[2]?.replace('de', '')] ?? -1;
+    }
+
+    // ========================================
+    // RENDERIZADO
+    // ========================================
+
+    // 1. ESTADÍSTICAS DASHBOARD
+    function updateStats() {
+      const total = filteredEvents.length;
+      const past = filteredEvents.filter(e => e.isPast).length;
+      const future = total - past;
+      const totalPago = filteredEvents.filter(e => e.isPast && e.pago)
+        .reduce((sum, e) => sum + (parseFloat(e.pago) || 0), 0);
+
+      const container = document.getElementById('statsContainer');
+      container.innerHTML = `
+        <div class="stat-card">
+            <h3>${total}</h3>
+            <p>Total Serenatas Mes</p>
+        </div>
+        <div class="stat-card success">
+            <h3>${past}</h3>
+            <p>Serenatas Realizadas Del Mes</p>
+        </div>
+        <div class="stat-card warning">
+            <h3>${future}</h3>
+            <p>Serenatas Pendientes Del Mes</p>
+        </div>
+        <div class="stat-card money">
+            <h3>${formatMoney(totalPago)}</h3>
+            <p>Ingresos Confirmados Mes</p>
+        </div>
+    `;
+    }
+
+    // ✅ 2. NOTIFICACIONES LATERALES: PRÓXIMOS EVENTOS AGRUPADOS POR DÍAS (COMPACTO)
+    function renderUpcomingNotifications() {
+      const container = document.getElementById('upcomingContainer');
+
+      const now = new Date();
+      const currentRealMonth = now.getMonth();
+      const currentRealYear = now.getFullYear();
+      const config = SHEETS_CONFIG[currentMonth];
+
+      if (config.month !== currentRealMonth || config.year !== currentRealYear) {
+        container.innerHTML = `
+          <div class="notification-empty">
+            📭 Eventos visibles solo en el mes actual<br>
+            <small style="display:block;margin-top:5px;opacity:0.8">
+              Selecciona "${new Date().toLocaleString('es-CO', { month: 'long', year: 'numeric' })}"
+            </small>
+          </div>`;
         return;
       }
-      loading.style.display = 'block';
-      try {
-        consolidatedView.classList.remove('hidden');
-        consolidatedView.classList.add('export-visible');
-        if (consolidatedContent.innerHTML.trim() === '') {
-          renderConsolidatedView();
-        }
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        const canvas = await html2canvas(consolidatedContent, {
-          scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff', windowWidth: 1200
-        });
-        const a = document.createElement('a');
-        a.download = `Agenda-Mariachi-2026.png`;
-        a.href = canvas.toDataURL('image/png', 1.0);
-        a.click();
-        alert('✅ Imagen descargada exitosamente');
-      } catch (error) {
-        console.error('Error exportando imagen:', error);
-        alert('❌ Error al exportar imagen: ' + error.message);
-      } finally {
-        consolidatedView.classList.remove('export-visible');
-        loading.style.display = 'none';
+
+      const futureEvents = allEvents
+        .filter(e => !e.isPast)
+        .sort((a, b) => parseEventDateObject(a.fecha, a.hora) - parseEventDateObject(b.fecha, b.hora));
+
+      if (futureEvents.length === 0) {
+        container.innerHTML = '<div class="notification-empty">✨ Sin eventos próximos</div>';
+        return;
       }
-    }
-    // ===== ✅ FUNCIÓN ACTUALIZADA DE ESTADÍSTICAS =====
-    function updateStats() {
-      const colombianTime = getColombianDateTime();
-      const now = new Date(`${colombianTime.date}T${colombianTime.time}`);
-      const currentMonth = getCurrentColombianMonth();
-      checkAndSaveMonthChange();
-      const currentMonthPastEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
-        .filter(e => {
-          const eventDate = e.fecha.split('-');
-          const eventYear = parseInt(eventDate[0]);
-          const eventMonth = parseInt(eventDate[1]);
-          const eventDateTime = new Date(e.fecha + 'T' + e.hora);
-          return eventYear === currentMonth.year &&
-            eventMonth === currentMonth.month &&
-            eventDateTime < now;
-        });
-      const futureEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
-        .filter(e => {
-          const eventDateTime = new Date(e.fecha + 'T' + e.hora);
-          return eventDateTime >= now;
-        });
-      const allPastEvents = (currentFilter === 'all' ? events : events.filter(e => e.encargadoKey === currentFilter))
-        .filter(e => {
-          const eventDateTime = new Date(e.fecha + 'T' + e.hora);
-          return eventDateTime < now;
-        });
-      const totalTransport = currentMonthPastEvents.reduce((sum, e) => sum + (e.transPago || 0), 0);
-      const totalReal = currentMonthPastEvents.reduce((sum, e) => sum + (e.pago || 0), 0);
-      document.getElementById('totalEvents').textContent = '$' + totalTransport.toLocaleString('es-CO');
-      document.getElementById('confirmedEvents').textContent = futureEvents.filter(e => e.status === 'confirmado').length;
-      document.getElementById('completedEvents').textContent = allPastEvents.length;
-      document.getElementById('totalEarnings').textContent = '$' + totalReal.toLocaleString('es-CO');
-      const monthLabel = `${getMonthName(currentMonth.month)} ${currentMonth.year}`;
-      document.getElementById('currentMonthLabel').textContent = monthLabel;
-      document.getElementById('transportMonthLabel').textContent = monthLabel;
-      document.getElementById('earningsMonthLabel').textContent = monthLabel;
-    }
-    function render() {
-      renderNextThreeDaysWithEvents();
-      if (currentView === 'calendar') renderCalendar();
-      else if (currentView === 'list') renderList();
-      else if (currentView === 'table') renderFullTable();
-      else if (currentView === 'consolidated') renderConsolidatedView();
-      else if (currentView === 'history') renderHistory();
-      updateStats();
-    }
-    async function initApp() {
-      const info = document.getElementById('dataInfo');
-      const loading = document.getElementById('loading');
-      const colombianTime = getColombianDateTime();
-      document.getElementById('currentDate').textContent = colombianTime.full;
-      document.getElementById('lastUpdate').textContent = colombianTime.full;
-      try {
-        // ✅ Inicializar IndexedDB
-        await openDatabase();
-        await loadMonthlyRecords();
-        loading.style.display = 'block';
-        info.textContent = '🔄 Conectando con Google Sheets...';
-        const start = Date.now();
-        allEvents = await loadEventsFromSheet();
-        events = allEvents; // Eventos filtrados por fecha
-        const time = ((Date.now() - start) / 1000).toFixed(2);
-        loading.style.display = 'none';
-        if (events.length > 0) {
-          const byEncargado = events.reduce((acc, e) => {
-            acc[e.encargadoKey] = (acc[e.encargadoKey] || 0) + 1;
-            return acc;
-          }, {});
-          const summary = Object.entries(byEncargado)
-            .map(([k, c]) => `${ENCARGADOS[k].icon} ${c}`)
-            .join(' | ');
-          info.innerHTML = `<strong>✅ ${events.length} eventos cargados</strong> <span style="margin-left:10px;opacity:0.8">(${time}s)</span><br><small>${summary}</small><br><small style="color:#27ae60">🚀 Optimizado: Filtro fecha + Paginación Lista/Agenda + IndexedDB</small>`;
-          info.style.background = '#e8f5e9';
-          info.style.color = '#2e7d32';
-          if (events.length > 0) {
-            const firstEvent = events.sort((a, b) => a.fecha.localeCompare(b.fecha))[0];
-            const [year, month] = firstEvent.fecha.split('-').map(Number);
-            currentCalendarMonth = new Date(year, month - 1, 1);
-          }
-          const currentMonth = getCurrentColombianMonth();
-          lastSavedMonth = currentMonth.key;
-          renderFilterButtons();
-          render();
-        } else {
-          info.textContent = '⚠️ No hay eventos en la hoja';
-          info.style.background = '#fff3e0';
-          info.style.color = '#ef6c00';
+
+      // Agrupar eventos por fecha
+      const eventsByDate = {};
+      for (const event of futureEvents) {
+        const dateKey = getDateKey(event.fecha, event.hora);
+        if (!dateKey) continue;
+        if (!eventsByDate[dateKey]) {
+          eventsByDate[dateKey] = { displayDate: event.fecha, events: [] };
         }
-      } catch (e) {
-        loading.style.display = 'none';
-        info.innerHTML = `<strong>❌ Error de conexión</strong><br><small>${e.message}</small>`;
-        info.style.background = '#ffebee';
-        info.style.color = '#c62828';
-        console.error(e);
+        eventsByDate[dateKey].events.push(event);
       }
-      switchView(currentView);
+
+      const uniqueDates = Object.keys(eventsByDate).slice(0, 3);
+      if (uniqueDates.length === 0) {
+        container.innerHTML = '<div class="notification-empty">📭 Sin eventos próximos</div>';
+        return;
+      }
+
+      // Renderizar compacto agrupado por días
+      let html = '';
+      uniqueDates.forEach(dateKey => {
+        const group = eventsByDate[dateKey];
+        const dayEvents = group.events.slice(0, 5);
+
+        html += `
+          <div class="notification-day-group">
+            <div class="notification-day-header">${group.displayDate}</div>
+            ${dayEvents.map(event => `
+              <div class="notification-item" onclick="showModalEvent('${escapeHtml(event.fecha)}','${escapeHtml(event.hora)}')">
+                  <span class="place">🕐${event.hora} • ${event.lugar || 'Lugar'}</span>
+                  <span class="person">👤 ${event.encargado || '-'}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
     }
-    document.addEventListener('DOMContentLoaded', initApp);
+
+    // 3. TABLA PRINCIPAL: SOLO PENDIENTES
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      const pendingEvents = filteredEvents.filter(e => !e.isPast);
+
+      if (pendingEvents.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-results">✨ ¡No hay eventos pendientes! Todos completados.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = pendingEvents.map(event => `
+        <tr style="cursor:pointer" onclick="showModalEvent('${escapeHtml(event.fecha)}', '${escapeHtml(event.hora)}')">
+            <td><strong>${formatDate(event.fecha)}</strong><br><small style="color:#666">${event.dia}</small></td>
+            <td>${event.hora}</td>
+            <td>${event.lugar || '-'}</td>
+            <td><span style="background:#e3f2fd; color:#0056b3; padding:4px 8px; border-radius:4px; font-size:0.9rem">${event.encargado || '-'}</span></td>
+            <td style="font-weight:bold; color:#999">
+                ${formatMoney(event.pago)} <small style="font-weight:normal; font-size:0.85rem">(estimado)</small>
+            </td>
+            <td>
+                <span class="badge badge-future">⏳ Pendiente</span>
+            </td>
+        </tr>
+      `).join('');
+    }
+
+    // 4. HISTORIAL DE EVENTOS REALIZADOS
+    function renderHistorial() {
+      const tbody = document.getElementById('historialBody');
+      const pastEvents = filteredEvents.filter(e => e.isPast);
+
+      if (pastEvents.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-results">📭 Aún no hay eventos realizados este mes.</td></tr>';
+        return;
+      }
+
+      pastEvents.sort((a, b) => {
+        return parseEventDateObject(b.fecha, b.hora) - parseEventDateObject(a.fecha, a.hora);
+      });
+
+      tbody.innerHTML = pastEvents.map(event => `
+        <tr style="cursor:pointer" onclick="showModalEvent('${escapeHtml(event.fecha)}', '${escapeHtml(event.hora)}')">
+            <td><strong>${formatDate(event.fecha)}</strong><br><small style="color:#666">${event.dia}</small></td>
+            <td>${event.hora}</td>
+            <td>${event.lugar || '-'}</td>
+            <td><span style="background:#c8e6c9; color:#2e7d32; padding:4px 8px; border-radius:4px; font-size:0.9rem">${event.encargado || '-'}</span></td>
+            <td style="font-weight:bold; color:var(--success)">
+                ${formatMoney(event.pago)}
+            </td>
+            <td style="color:var(--text-secondary)">
+                ${formatMoney(event.transPago)}
+            </td>
+        </tr>
+      `).join('');
+    }
+
+    // ✅ 5. MONITOREO DE ENCARGADOS
+    function renderEncargadosStats() {
+      const tbody = document.getElementById('encargadosBody');
+      const stats = {};
+
+      filteredEvents.forEach(e => {
+        const name = e.encargado || 'Sin Asignar';
+        if (!stats[name]) stats[name] = { total: 0, past: 0, future: 0 };
+        stats[name].total++;
+        if (e.isPast) { stats[name].past++; } else { stats[name].future++; }
+      });
+
+      const sortedStats = Object.entries(stats).sort((a, b) => b[1].total - a[1].total);
+      if (sortedStats.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="no-results">Sin datos de encargados</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = sortedStats.map(([name, data]) => `
+        <tr>
+            <td><strong>${name}</strong></td>
+            <td>${data.total}</td>
+            <td style="color:var(--success); font-weight:600">${data.past}</td>
+            <td style="color:var(--warning); font-weight:600">${data.future}</td>
+        </tr>
+      `).join('');
+    }
+
+    // ========================================
+    // UTILIDADES Y EVENTOS
+    // ========================================
+    function setupEventListeners() {
+      document.getElementById('searchInput')?.addEventListener('input', () => {
+        applyFilters();
+        renderTable();
+        renderHistorial();
+        renderUpcomingNotifications();
+        renderEncargadosStats();
+        updateStats();
+      });
+
+      const modal = document.getElementById('eventModal');
+      const closeBtn = document.getElementById('modalClose');
+      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+      window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.remove('active'); });
+    }
+
+    window.showModalEvent = function (fecha, hora) {
+      const event = allEvents.find(e => e.fecha === fecha && e.hora === hora);
+      if (!event) return;
+      const modal = document.getElementById('eventModal');
+      document.getElementById('modalTitle').textContent = `${event.fecha} - ${event.hora}`;
+      document.getElementById('modalBody').innerHTML = `
+        <div class="modal-row"><span class="modal-label">Día:</span><span class="modal-value">${event.dia}</span></div>
+        <div class="modal-row"><span class="modal-label">Lugar:</span><span class="modal-value">${event.lugar || '-'}</span></div>
+        <div class="modal-row"><span class="modal-label">Encargado:</span><span class="modal-value">${event.encargado || '-'}</span></div>
+        <div class="modal-row"><span class="modal-label">Notas:</span><span class="modal-value">${event.notas || 'Sin notas'}</span></div>
+        <div class="modal-row"><span class="modal-label">Músicos:</span><span class="modal-value">${event.numMusicos || '-'}</span></div>
+        <div class="modal-row"><span class="modal-label">Pago:</span><span class="modal-value" style="color:${event.isPast ? 'var(--success)' : 'var(--warning)'}">${event.isPast ? formatMoney(event.pago) : formatMoney(event.pago) + ' (pendiente)'}</span></div>
+        <div class="modal-row"><span class="modal-label">TransPago:</span><span class="modal-value">${formatMoney(event.transPago)}</span></div>
+        <div class="modal-row"><span class="modal-label">Estado:</span><span class="modal-value"><span class="badge ${event.isPast ? 'badge-past' : 'badge-future'}">${event.isPast ? '✓ Realizado' : '⏳ Pendiente'}</span></span></div>
+      `;
+      modal.classList.add('active');
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      return dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+    }
+
+    function formatMoney(amount) {
+      if (!amount || isNaN(parseFloat(amount))) return '$0';
+      return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(parseFloat(amount));
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
   </script>
 </body>
 
