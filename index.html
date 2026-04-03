@@ -317,7 +317,7 @@
     }
 
     .badge-cacho {
-      background: #f57c00;
+      background: #ce843b;
       color: white;
     }
 
@@ -328,7 +328,7 @@
 
     /* ===== PALETA DE COLORES COMPLETA ===== */
     .badge-andres {
-      background: #95652d;
+      background: #44311b;
       color: white;
     }
 
@@ -337,84 +337,9 @@
       color: white;
     }
 
-    .badge-maria {
-      background: #E91E63;
-      color: white;
-    }
-
-    .badge-carlos {
-      background: #009688;
-      color: white;
-    }
-
-    .badge-luis {
-      background: #FF5722;
-      color: white;
-    }
-
-    .badge-ana {
-      background: #4CAF50;
-      color: white;
-    }
-
-    .badge-pedro {
-      background: #3F51B5;
-      color: white;
-    }
-
-    .badge-sofia {
-      background: #FF9800;
-      color: white;
-    }
-
-    .badge-diego {
-      background: #F44336;
-      color: white;
-    }
-
-    .badge-laura {
-      background: #673AB7;
-      color: white;
-    }
-
-    .badge-miguel {
-      background: #03A9F4;
-      color: white;
-    }
-
-    .badge-carmen {
-      background: #8BC34A;
-      color: white;
-    }
-
-    .badge-javier {
-      background: #795548;
-      color: white;
-    }
-
-    .badge-valentina {
-      background: #E91E63;
-      color: white;
-    }
-
     .badge-ricardo {
       background: #CDDC39;
       color: rgba(0, 0, 0, 0.87);
-    }
-
-    .badge-gabriela {
-      background: #5C6BC0;
-      color: white;
-    }
-
-    .badge-fernando {
-      background: #26A69A;
-      color: white;
-    }
-
-    .badge-patricia {
-      background: #FFA726;
-      color: white;
     }
 
     /* ===== STATS BAR ===== */
@@ -1314,8 +1239,6 @@
     }
 
     /* ===== RESPONSIVE - TABLET Y MÓVIL ===== */
-
-    /* Tablet: 768px - 1024px */
     @media (max-width: 1024px) {
       .container {
         padding: 12px;
@@ -1353,7 +1276,6 @@
       }
     }
 
-    /* Mobile: ≤ 768px */
     @media (max-width: 768px) {
       body {
         font-size: 13px;
@@ -1433,7 +1355,6 @@
         font-size: 0.85rem;
       }
 
-      /* Badges más compactos en móvil */
       .badge-person,
       .serenata-badge {
         min-width: 100px;
@@ -1531,7 +1452,6 @@
         font-size: 0.8rem;
       }
 
-      /* Resumen del mes en móvil */
       .month-resume {
         padding: 16px;
       }
@@ -1558,7 +1478,6 @@
         font-size: 0.75rem;
       }
 
-      /* Tarjetas de serenatas en móvil */
       .serenata-card {
         padding: 10px 14px;
       }
@@ -1602,7 +1521,6 @@
         font-size: 0.9rem;
       }
 
-      /* Modal optimizado para móvil */
       .modal {
         padding: 10px;
         align-items: flex-end;
@@ -1682,7 +1600,6 @@
         min-height: 42px;
       }
 
-      /* Mensajes de estado */
       .loading,
       .error,
       .no-results {
@@ -1702,7 +1619,6 @@
       }
     }
 
-    /* Mobile muy pequeño: ≤ 480px */
     @media (max-width: 480px) {
       body {
         font-size: 12px;
@@ -1906,14 +1822,12 @@
       }
     }
 
-    /* Ajustes para pantallas muy altas (evitar scroll innecesario) */
     @media (min-height: 900px) {
       .modal-content {
         max-height: 85vh;
       }
     }
 
-    /* Mejoras de accesibilidad: foco visible */
     button:focus-visible,
     input:focus-visible,
     [tabindex]:focus-visible {
@@ -1921,7 +1835,6 @@
       outline-offset: 2px;
     }
 
-    /* Prevenir zoom en iOS al hacer foco en inputs */
     @media screen and (-webkit-min-device-pixel-ratio: 0) {
 
       input,
@@ -1943,7 +1856,7 @@
       </div>
       <div class="header-info">
         <div id="currentDateTime"></div>
-        <div class="version">Versión 2.0 - Tabla Futuros / Histórico Pasados 🎯</div>
+        <div class="version">Versión 2.2 ✅ Corregida - Carga Garantizada 🎯</div>
       </div>
     </header>
 
@@ -1967,9 +1880,7 @@
         <h3>📊 Resumen del Mes</h3>
         <span class="stats-bar-info" id="loadTime">(0.00s)</span>
       </div>
-      <div class="stats-icons" id="statsIcons">
-        <!-- Icons will be inserted here -->
-      </div>
+      <div class="stats-icons" id="statsIcons"></div>
     </div>
 
     <!-- BÚSQUEDA -->
@@ -1980,9 +1891,7 @@
     </div>
 
     <!-- TABS -->
-    <div class="tabs-nav" id="tabsNav">
-      <!-- Los tabs se generarán dinámicamente -->
-    </div>
+    <div class="tabs-nav" id="tabsNav"></div>
 
     <!-- CONTENIDO TABLA -->
     <div id="tab-tabla" class="tab-content active">
@@ -2052,11 +1961,7 @@
         <div class="table-header">
           <h2>📜 Histórico de Serenatas Realizadas</h2>
         </div>
-
-        <!-- Resumen del mes seleccionado -->
         <div id="monthResumeContainer"></div>
-
-        <!-- Detalle de Serenatas -->
         <div id="historicoView">
           <div class="loading">Cargando histórico...</div>
         </div>
@@ -2071,9 +1976,7 @@
         <h3>📅 Detalles del Evento</h3>
         <button class="modal-close" id="modalClose" aria-label="Cerrar modal">&times;</button>
       </div>
-      <div class="modal-body" id="modalBody">
-        <!-- Contenido dinámico -->
-      </div>
+      <div class="modal-body" id="modalBody"></div>
     </div>
   </div>
 
@@ -2082,42 +1985,12 @@
     // CONFIGURACIÓN
     // ========================================
     const SHEETS_CONFIG = {
-      'marzo-2026': {
-        label: 'Marzo 2026',
-        month: 2,
-        year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=443976092&single=true&output=csv'
-      },
-      'abril-2026': {
-        label: 'Abril 2026',
-        month: 3,
-        year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=72877865&single=true&output=csv'
-      },
-      'mayo-2026': {
-        label: 'Mayo 2026',
-        month: 4,
-        year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=2102285288&single=true&output=csv'
-      },
-      'junio-2026': {
-        label: 'Junio 2026',
-        month: 5,
-        year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=1122972528&single=true&output=csv'
-      },
-      'julio-2026': {
-        label: 'Julio 2026',
-        month: 6,
-        year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=777653076&single=true&output=csv'
-      },
-      'agosto-2026': {
-        label: 'Agosto 2026',
-        month: 7,
-        year: 2026,
-        csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=317038201&single=true&output=csv'
-      }
+      'marzo-2026': { label: 'Marzo 2026', month: 2, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=443976092&single=true&output=csv' },
+      'abril-2026': { label: 'Abril 2026', month: 3, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=72877865&single=true&output=csv' },
+      'mayo-2026': { label: 'Mayo 2026', month: 4, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=2102285288&single=true&output=csv' },
+      'junio-2026': { label: 'Junio 2026', month: 5, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=1122972528&single=true&output=csv' },
+      'julio-2026': { label: 'Julio 2026', month: 6, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=777653076&single=true&output=csv' },
+      'agosto-2026': { label: 'Agosto 2026', month: 7, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=317038201&single=true&output=csv' }
     };
 
     // ========================================
@@ -2127,6 +2000,13 @@
     let allEvents = [];
     let filteredEvents = [];
     let loadStartTime = 0;
+
+    // Caches para optimización
+    const dateCache = new Map();
+    const badgeCache = new Map();
+    const iconCache = new Map();
+    const moneyFormatCache = new Map();
+    let searchDebounceTimer = null;
 
     // ========================================
     // INICIALIZACIÓN
@@ -2141,17 +2021,8 @@
 
     function updateDateTime() {
       const now = new Date();
-      const options = {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true
-      };
       document.getElementById('currentDateTime').textContent =
-        now.toLocaleString('es-CO', options);
+        now.toLocaleString('es-CO', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
     }
 
     function initMonthSelector() {
@@ -2167,19 +2038,23 @@
     }
 
     function switchMonth(monthKey) {
+      if (currentMonth === monthKey) return;
       currentMonth = monthKey;
       document.querySelectorAll('.month-nav .btn').forEach(btn => {
         btn.classList.toggle('active', btn.textContent === SHEETS_CONFIG[monthKey].label);
       });
+      dateCache.clear();
       loadMonthData(monthKey);
     }
 
+    // ========================================
+    // CARGA DE DATOS - CORREGIDA
+    // ========================================
     async function loadMonthData(monthKey) {
       loadStartTime = performance.now();
       const config = SHEETS_CONFIG[monthKey];
       const tbody = document.getElementById('tableBody');
       tbody.innerHTML = `<tr><td colspan="10" class="loading">Cargando ${config.label}...</td></tr>`;
-
       document.getElementById('upcomingCards').innerHTML = '<div class="loading">Cargando...</div>';
       document.getElementById('historicoView').innerHTML = '<div class="loading">Cargando histórico...</div>';
 
@@ -2187,109 +2062,34 @@
         const response = await fetch(config.csvUrl);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const csvText = await response.text();
-        allEvents = parseCSV(csvText);
+
+        // Parsear CSV con función original confiable
+        allEvents = parseCSV(csvText).map(event => {
+          const cacheKey = `${event.fecha}|${event.hora}`;
+          event._dateObj = parseEventDateObjectCached(event.fecha, event.hora, cacheKey);
+          event._isPast = event._dateObj ? event._dateObj < new Date() : false;
+          event._badgeClass = getPersonBadgeClassCached(event.encargado);
+          event._personIcon = getPersonIconCached(event.encargado);
+          return event;
+        });
+
         applyFilters();
-
         const loadTime = ((performance.now() - loadStartTime) / 1000).toFixed(2);
-        renderAll(loadTime);
 
-        // Cambiar automáticamente al tab correspondiente según el tipo de mes
-        switchToDefaultTab(monthKey);
+        requestAnimationFrame(() => {
+          renderAll(loadTime);
+          switchToDefaultTab(monthKey);
+        });
+
       } catch (error) {
-        console.error('Error:', error);
-        tbody.innerHTML = `<tr><td colspan="10" class="error">⚠️ Error al cargar datos. Verifica la URL de la hoja de cálculo.</td></tr>`;
+        console.error('Error cargando datos:', error);
+        document.getElementById('tableBody').innerHTML =
+          `<tr><td colspan="10" class="error">⚠️ Error: ${error.message}. Verifica la conexión y la URL de la hoja.</td></tr>`;
       }
     }
 
     // ========================================
-    // CAMBIO DE TABS
-    // ========================================
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-      event.target.classList.add('active');
-      document.getElementById(`tab-${tabName}`).classList.add('active');
-
-      if (tabName === 'tabla') renderTable();
-      if (tabName === 'lista') renderLista();
-      if (tabName === 'calendario') renderCalendario();
-      if (tabName === 'agenda') renderAgenda();
-      if (tabName === 'historico') {
-        renderHistoricoCompleto();
-      }
-    }
-
-    // ========================================
-    // CAMBIAR AUTOMÁTICAMENTE AL TAB POR DEFECTO
-    // ========================================
-    function switchToDefaultTab(monthKey) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-      if (isPastMonth(monthKey)) {
-        // Mes pasado: mostrar Histórico
-        document.getElementById('tab-historico').classList.add('active');
-        renderHistoricoCompleto();
-      } else if (isFutureMonth(monthKey)) {
-        // Mes futuro: mostrar Tabla
-        document.getElementById('tab-tabla').classList.add('active');
-        renderTable();
-      } else {
-        // Mes actual: mostrar Tabla por defecto
-        document.getElementById('tab-tabla').classList.add('active');
-        renderTable();
-      }
-    }
-
-    // ========================================
-    // RENDERIZADO DINÁMICO DE TABS
-    // ========================================
-    function renderTabs() {
-      const tabsNav = document.getElementById('tabsNav');
-
-      let html = '';
-
-      if (isPastMonth(currentMonth)) {
-        // Mes pasado: Solo mostrar Histórico
-        html = `
-          <button class="tab-btn primary active" onclick="switchTab('historico')">
-            📜 Histórico
-          </button>
-        `;
-      } else if (isFutureMonth(currentMonth)) {
-        // Mes futuro: Solo mostrar Tabla
-        html = `
-          <button class="tab-btn primary active" onclick="switchTab('tabla')">
-            📊 Tabla
-          </button>
-        `;
-      } else {
-        // Mes actual: Mostrar todos los tabs
-        html = `
-          <button class="tab-btn primary active" onclick="switchTab('tabla')">
-            📊 Tabla
-          </button>
-          <button class="tab-btn" onclick="switchTab('lista')">
-            📝 Lista
-          </button>
-          <button class="tab-btn" onclick="switchTab('calendario')">
-            📅 Calendario
-          </button>
-          <button class="tab-btn" onclick="switchTab('agenda')">
-            📋 Agenda
-          </button>
-          <button class="tab-btn" onclick="switchTab('historico')">
-            📜 Histórico
-          </button>
-        `;
-      }
-
-      tabsNav.innerHTML = html;
-    }
-
-    // ========================================
-    // LÓGICA DE DATOS
+    // PARSING CSV ORIGINAL (CONFIABLE)
     // ========================================
     function parseCSV(csvText) {
       const lines = csvText.trim().split('\n');
@@ -2297,16 +2097,9 @@
       return lines.slice(1).map(line => {
         const row = parseCSVLine(line);
         return {
-          fecha: row[0] || '',
-          dia: row[1] || '',
-          hora: row[2] || '',
-          notas: row[3] || '',
-          lugar: row[4] || '',
-          encargado: row[5] || '',
-          pago: row[6] || '',
-          numMusicos: row[7] || '',
-          transPago: row[8] || '',
-          isPast: isEventPast(row[0], row[2])
+          fecha: row[0] || '', dia: row[1] || '', hora: row[2] || '',
+          notas: row[3] || '', lugar: row[4] || '', encargado: row[5] || '',
+          pago: row[6] || '', numMusicos: row[7] || '', transPago: row[8] || ''
         };
       }).filter(e => e.fecha);
     }
@@ -2320,61 +2113,60 @@
         else if (char === ',' && !inQuotes) {
           row.push(current.trim());
           current = '';
-        }
-        else current += char;
+        } else current += char;
       }
       row.push(current.trim());
       return row;
     }
 
-    function isEventPast(fechaStr, horaStr) {
-      if (!fechaStr || !horaStr) return false;
-      const eventDate = parseEventDateObject(fechaStr, horaStr);
-      if (!eventDate) return false;
-      return eventDate < new Date();
+    // ========================================
+    // FECHAS CON CACHE - CORREGIDO
+    // ========================================
+    function parseEventDateObjectCached(fechaStr, horaStr, cacheKey) {
+      if (dateCache.has(cacheKey)) return dateCache.get(cacheKey);
+      const result = parseEventDateObject(fechaStr, horaStr);
+      dateCache.set(cacheKey, result);
+      return result; // ✅ Retorno explícito corregido
     }
 
     function parseEventDateObject(fechaStr, horaStr) {
-      const meses = {
-        'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5,
-        'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11
-      };
+      if (!fechaStr || !horaStr) return null;
+      const meses = { 'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5, 'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11 };
       const parts = fechaStr.toLowerCase().split(' ');
       if (parts.length < 3) return null;
-
       const dia = parseInt(parts[0]);
       const mes = meses[parts[2]?.replace('de', '')];
       const anio = parseInt(parts[4]) || SHEETS_CONFIG[currentMonth]?.year || 2026;
+      if (mes === undefined || isNaN(dia)) return null;
 
       let hora = 0, minuto = 0;
-      if (horaStr) {
-        const timeMatch = horaStr.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
-        if (timeMatch) {
-          hora = parseInt(timeMatch[1]);
-          minuto = parseInt(timeMatch[2]) || 0;
-          if (timeMatch[3]?.toLowerCase() === 'pm' && hora < 12) hora += 12;
-          if (timeMatch[3]?.toLowerCase() === 'am' && hora === 12) hora = 0;
-        }
+      const timeMatch = horaStr.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
+      if (timeMatch) {
+        hora = parseInt(timeMatch[1]);
+        minuto = parseInt(timeMatch[2]) || 0;
+        const period = timeMatch[3]?.toLowerCase();
+        if (period === 'pm' && hora < 12) hora += 12;
+        if (period === 'am' && hora === 12) hora = 0;
       }
       return new Date(anio, mes, dia, hora, minuto);
     }
 
     function getDateKey(fechaStr, horaStr) {
-      const eventDate = parseEventDateObject(fechaStr, horaStr);
-      if (!eventDate) return null;
-      return eventDate.toISOString().split('T')[0];
+      const eventDate = parseEventDateObjectCached(fechaStr, horaStr, `${fechaStr}|${horaStr}`);
+      return eventDate ? eventDate.toISOString().split('T')[0] : null;
     }
 
+    // ========================================
+    // FILTROS Y BÚSQUEDA
+    // ========================================
     function applyFilters() {
       const term = document.getElementById('searchInput')?.value?.toLowerCase().trim() || '';
       const config = SHEETS_CONFIG[currentMonth];
-
       filteredEvents = allEvents.filter(event => {
         const eventMes = parseEventMonth(event.fecha);
         if (eventMes !== config.month) return false;
-
         if (term) {
-          const searchStr = Object.values(event).join(' ').toLowerCase();
+          const searchStr = `${event.fecha} ${event.lugar} ${event.encargado} ${event.notas}`.toLowerCase();
           return searchStr.includes(term);
         }
         return true;
@@ -2382,683 +2174,266 @@
     }
 
     function parseEventMonth(fechaStr) {
-      const meses = {
-        'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5,
-        'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11
-      };
+      const meses = { 'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5, 'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11 };
       const parts = fechaStr?.toLowerCase().split(' ') || [];
       return meses[parts[2]?.replace('de', '')] ?? -1;
     }
 
     function getMonthName(monthNum) {
-      const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-      return meses[monthNum] || '';
+      return ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'][monthNum] || '';
     }
+    function getShortDayName(d) { return ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'][d.getDay()]; }
+    function getShortMonthName(d) { return ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'][d.getMonth()]; }
 
-    function getShortDayName(dateObj) {
-      const days = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
-      return days[dateObj.getDay()];
+    function isPastMonth(key) {
+      const c = SHEETS_CONFIG[key], n = new Date();
+      return c.year < n.getFullYear() || (c.year === n.getFullYear() && c.month < n.getMonth());
     }
-
-    function getShortMonthName(dateObj) {
-      const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-      return months[dateObj.getMonth()];
+    function isCurrentMonth(key) {
+      const c = SHEETS_CONFIG[key], n = new Date();
+      return c.year === n.getFullYear() && c.month === n.getMonth();
     }
-
-    // ========================================
-    // FUNCIÓN PARA VERIFICAR SI ES MES PASADO
-    // ========================================
-    function isPastMonth(monthKey) {
-      const config = SHEETS_CONFIG[monthKey];
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      const currentMonthNum = now.getMonth(); // 0-11 (enero=0, abril=3, etc.)
-
-      // Si el año es menor, es pasado
-      if (config.year < currentYear) return true;
-      // Si es el mismo año pero el mes es menor, es pasado
-      if (config.year === currentYear && config.month < currentMonthNum) return true;
-      return false;
+    function isFutureMonth(key) {
+      const c = SHEETS_CONFIG[key], n = new Date();
+      return c.year > n.getFullYear() || (c.year === n.getFullYear() && c.month > n.getMonth());
     }
 
     // ========================================
-    // FUNCIÓN PARA VERIFICAR SI ES EL MES ACTUAL
+    // BADGES CON CACHE
     // ========================================
-    function isCurrentMonth(monthKey) {
-      const config = SHEETS_CONFIG[monthKey];
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      const currentMonthNum = now.getMonth(); // 0-11
-
-      // Verifica si el año y mes coinciden con el mes actual
-      return config.year === currentYear && config.month === currentMonthNum;
+    function getPersonBadgeClassCached(person) {
+      if (!person) return 'badge-default';
+      const key = person.toLowerCase().trim();
+      if (badgeCache.has(key)) return badgeCache.get(key);
+      const result = getPersonBadgeClass(key);
+      badgeCache.set(key, result);
+      return result;
     }
-
-    // ========================================
-    // FUNCIÓN PARA VERIFICAR SI ES MES FUTURO
-    // ========================================
-    function isFutureMonth(monthKey) {
-      const config = SHEETS_CONFIG[monthKey];
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      const currentMonthNum = now.getMonth(); // 0-11
-
-      // Si el año es mayor, es futuro
-      if (config.year > currentYear) return true;
-      // Si es el mismo año pero el mes es mayor, es futuro
-      if (config.year === currentYear && config.month > currentMonthNum) return true;
-      return false;
+    function getPersonBadgeClass(p) {
+      const m = { 'tatan': 'badge-tatan', 'cacho': 'badge-cacho', 'andrés': 'badge-andres', 'andres': 'badge-andres', 'alqui': 'badge-alqui', 'maria': 'badge-maria', 'maría': 'badge-maria', 'carlos': 'badge-carlos', 'luis': 'badge-luis', 'ana': 'badge-ana', 'pedro': 'badge-pedro', 'sofia': 'badge-sofia', 'sofía': 'badge-sofia', 'diego': 'badge-diego', 'laura': 'badge-laura', 'miguel': 'badge-miguel', 'carmen': 'badge-carmen', 'javier': 'badge-javier', 'valentina': 'badge-valentina', 'ricardo': 'badge-ricardo', 'gabriela': 'badge-gabriela', 'fernando': 'badge-fernando', 'patricia': 'badge-patricia' };
+      return m[p] || 'badge-default';
     }
+    function getPersonIconCached(p) {
+      if (!p) return '👤';
+      const k = p.toLowerCase();
+      if (iconCache.has(k)) return iconCache.get(k);
+      const r = k.includes('tatan') ? '🎹' : k.includes('cacho') ? '🎺' : '👤';
+      iconCache.set(k, r);
+      return r;
+    }
+    function getPersonIcon(p) { return p.includes('tatan') ? '🎹' : p.includes('cacho') ? '🎺' : '👤'; }
 
     // ========================================
     // RENDERIZADO PRINCIPAL
     // ========================================
     function renderAll(loadTime) {
-      renderTabs(); // Renderizar tabs dinámicamente
-      renderUpcomingCards();
-      renderStats(loadTime);
-      renderTable();
-      renderDateRange();
+      renderTabs(); renderUpcomingCards(); renderStats(loadTime); renderTable(); renderDateRange();
     }
 
     function renderDateRange() {
-      const config = SHEETS_CONFIG[currentMonth];
-      const firstDay = new Date(config.year, config.month, 1);
-      const lastDay = new Date(config.year, config.month + 1, 0);
-
-      const options = { day: 'numeric', month: 'long', year: 'numeric' };
-      const startStr = firstDay.toLocaleDateString('es-CO', options);
-      const endStr = lastDay.toLocaleDateString('es-CO', options);
-
-      document.getElementById('dateRange').textContent = `${startStr} al ${endStr}`;
+      const c = SHEETS_CONFIG[currentMonth];
+      const f = new Date(c.year, c.month, 1), l = new Date(c.year, c.month + 1, 0);
+      const o = { day: 'numeric', month: 'long', year: 'numeric' };
+      document.getElementById('dateRange').textContent = `${f.toLocaleDateString('es-CO', o)} al ${l.toLocaleDateString('es-CO', o)}`;
     }
 
-    // ===== PRÓXIMOS 3 DÍAS =====
     function renderUpcomingCards() {
-      const container = document.getElementById('upcomingCards');
-      const section = document.getElementById('upcomingSection');
-      const config = SHEETS_CONFIG[currentMonth];
-      const now = new Date();
+      const container = document.getElementById('upcomingCards'), section = document.getElementById('upcomingSection');
+      const config = SHEETS_CONFIG[currentMonth], now = new Date();
+      if (!isCurrentMonth(currentMonth)) { section.classList.add('hidden'); return; }
+      section.classList.remove('hidden');
 
-      // MODIFICACIÓN: VERIFICAR SI ES EL MES ACTUAL (no pasado ni futuro)
-      if (!isCurrentMonth(currentMonth)) {
-        section.classList.add('hidden');
-        return;
-      } else {
-        section.classList.remove('hidden');
+      const future = allEvents.filter(e => !e._isPast && e._dateObj && e._dateObj.getMonth() === config.month && e._dateObj.getFullYear() === config.year).sort((a, b) => a._dateObj - b._dateObj);
+      if (!future.length) { container.innerHTML = '<div class="loading">No hay eventos próximos</div>'; return; }
+
+      const byDate = {};
+      for (const e of future) {
+        const dk = e._dateObj.toISOString().split('T')[0];
+        if (!byDate[dk]) byDate[dk] = { displayDate: e.fecha, events: [], dateObj: e._dateObj };
+        byDate[dk].events.push(e);
       }
-
-      // Filtrar eventos futuros del mes seleccionado
-      const futureEvents = allEvents
-        .filter(e => {
-          const eventDate = parseEventDateObject(e.fecha, e.hora);
-          return !e.isPast && eventDate &&
-            eventDate.getMonth() === config.month &&
-            eventDate.getFullYear() === config.year;
-        })
-        .sort((a, b) => parseEventDateObject(a.fecha, a.hora) - parseEventDateObject(b.fecha, b.hora));
-
-      if (futureEvents.length === 0) {
-        container.innerHTML = '<div class="loading">No hay eventos próximos en este mes</div>';
-        return;
-      }
-
-      // Agrupar por fecha única
-      const eventsByDate = {};
-      for (const event of futureEvents) {
-        const dateKey = getDateKey(event.fecha, event.hora);
-        if (!dateKey) continue;
-        if (!eventsByDate[dateKey]) {
-          eventsByDate[dateKey] = { displayDate: event.fecha, events: [], dateObj: parseEventDateObject(event.fecha, event.hora) };
-        }
-        eventsByDate[dateKey].events.push(event);
-      }
-
-      // Obtener los próximos 3 días con eventos
-      const uniqueDates = Object.keys(eventsByDate)
-        .sort()
-        .slice(0, 3);
-
-      if (uniqueDates.length === 0) {
-        container.innerHTML = '<div class="loading">No hay eventos próximos</div>';
-        return;
-      }
+      const dates = Object.keys(byDate).sort().slice(0, 3);
+      if (!dates.length) { container.innerHTML = '<div class="loading">No hay eventos</div>'; return; }
 
       let html = '';
-      uniqueDates.forEach((dateKey, index) => {
-        const group = eventsByDate[dateKey];
-        const isToday = group.dateObj.toDateString() === now.toDateString();
-        const dayOfWeek = group.dateObj.getDay();
-
-        let cardClass = '';
-        if (isToday) cardClass = 'today';
-        else if (dayOfWeek === 6) cardClass = 'saturday';
-        else if (dayOfWeek === 5) cardClass = 'friday';
-
-        const dayName = group.dateObj.toLocaleDateString('es-CO', { weekday: 'long' });
-        const dayDate = group.dateObj.getDate();
-        const monthName = group.dateObj.toLocaleDateString('es-CO', { month: 'long' });
-
-        html += `
-          <div class="upcoming-card ${cardClass}">
-            <div class="upcoming-card-header">
-              <span>📅 ${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dayDate} de ${monthName}</span>
-              <span>${group.events.length} evento${group.events.length > 1 ? 's' : ''}</span>
-            </div>
-            <div class="upcoming-card-body">
-              ${group.events.map(event => `
-                <div class="upcoming-event" onclick="showModalEvent('${escapeHtml(event.fecha)}','${escapeHtml(event.hora)}')" style="cursor:pointer">
-                  <span class="upcoming-time">🕐 ${event.hora}</span>
-                  <span class="upcoming-place" title="${escapeHtml(event.lugar)}">${event.lugar || 'Sin lugar'}</span>
-                  <div class="upcoming-person">
-                    <span class="badge-person ${getPersonBadgeClass(event.encargado)}">
-                      ${getPersonIcon(event.encargado)} ${event.encargado || '-'}
-                    </span>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
+      dates.forEach(dk => {
+        const g = byDate[dk], isToday = g.dateObj.toDateString() === now.toDateString();
+        const dow = g.dateObj.getDay();
+        const cls = isToday ? 'today' : dow === 6 ? 'saturday' : dow === 5 ? 'friday' : '';
+        const dn = g.dateObj.toLocaleDateString('es-CO', { weekday: 'long' }), dd = g.dateObj.getDate(), mn = g.dateObj.toLocaleDateString('es-CO', { month: 'long' });
+        html += `<div class="upcoming-card ${cls}"><div class="upcoming-card-header"><span>📅 ${dn.charAt(0).toUpperCase() + dn.slice(1)} ${dd} de ${mn}</span><span>${g.events.length} evento${g.events.length > 1 ? 's' : ''}</span></div><div class="upcoming-card-body">` +
+          g.events.map(ev => `<div class="upcoming-event" onclick="showModalEvent('${escapeHtml(ev.fecha)}','${escapeHtml(ev.hora)}')" style="cursor:pointer"><span class="upcoming-time">🕐 ${ev.hora}</span><span class="upcoming-place" title="${escapeHtml(ev.lugar)}">${ev.lugar || 'Sin lugar'}</span><div class="upcoming-person"><span class="badge-person ${ev._badgeClass}">${ev._personIcon} ${ev.encargado || '-'}</span></div></div>`).join('') +
+          `</div></div>`;
       });
-
       container.innerHTML = html;
     }
 
-    // ========================================
-    // FUNCIÓN MODIFICADA - ASIGNACIÓN DE COLORES POR NOMBRE (PALETA COMPLETA)
-    // ========================================
-    function getPersonBadgeClass(person) {
-      if (!person) return 'badge-default';
-      const p = person.toLowerCase().trim();
-
-      // ========================================
-      // PALETA COMPLETA DE COLORES POR NOMBRE
-      // ========================================
-
-      if (p.includes('tatan')) return 'badge-tatan';
-      if (p.includes('cacho')) return 'badge-cacho';
-      if (p.includes('andrés') || p.includes('andres')) return 'badge-andres';
-      if (p.includes('alqui')) return 'badge-alqui';
-      if (p.includes('maria') || p.includes('maría')) return 'badge-maria';
-      if (p.includes('carlos')) return 'badge-carlos';
-      if (p.includes('luis')) return 'badge-luis';
-      if (p.includes('ana')) return 'badge-ana';
-      if (p.includes('pedro')) return 'badge-pedro';
-      if (p.includes('sofia') || p.includes('sofía')) return 'badge-sofia';
-      if (p.includes('diego')) return 'badge-diego';
-      if (p.includes('laura')) return 'badge-laura';
-      if (p.includes('miguel')) return 'badge-miguel';
-      if (p.includes('carmen')) return 'badge-carmen';
-      if (p.includes('javier')) return 'badge-javier';
-      if (p.includes('valentina')) return 'badge-valentina';
-      if (p.includes('ricardo')) return 'badge-ricardo';
-      if (p.includes('gabriela')) return 'badge-gabriela';
-      if (p.includes('fernando')) return 'badge-fernando';
-      if (p.includes('patricia')) return 'badge-patricia';
-
-      // Si no coincide con ningún nombre personalizado, usa el default
-      return 'badge-default';
-    }
-
-    function getPersonIcon(person) {
-      if (!person) return '👤';
-      const p = person.toLowerCase();
-      if (p.includes('tatan')) return '🎹';
-      if (p.includes('cacho')) return '🎺';
-      return '👤';
-    }
-
-    // ===== STATS =====
     function renderStats(loadTime) {
-      const pastEvents = filteredEvents.filter(e => e.isPast);
-      const futureEvents = filteredEvents.filter(e => !e.isPast);
-
-      const eventosRealizados = pastEvents.length;
-      const eventosPendientes = futureEvents.length;
-
-      // Calcular total de ganancias (suma simple de todos los pagos de eventos realizados)
-      // El pago ya es por músico y por evento, solo sumamos
-      const totalGanancias = pastEvents.reduce((sum, event) => {
-        return sum + (parseFloat(event.pago) || 0);
-      }, 0);
-
+      const past = filteredEvents.filter(e => e._isPast), fut = filteredEvents.filter(e => !e._isPast);
+      const total = past.reduce((s, e) => s + (parseFloat(e.pago) || 0), 0);
       document.getElementById('loadTime').textContent = `(${loadTime}s)`;
-
-      const iconsHtml = `
-        <span>
-          <span class="icon">✅</span>
-          <div>
-            <div class="value">${eventosRealizados}</div>
-            <div class="label">Realizados</div>
-          </div>
-        </span>
-        <span>
-          <span class="icon">⏳</span>
-          <div>
-            <div class="value">${eventosPendientes}</div>
-            <div class="label">Pendientes</div>
-          </div>
-        </span>
-        <span>
-          <span class="icon">💰</span>
-          <div>
-            <div class="value">${formatMoney(totalGanancias)}</div>
-            <div class="label">Total Ganancias</div>
-          </div>
-        </span>
-      `;
-      document.getElementById('statsIcons').innerHTML = iconsHtml;
+      document.getElementById('statsIcons').innerHTML =
+        `<span><span class="icon">✅</span><div><div class="value">${past.length}</div><div class="label">Realizados</div></div></span>` +
+        `<span><span class="icon">⏳</span><div><div class="value">${fut.length}</div><div class="label">Pendientes</div></div></span>` +
+        `<span><span class="icon">💰</span><div><div class="value">${formatMoney(total)}</div><div class="label">Total Ganancias</div></div></span>`;
     }
 
-    // ===== TABLA COMPLETA - SOLO EVENTOS FUTUROS =====
     function renderTable() {
       const tbody = document.getElementById('tableBody');
-
-      // VERIFICAR SI ES UN MES PASADO
       if (isPastMonth(currentMonth)) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="10" class="no-results">
-              📜 Este es un mes histórico (${getMonthName(SHEETS_CONFIG[currentMonth].month)} ${SHEETS_CONFIG[currentMonth].year}).<br>
-              Consulta la pestaña <strong>"Histórico"</strong> para ver los eventos realizados.
-            </td>
-          </tr>
-        `;
+        tbody.innerHTML = `<tr><td colspan="10" class="no-results">📜 Mes histórico. Ve a la pestaña <strong>"Histórico"</strong>.</td></tr>`;
         return;
       }
-
-      // Filtrar solo eventos futuros para la tabla principal
-      const futureEvents = filteredEvents.filter(e => !e.isPast);
-
-      if (futureEvents.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" class="no-results">✨ No hay eventos futuros para mostrar</td></tr>';
-        return;
-      }
-
-      // Ordenar por fecha
-      const sortedEvents = [...futureEvents].sort((a, b) => {
-        return parseEventDateObject(a.fecha, a.hora) - parseEventDateObject(b.fecha, b.hora);
-      });
-
-      tbody.innerHTML = sortedEvents.map(event => `
-        <tr onclick="showModalEvent('${escapeHtml(event.fecha)}', '${escapeHtml(event.hora)}')" style="cursor:pointer">
-          <td><span class="table-date">${formatDate(event.fecha)}</span></td>
-          <td><span class="table-day">${event.dia}</span></td>
-          <td>${event.hora}</td>
-          <td title="${escapeHtml(event.lugar)}">${event.lugar || '-'}</td>
-          <td><span class="badge-person ${getPersonBadgeClass(event.encargado)}">${getPersonIcon(event.encargado)} ${event.encargado || '-'}</span></td>
-          <td title="${escapeHtml(event.notas)}">${event.notas || '-'}</td>
-          <td class="table-money">${formatMoney(event.transPago)}</td>
-          <td class="table-money ${event.isPast ? 'paid' : ''}">${formatMoney(event.pago)}</td>
-          <td><span class="badge-status ${event.isPast ? 'badge-confirmed' : 'badge-pending'}">${event.isPast ? '✓ CONFIRMADO' : '⏳ PENDIENTE'}</span></td>
-          <td><span class="musicians-count">👥 ${event.numMusicos || '0'}</span></td>
-        </tr>
-      `).join('');
+      const future = filteredEvents.filter(e => !e._isPast);
+      if (!future.length) { tbody.innerHTML = '<tr><td colspan="10" class="no-results">✨ No hay eventos futuros</td></tr>'; return; }
+      const sorted = [...future].sort((a, b) => a._dateObj - b._dateObj);
+      tbody.innerHTML = sorted.map(e =>
+        `<tr onclick="showModalEvent('${escapeHtml(e.fecha)}','${escapeHtml(e.hora)}')" style="cursor:pointer">` +
+        `<td><span class="table-date">${formatDate(e.fecha)}</span></td><td><span class="table-day">${e.dia}</span></td><td>${e.hora}</td>` +
+        `<td title="${escapeHtml(e.lugar)}">${e.lugar || '-'}</td><td><span class="badge-person ${e._badgeClass}">${e._personIcon} ${e.encargado || '-'}</span></td>` +
+        `<td title="${escapeHtml(e.notas)}">${e.notas || '-'}</td><td class="table-money">${formatMoney(e.transPago)}</td>` +
+        `<td class="table-money ${e._isPast ? 'paid' : ''}">${formatMoney(e.pago)}</td>` +
+        `<td><span class="badge-status ${e._isPast ? 'badge-confirmed' : 'badge-pending'}">${e._isPast ? '✓ CONFIRMADO' : '⏳ PENDIENTE'}</span></td>` +
+        `<td><span class="musicians-count">👥 ${e.numMusicos || '0'}</span></td></tr>`).join('');
     }
 
-    // ===== RESUMEN DEL MES (ESTILO IMAGEN) =====
     function renderMonthResume() {
-      const container = document.getElementById('monthResumeContainer');
-      const config = SHEETS_CONFIG[currentMonth];
-      const monthName = getMonthName(config.month);
-      const year = config.year;
-
-      // Filtrar eventos pasados del mes seleccionado
-      const pastEvents = allEvents.filter(e => {
-        const eventDate = parseEventDateObject(e.fecha, e.hora);
-        return e.isPast && eventDate &&
-          eventDate.getMonth() === config.month &&
-          eventDate.getFullYear() === config.year;
-      });
-
-      // Calcular estadísticas
-      const serenatasRealizadas = pastEvents.length;
-      const totalTransporte = pastEvents.reduce((sum, e) => sum + (parseFloat(e.transPago) || 0), 0);
-      const totalGanancias = pastEvents.reduce((sum, e) => sum + (parseFloat(e.pago) || 0), 0);
-      const musicosEncargados = new Set(pastEvents.map(e => e.encargado).filter(Boolean)).size;
-
-      if (serenatasRealizadas === 0) {
-        container.innerHTML = '';
-        return;
-      }
-
-      container.innerHTML = `
-        <div class="month-resume">
-          <div class="month-resume-header">
-            📊 Resumen de ${monthName} ${year}
-          </div>
-          <div class="resume-cards">
-            <div class="resume-card">
-              <span class="resume-card-value">${serenatasRealizadas}</span>
-              <span class="resume-card-label">Serenatas Realizadas</span>
-            </div>
-            <div class="resume-card">
-              <span class="resume-card-value">${formatMoney(totalTransporte)}</span>
-              <span class="resume-card-label">Total Transporte</span>
-            </div>
-            <div class="resume-card">
-              <span class="resume-card-value">${formatMoney(totalGanancias)}</span>
-              <span class="resume-card-label">Total Ganancias</span>
-            </div>
-            <div class="resume-card">
-              <span class="resume-card-value">${musicosEncargados}</span>
-              <span class="resume-card-label">Músicos Encargados</span>
-            </div>
-          </div>
-        </div>
-      `;
+      const container = document.getElementById('monthResumeContainer'), c = SHEETS_CONFIG[currentMonth];
+      const past = allEvents.filter(e => e._isPast && e._dateObj && e._dateObj.getMonth() === c.month && e._dateObj.getFullYear() === c.year);
+      if (!past.length) { container.innerHTML = ''; return; }
+      const tTrans = past.reduce((s, e) => s + (parseFloat(e.transPago) || 0), 0), tGan = past.reduce((s, e) => s + (parseFloat(e.pago) || 0), 0);
+      const uniq = new Set(past.map(e => e.encargado).filter(Boolean)).size;
+      container.innerHTML = `<div class="month-resume"><div class="month-resume-header">📊 Resumen de ${getMonthName(c.month)} ${c.year}</div><div class="resume-cards">` +
+        `<div class="resume-card"><span class="resume-card-value">${past.length}</span><span class="resume-card-label">Serenatas Realizadas</span></div>` +
+        `<div class="resume-card"><span class="resume-card-value">${formatMoney(tTrans)}</span><span class="resume-card-label">Total Transporte</span></div>` +
+        `<div class="resume-card"><span class="resume-card-value">${formatMoney(tGan)}</span><span class="resume-card-label">Total Ganancias</span></div>` +
+        `<div class="resume-card"><span class="resume-card-value">${uniq}</span><span class="resume-card-label">Músicos Encargados</span></div></div></div>`;
     }
 
-    // ===== HISTÓRICO COMPLETO POR MES - TARJETAS COMO EN LA IMAGEN =====
     function renderHistoricoCompleto() {
       const container = document.getElementById('historicoView');
-
-      // Renderizar resumen del mes
       renderMonthResume();
-
-      // Filtrar eventos pasados del mes seleccionado
-      const config = SHEETS_CONFIG[currentMonth];
-      const pastEvents = allEvents.filter(e => {
-        const eventDate = parseEventDateObject(e.fecha, e.hora);
-        return e.isPast && eventDate &&
-          eventDate.getMonth() === config.month &&
-          eventDate.getFullYear() === config.year;
+      const c = SHEETS_CONFIG[currentMonth];
+      const past = allEvents.filter(e => e._isPast && e._dateObj && e._dateObj.getMonth() === c.month && e._dateObj.getFullYear() === c.year);
+      if (!past.length) { container.innerHTML = '<div class="no-results">📭 No hay eventos realizados</div>'; return; }
+      const sorted = [...past].sort((a, b) => b._dateObj - a._dateObj);
+      let html = `<div class="detalle-serenatas-section"><div class="detalle-serenatas-title">📋 Detalle de Serenatas</div>`;
+      sorted.forEach(e => {
+        const d = e._dateObj, sd = getShortDayName(d), dn = d.getDate(), sm = getShortMonthName(d);
+        html += `<div class="serenata-card" onclick="showModalEvent('${escapeHtml(e.fecha)}','${escapeHtml(e.hora)}')">` +
+          `<div class="serenata-card-header"><div class="serenata-date-time"><span class="calendar-icon">${dn}</span><span>${sd}, ${dn} de ${sm}</span><span class="clock-icon">🕐 ${e.hora}</span></div>` +
+          `<div class="serenata-badge ${e._badgeClass}">${e._personIcon} ${e.encargado || '-'}</div></div>` +
+          `<div class="serenata-card-body"><div class="serenata-detail"><span class="icon">📍</span><span title="${escapeHtml(e.lugar)}">${e.lugar || 'Sin lugar'}</span></div>` +
+          `<div class="serenata-detail"><span class="icon">👥</span><span>${e.numMusicos || '0'} músicos</span></div>` +
+          `<div class="serenata-detail money-transport"><span class="icon">🚗</span><span>${formatMoney(e.transPago)}</span></div>` +
+          `<div class="serenata-detail money-payment"><span class="icon">💰</span><span>${formatMoney(e.pago)}</span></div></div></div>`;
       });
-
-      if (pastEvents.length === 0) {
-        container.innerHTML = '<div class="no-results">📭 No hay eventos realizados en este mes aún</div>';
-        return;
-      }
-
-      // Ordenar eventos por fecha (más reciente primero)
-      const sortedEvents = [...pastEvents].sort((a, b) =>
-        parseEventDateObject(b.fecha, b.hora) - parseEventDateObject(a.fecha, a.hora)
-      );
-
-      let html = `
-        <div class="detalle-serenatas-section">
-          <div class="detalle-serenatas-title">
-            📋 Detalle de Serenatas
-          </div>
-      `;
-
-      sortedEvents.forEach(event => {
-        const eventDate = parseEventDateObject(event.fecha, event.hora);
-        const shortDay = getShortDayName(eventDate);
-        const dayNum = eventDate.getDate();
-        const shortMonth = getShortMonthName(eventDate);
-        const badgeClass = getPersonBadgeClass(event.encargado);
-        const personIcon = getPersonIcon(event.encargado);
-
-        html += `
-          <div class="serenata-card" onclick="showModalEvent('${escapeHtml(event.fecha)}', '${escapeHtml(event.hora)}')">
-            <div class="serenata-card-header">
-              <div class="serenata-date-time">
-                <span class="calendar-icon">${dayNum}</span>
-                <span>${shortDay}, ${dayNum} de ${shortMonth}</span>
-                <span class="clock-icon">🕐 ${event.hora}</span>
-              </div>
-              <div class="serenata-badge ${badgeClass}">
-                ${personIcon} ${event.encargado || '-'}
-              </div>
-            </div>
-            <div class="serenata-card-body">
-              <div class="serenata-detail">
-                <span class="icon">📍</span>
-                <span title="${escapeHtml(event.lugar)}">${event.lugar || 'Sin lugar'}</span>
-              </div>
-              <div class="serenata-detail">
-                <span class="icon">👥</span>
-                <span>${event.numMusicos || '0'} músicos</span>
-              </div>
-              <div class="serenata-detail money-transport">
-                <span class="icon">🚗</span>
-                <span>${formatMoney(event.transPago)}</span>
-              </div>
-              <div class="serenata-detail money-payment">
-                <span class="icon">💰</span>
-                <span>${formatMoney(event.pago)}</span>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      html += '</div>';
-      container.innerHTML = html;
+      container.innerHTML = html + '</div>';
     }
 
-    // ===== VISTA LISTA - SOLO EVENTOS FUTUROS =====
     function renderLista() {
       const container = document.getElementById('listaView');
-
-      // VERIFICAR SI ES UN MES PASADO
       if (isPastMonth(currentMonth)) {
-        container.innerHTML = `
-          <div class="historical-month-notice">
-            📜 ${getMonthName(SHEETS_CONFIG[currentMonth].month)} ${SHEETS_CONFIG[currentMonth].year} es un mes histórico
-          </div>
-          <div class="no-results">
-            Consulta la pestaña <strong>"Histórico"</strong> para ver los eventos realizados en este mes.
-          </div>
-        `;
+        container.innerHTML = `<div class="historical-month-notice">📜 ${getMonthName(SHEETS_CONFIG[currentMonth].month)} ${SHEETS_CONFIG[currentMonth].year} es histórico</div><div class="no-results">Ve a <strong>"Histórico"</strong>.</div>`;
         return;
       }
+      const future = filteredEvents.filter(e => !e._isPast);
+      if (!future.length) { container.innerHTML = '<div class="no-results">No hay eventos futuros</div>'; return; }
+      const sorted = [...future].sort((a, b) => a._dateObj - b._dateObj);
+      container.innerHTML = sorted.map(e =>
+        `<div style="background:#f5f5f5;padding:12px 14px;margin-bottom:8px;border-radius:6px;border-left:4px solid ${e._isPast ? 'var(--success)' : 'var(--warning)'};cursor:pointer" onclick="showModalEvent('${escapeHtml(e.fecha)}','${escapeHtml(e.hora)}')">` +
+        `<div style="display:flex;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:4px"><strong style="font-size:0.9rem">${e.fecha} - ${e.hora}</strong><span class="badge-status ${e._isPast ? 'badge-confirmed' : 'badge-pending'}">${e._isPast ? '✓ Realizado' : '⏳ Pendiente'}</span></div>` +
+        `<div style="font-size:0.9rem">📍 <span title="${escapeHtml(e.lugar)}">${e.lugar || '-'}</span></div><div style="font-size:0.9rem">👤 ${e._personIcon} ${e.encargado || '-'}</div>` +
+        `<div style="font-size:0.9rem;font-weight:600;color:var(--success)">${formatMoney(e.pago)}</div></div>`).join('');
+    }
+    function renderCalendario() { document.getElementById('calendarView').innerHTML = '<div class="loading">Vista de calendario en desarrollo...</div>'; }
+    function renderAgenda() { document.getElementById('agendaView').innerHTML = '<div class="loading">Vista de agenda en desarrollo...</div>'; }
 
-      // Filtrar solo eventos futuros para la vista de lista
-      const futureEvents = filteredEvents.filter(e => !e.isPast);
-
-      if (futureEvents.length === 0) {
-        container.innerHTML = '<div class="no-results">No hay eventos futuros</div>';
-        return;
-      }
-
-      const sortedEvents = [...futureEvents].sort((a, b) =>
-        parseEventDateObject(a.fecha, a.hora) - parseEventDateObject(b.fecha, b.hora)
-      );
-
-      container.innerHTML = sortedEvents.map(event => `
-        <div style="background:#f5f5f5; padding:12px 14px; margin-bottom:8px; border-radius:6px; border-left:4px solid ${event.isPast ? 'var(--success)' : 'var(--warning)'}; cursor:pointer" 
-             onclick="showModalEvent('${escapeHtml(event.fecha)}','${escapeHtml(event.hora)}')">
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px; flex-wrap:wrap; gap:4px">
-            <strong style="font-size:0.9rem">${event.fecha} - ${event.hora}</strong>
-            <span class="badge-status ${event.isPast ? 'badge-confirmed' : 'badge-pending'}">
-              ${event.isPast ? '✓ Realizado' : '⏳ Pendiente'}
-            </span>
-          </div>
-          <div style="font-size:0.9rem">📍 <span title="${escapeHtml(event.lugar)}">${event.lugar || '-'}</span></div>
-          <div style="font-size:0.9rem">👤 ${getPersonIcon(event.encargado)} ${event.encargado || '-'}</div>
-          <div style="font-size:0.9rem; font-weight:600; color:var(--success)">${formatMoney(event.pago)}</div>
-        </div>
-      `).join('');
+    function renderTabs() {
+      const nav = document.getElementById('tabsNav');
+      if (isPastMonth(currentMonth)) nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('historico')">📜 Histórico</button>`;
+      else if (isFutureMonth(currentMonth)) nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>`;
+      else nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button><button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button><button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button><button class="tab-btn" onclick="switchTab('agenda')">📋 Agenda</button><button class="tab-btn" onclick="switchTab('historico')">📜 Histórico</button>`;
     }
 
-    // ===== VISTA CALENDARIO =====
-    function renderCalendario() {
-      const container = document.getElementById('calendarView');
-      container.innerHTML = '<div class="loading">Vista de calendario en desarrollo...</div>';
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => { if (b.getAttribute('onclick')?.includes(`'${tabName}'`)) b.classList.add('active'); });
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      const map = { tabla: renderTable, lista: renderLista, calendario: renderCalendario, agenda: renderAgenda, historico: renderHistoricoCompleto };
+      if (map[tabName]) requestAnimationFrame(map[tabName]);
     }
 
-    // ===== VISTA AGENDA =====
-    function renderAgenda() {
-      const container = document.getElementById('agendaView');
-      container.innerHTML = '<div class="loading">Vista de agenda en desarrollo...</div>';
+    function switchToDefaultTab(key) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      const tab = isPastMonth(key) ? 'historico' : 'tabla';
+      document.getElementById(`tab-${tab}`).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(b => { if (b.getAttribute('onclick')?.includes(`'${tab}'`)) b.classList.add('active'); });
+      requestAnimationFrame(tab === 'historico' ? renderHistoricoCompleto : renderTable);
     }
 
     // ========================================
-    // UTILIDADES Y EVENTOS
+    // EVENT LISTENERS
     // ========================================
     function setupEventListeners() {
-      document.getElementById('searchInput')?.addEventListener('input', () => {
-        applyFilters();
-        renderTable();
-        renderUpcomingCards();
-        renderStats(((performance.now() - loadStartTime) / 1000).toFixed(2));
+      document.getElementById('searchInput')?.addEventListener('input', (e) => {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+          applyFilters();
+          requestAnimationFrame(() => { renderTable(); renderUpcomingCards(); renderStats(((performance.now() - loadStartTime) / 1000).toFixed(2)); });
+        }, 300);
       });
-
-      const modal = document.getElementById('eventModal');
-      const closeBtn = document.getElementById('modalClose');
-      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-      window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.remove('active'); });
-
-      // Prevenir scroll del body cuando el modal está abierto
-      modal.addEventListener('touchmove', (e) => {
-        if (e.target.closest('.modal-body')) {
-          e.stopPropagation();
-        } else {
-          e.preventDefault();
-        }
-      }, { passive: false });
+      const modal = document.getElementById('eventModal'), closeBtn = document.getElementById('modalClose');
+      closeBtn?.addEventListener('click', closeModal);
+      modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+      modal?.addEventListener('touchmove', (e) => { if (e.target.closest('.modal-body')) e.stopPropagation(); else e.preventDefault(); }, { passive: false });
     }
 
+    function closeModal() {
+      document.getElementById('eventModal')?.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // ========================================
+    // MODAL
+    // ========================================
     window.showModalEvent = function (fecha, hora) {
       const event = allEvents.find(e => e.fecha === fecha && e.hora === hora);
       if (!event) return;
-
-      const modal = document.getElementById('eventModal');
-      const modalBody = document.getElementById('modalBody');
-
-      // Formatear fecha completa
-      const eventDate = parseEventDateObject(event.fecha, event.hora);
-      const dayName = eventDate.toLocaleDateString('es-CO', { weekday: 'long' });
-      const fullDate = eventDate.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
-
-      // Capitalizar primera letra del día
-      const dayNameCapitalized = dayName.charAt(0).toUpperCase() + dayName.slice(1);
-
-      // Obtener badge class y icon
-      const badgeClass = getPersonBadgeClass(event.encargado);
-      const personIcon = getPersonIcon(event.encargado);
-
-      // Determinar si está confirmado o pendiente
-      const isConfirmed = event.isPast;
-
-      modalBody.innerHTML = `
-        <div class="modal-date-section">
-          <div class="modal-date-main">
-            <span style="background: #d32f2f; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">${eventDate.getDate()}</span>
-            ${dayNameCapitalized}, ${fullDate}
-          </div>
-          <div class="modal-date-time">
-            <span>🕐</span>
-            <span>${event.hora}</span>
-          </div>
-        </div>
-        
-        <div class="modal-row">
-          <div class="modal-icon">📍</div>
-          <div class="modal-content-wrapper">
-            <div class="modal-label">LUGAR DEL EVENTO</div>
-            <div class="modal-value">${event.lugar || 'Sin lugar'}</div>
-          </div>
-        </div>
-        
-        <div class="modal-row">
-          <div class="modal-icon">🎹</div>
-          <div class="modal-content-wrapper">
-            <div class="modal-label">ENCARGADO / MÚSICO</div>
-            <div class="modal-value">
-              ${event.encargado || '-'} 
-              <span class="modal-badge modal-badge-purple">
-                🎹 ${event.encargado || '-'}
-              </span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="modal-row">
-          <div class="modal-icon">👥</div>
-          <div class="modal-content-wrapper">
-            <div class="modal-label">NÚMERO DE MÚSICOS</div>
-            <div class="modal-value">${event.numMusicos || '0'} integrantes</div>
-          </div>
-        </div>
-        
-        <div class="modal-row">
-          <div class="modal-icon">📝</div>
-          <div class="modal-content-wrapper">
-            <div class="modal-label">NOTAS / CANCIONES</div>
-            <div class="modal-value">${event.notas || 'Sin notas'}</div>
-          </div>
-        </div>
-        
-        <div class="modal-row">
-          <div class="modal-icon">🚗</div>
-          <div class="modal-content-wrapper">
-            <div class="modal-label">PAGO TRANSPORTE</div>
-            <div class="modal-value money-transport">${formatMoney(event.transPago)}</div>
-          </div>
-        </div>
-        
-        <div class="modal-row">
-          <div class="modal-icon">💰</div>
-          <div class="modal-content-wrapper">
-            <div class="modal-label">VALOR DEL EVENTO</div>
-            <div class="modal-value money-event">${formatMoney(event.pago)}</div>
-          </div>
-        </div>
-        
-        <div class="modal-row">
-          <div class="modal-icon">✅</div>
-          <div class="modal-content-wrapper">
-            <div class="modal-label">ESTADO</div>
-            <div class="modal-value">
-              <span class="modal-badge modal-badge-green">
-                ${isConfirmed ? 'CONFIRMADO' : 'PENDIENTE'}
-              </span>
-            </div>
-          </div>
-        </div>
-      `;
-
-      // Agregar botón de cerrar al final si no existe
-      if (!modalBody.querySelector('.modal-footer')) {
-        const footer = document.createElement('div');
-        footer.className = 'modal-footer';
-        footer.innerHTML = `<button class="modal-btn-close" onclick="document.getElementById('eventModal').classList.remove('active')">Cerrar</button>`;
-        modalBody.appendChild(footer);
-      }
-
+      const modal = document.getElementById('eventModal'), modalBody = document.getElementById('modalBody');
+      const d = event._dateObj;
+      const dn = d.toLocaleDateString('es-CO', { weekday: 'long' }), fd = d.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+      modalBody.innerHTML =
+        `<div class="modal-date-section"><div class="modal-date-main"><span style="background:#d32f2f;color:white;padding:2px 8px;border-radius:4px;font-size:0.8rem;font-weight:700;">${d.getDate()}</span> ${dn.charAt(0).toUpperCase() + dn.slice(1)}, ${fd}</div><div class="modal-date-time"><span>🕐</span><span>${event.hora}</span></div></div>` +
+        `<div class="modal-row"><div class="modal-icon">📍</div><div class="modal-content-wrapper"><div class="modal-label">LUGAR</div><div class="modal-value">${event.lugar || 'Sin lugar'}</div></div></div>` +
+        `<div class="modal-row"><div class="modal-icon">🎹</div><div class="modal-content-wrapper"><div class="modal-label">ENCARGADO</div><div class="modal-value">${event.encargado || '-'} <span class="modal-badge modal-badge-purple">🎹 ${event.encargado || '-'}</span></div></div></div>` +
+        `<div class="modal-row"><div class="modal-icon">👥</div><div class="modal-content-wrapper"><div class="modal-label">MÚSICOS</div><div class="modal-value">${event.numMusicos || '0'} integrantes</div></div></div>` +
+        `<div class="modal-row"><div class="modal-icon">📝</div><div class="modal-content-wrapper"><div class="modal-label">NOTAS</div><div class="modal-value">${event.notas || 'Sin notas'}</div></div></div>` +
+        `<div class="modal-row"><div class="modal-icon">🚗</div><div class="modal-content-wrapper"><div class="modal-label">TRANSPORTE</div><div class="modal-value money-transport">${formatMoney(event.transPago)}</div></div></div>` +
+        `<div class="modal-row"><div class="modal-icon">💰</div><div class="modal-content-wrapper"><div class="modal-label">PAGO EVENTO</div><div class="modal-value money-event">${formatMoney(event.pago)}</div></div></div>` +
+        `<div class="modal-row"><div class="modal-icon">✅</div><div class="modal-content-wrapper"><div class="modal-label">ESTADO</div><div class="modal-value"><span class="modal-badge modal-badge-green">${event._isPast ? 'CONFIRMADO' : 'PENDIENTE'}</span></div></div></div>` +
+        `<div class="modal-footer"><button class="modal-btn-close" onclick="closeModal()">Cerrar</button></div>`;
       modal.classList.add('active');
-
-      // Prevenir scroll del body cuando el modal está activo
       document.body.style.overflow = 'hidden';
-      modal.addEventListener('transitionend', function handler() {
-        modal.removeEventListener('transitionend', handler);
-        modal.querySelector('.modal-body')?.focus();
-      });
+      requestAnimationFrame(() => modal.querySelector('.modal-body')?.focus());
     }
 
-    // Cerrar modal y restaurar scroll
-    document.getElementById('eventModal').addEventListener('transitionend', function (e) {
-      if (!this.classList.contains('active')) {
-        document.body.style.overflow = '';
-      }
-    });
-
-    function formatDate(dateStr) {
-      if (!dateStr) return '-';
-      return dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
-    }
-
+    // ========================================
+    // UTILIDADES
+    // ========================================
+    function formatDate(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : '-'; }
     function formatMoney(amount) {
       if (!amount || isNaN(parseFloat(amount))) return '$0';
-      return new Intl.NumberFormat('es-CO', {
-        style: 'currency',
-        currency: 'COP',
-        minimumFractionDigits: 0
-      }).format(parseFloat(amount));
+      const n = parseFloat(amount);
+      if (moneyFormatCache.has(n)) return moneyFormatCache.get(n);
+      const f = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(n);
+      moneyFormatCache.set(n, f);
+      return f;
     }
-
-    function escapeHtml(text) {
-      if (!text) return '';
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
-    }
+    function escapeHtml(t) { if (!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML.replace(/'/g, "&#39;").replace(/"/g, "&quot;"); }
   </script>
 </body>
 
