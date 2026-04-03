@@ -1994,9 +1994,47 @@
     };
 
     // ========================================
+    // DETECCIÓN AUTOMÁTICA DE MES (COLOMBIA)
+    // ========================================
+    function getCurrentColombiaMonth() {
+      const now = new Date();
+
+      // Obtener fecha en timezone de Colombia (America/Bogota - UTC-5)
+      const colombiaTimeStr = now.toLocaleString('en-US', {
+        timeZone: 'America/Bogota',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      });
+
+      const colombiaTime = new Date(colombiaTimeStr);
+
+      const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+      const currentMonthNum = colombiaTime.getMonth(); // 0-11
+      const currentYear = colombiaTime.getFullYear();
+
+      const monthKey = `${monthNames[currentMonthNum]}-${currentYear}`.toLowerCase();
+
+      // Verificar si el mes existe en la configuración
+      if (SHEETS_CONFIG[monthKey]) {
+        console.log(`✅ Mes detectado: ${monthKey.toUpperCase()} (Colombia: ${colombiaTime.toLocaleString('es-CO')})`);
+        return monthKey;
+      } else {
+        // Si no existe, buscar el mes más cercano disponible
+        console.warn(`⚠️ ${monthKey} no está en SHEETS_CONFIG. Usando mes por defecto...`);
+        const availableMonths = Object.keys(SHEETS_CONFIG);
+        return availableMonths.length > 0 ? availableMonths[0] : 'abril-2026';
+      }
+    }
+    // ========================================
     // ESTADO GLOBAL
     // ========================================
-    let currentMonth = 'abril-2026';
+    let currentMonth = getCurrentColombiaMonth();  // 🇨🇴 Auto-detectado
     let allEvents = [];
     let filteredEvents = [];
     let loadStartTime = 0;
