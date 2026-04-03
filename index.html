@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>🎺 Mariachi - Agenda Corporativa 2026</title>
   <style>
     :root {
@@ -28,12 +28,15 @@
       --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
       --radius: 8px;
+      --modal-header-bg: #2c5f8a;
+      --modal-date-bg: #e3f2fd;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -43,76 +46,103 @@
       line-height: 1.6;
       font-size: 14px;
       padding: 0;
+      -webkit-text-size-adjust: 100%;
     }
 
     .container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 12px;
     }
 
     /* ===== HEADER ===== */
     header {
       background: var(--bg-card);
       border-radius: var(--radius);
-      padding: 20px 30px;
-      margin-bottom: 20px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow);
       border-left: 5px solid var(--primary);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 12px;
     }
 
     .header-title h1 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: var(--text-primary);
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      line-height: 1.3;
     }
 
     .header-title p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
     }
 
     .header-info {
       text-align: right;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-secondary);
+      min-width: 120px;
     }
 
     .header-info .version {
-      margin-top: 5px;
+      margin-top: 4px;
       font-weight: 500;
+      font-size: 0.75rem;
     }
 
     /* ===== SELECTOR DE MESES ===== */
     .month-nav {
       background: var(--bg-card);
       border-radius: var(--radius);
-      padding: 15px 20px;
-      margin-bottom: 20px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow);
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .month-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .month-nav::-webkit-scrollbar-track {
+      background: var(--bg-body);
+      border-radius: 2px;
+    }
+
+    .month-nav::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
     }
 
     .month-nav .btn {
-      padding: 8px 20px;
+      padding: 8px 16px;
       border: 2px solid var(--border);
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       transition: all 0.2s;
       background: white;
       color: var(--text-primary);
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .month-nav .btn.active {
@@ -130,8 +160,8 @@
     .upcoming-section {
       background: var(--bg-card);
       border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 16px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow);
       border-left: 4px solid var(--primary);
     }
@@ -144,29 +174,31 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .upcoming-header h2 {
-      font-size: 1.2rem;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
       gap: 8px;
     }
 
+    .upcoming-header h2 {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .upcoming-header .date-range {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-secondary);
       background: var(--bg-body);
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 4px;
     }
 
     .upcoming-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
     }
 
     .upcoming-card {
@@ -186,12 +218,13 @@
     }
 
     .upcoming-card-header {
-      padding: 12px 15px;
+      padding: 10px 12px;
       color: white;
       font-weight: 600;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 0.9rem;
     }
 
     .upcoming-card.today .upcoming-card-header {
@@ -207,59 +240,180 @@
     }
 
     .upcoming-card-body {
-      padding: 15px;
+      padding: 12px;
       background: white;
     }
 
     .upcoming-event {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 10px;
       flex-wrap: wrap;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .upcoming-event:last-child {
+      border-bottom: none;
     }
 
     .upcoming-time {
       font-weight: 700;
       color: var(--text-primary);
-      font-size: 1.1rem;
+      font-size: 1rem;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
+      min-width: 65px;
     }
 
     .upcoming-place {
       color: var(--text-secondary);
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
+      font-size: 0.9rem;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .upcoming-place {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .upcoming-person {
       margin-left: auto;
+      flex-shrink: 0;
     }
 
+    /* ===== BADGES UNIFORMES - PALETA COMPLETA DE COLORES ===== */
     .badge-person {
       padding: 5px 12px;
-      border-radius: 4px;
+      border-radius: 6px;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 5px;
+      min-width: 110px;
+      max-width: 100%;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
     }
 
+    .badge-person:hover {
+      transform: scale(1.05);
+    }
+
+    /* Colores existentes */
     .badge-tatan {
-      background: var(--purple);
+      background: #2c912c;
       color: white;
     }
 
     .badge-cacho {
-      background: var(--orange);
+      background: #f57c00;
       color: white;
     }
 
     .badge-default {
-      background: var(--primary);
+      background: #1976d2;
+      color: white;
+    }
+
+    /* ===== PALETA DE COLORES COMPLETA ===== */
+    .badge-andres {
+      background: #95652d;
+      color: white;
+    }
+
+    .badge-alqui {
+      background: #2d4e56;
+      color: white;
+    }
+
+    .badge-maria {
+      background: #E91E63;
+      color: white;
+    }
+
+    .badge-carlos {
+      background: #009688;
+      color: white;
+    }
+
+    .badge-luis {
+      background: #FF5722;
+      color: white;
+    }
+
+    .badge-ana {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .badge-pedro {
+      background: #3F51B5;
+      color: white;
+    }
+
+    .badge-sofia {
+      background: #FF9800;
+      color: white;
+    }
+
+    .badge-diego {
+      background: #F44336;
+      color: white;
+    }
+
+    .badge-laura {
+      background: #673AB7;
+      color: white;
+    }
+
+    .badge-miguel {
+      background: #03A9F4;
+      color: white;
+    }
+
+    .badge-carmen {
+      background: #8BC34A;
+      color: white;
+    }
+
+    .badge-javier {
+      background: #795548;
+      color: white;
+    }
+
+    .badge-valentina {
+      background: #E91E63;
+      color: white;
+    }
+
+    .badge-ricardo {
+      background: #CDDC39;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .badge-gabriela {
+      background: #5C6BC0;
+      color: white;
+    }
+
+    .badge-fernando {
+      background: #26A69A;
+      color: white;
+    }
+
+    .badge-patricia {
+      background: #FFA726;
       color: white;
     }
 
@@ -267,134 +421,108 @@
     .stats-bar {
       background: var(--success-light);
       border-radius: var(--radius);
-      padding: 15px 20px;
-      margin-bottom: 20px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
       border-left: 4px solid var(--success);
     }
 
     .stats-bar-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
     }
 
     .stats-bar-header h3 {
       color: var(--success);
-      font-size: 1rem;
+      font-size: 0.95rem;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     .stats-bar-info {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-secondary);
+      margin-left: auto;
     }
 
     .stats-icons {
-      display: flex;
-      gap: 25px;
-      margin-top: 8px;
-      font-size: 1rem;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      font-size: 0.9rem;
     }
 
     .stats-icons span {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-weight: 600;
-      padding: 5px 12px;
+      padding: 8px 10px;
       background: white;
       border-radius: 6px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      justify-content: center;
+      text-align: center;
     }
 
     .stats-icons .icon {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     .stats-icons .value {
       font-weight: 700;
       color: var(--text-primary);
+      font-size: 1rem;
+      display: block;
+      line-height: 1;
     }
 
     .stats-icons .label {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: var(--text-secondary);
       font-weight: 500;
-    }
-
-    /* ===== FILTROS POR PERSONA ===== */
-    .people-filters {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      padding: 15px 20px;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow);
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .people-filters .filter-label {
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-right: 10px;
-    }
-
-    .filter-btn {
-      padding: 8px 16px;
-      border: 2px solid var(--border);
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-      background: white;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .filter-btn.active {
-      background: var(--primary-light);
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    .filter-btn:hover:not(.active) {
-      border-color: var(--primary);
+      display: block;
+      margin-top: 2px;
     }
 
     /* ===== TABS ===== */
     .tabs-nav {
       background: var(--bg-card);
       border-radius: var(--radius);
-      padding: 15px 20px;
-      margin-bottom: 20px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow);
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .tabs-nav::-webkit-scrollbar {
+      display: none;
     }
 
     .tab-btn {
-      padding: 10px 20px;
+      padding: 9px 14px;
       border: 2px solid var(--border);
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       transition: all 0.2s;
       background: white;
       color: var(--text-primary);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-height: 38px;
     }
 
     .tab-btn:hover {
@@ -439,76 +567,106 @@
     .search-container {
       background: var(--bg-card);
       border-radius: var(--radius);
-      padding: 15px 20px;
-      margin-bottom: 20px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow);
       display: flex;
-      gap: 15px;
+      gap: 12px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     .search-box {
       flex: 1;
-      min-width: 300px;
+      min-width: 200px;
     }
 
     .search-box input {
       width: 100%;
-      padding: 10px 15px;
+      padding: 10px 14px;
       border: 2px solid var(--border);
       border-radius: 6px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       transition: all 0.2s;
+      min-height: 40px;
     }
 
     .search-box input:focus {
       outline: none;
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
     }
 
     /* ===== TABLA COMPLETA ===== */
     .table-section {
       background: var(--bg-card);
       border-radius: var(--radius);
-      padding: 20px;
+      padding: 16px;
       box-shadow: var(--shadow);
     }
 
     .table-header {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .table-header h2 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: var(--text-primary);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .table-responsive {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .table-responsive::after {
+      content: '← Desliza para ver más →';
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2px 6px;
+      border-radius: 4px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .table-responsive:hover::after,
+    .table-responsive:active::after {
+      opacity: 1;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      min-width: 900px;
     }
 
     thead {
       background: #37474f;
       color: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     th {
-      padding: 12px 10px;
+      padding: 10px 8px;
       text-align: left;
       font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
       user-select: none;
+      font-size: 0.8rem;
     }
 
     th:hover {
@@ -526,8 +684,9 @@
     }
 
     td {
-      padding: 12px 10px;
+      padding: 10px 8px;
       vertical-align: middle;
+      font-size: 0.85rem;
     }
 
     .table-date {
@@ -536,13 +695,14 @@
     }
 
     .table-day {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-secondary);
     }
 
     .table-money {
       font-weight: 600;
       color: var(--orange);
+      white-space: nowrap;
     }
 
     .table-money.paid {
@@ -550,11 +710,12 @@
     }
 
     .badge-status {
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 4px;
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       display: inline-block;
+      white-space: nowrap;
     }
 
     .badge-confirmed {
@@ -570,23 +731,24 @@
     .musicians-count {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       font-weight: 600;
+      font-size: 0.85rem;
     }
 
     /* ===== HISTÓRICO - RESUMEN DEL MES ===== */
     .history-section {
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     .history-section-title {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       color: var(--text-primary);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding-bottom: 10px;
+      gap: 8px;
+      padding-bottom: 8px;
       border-bottom: 2px solid var(--border);
     }
 
@@ -594,32 +756,32 @@
     .month-resume {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border-radius: var(--radius);
-      padding: 25px;
-      margin-bottom: 25px;
+      padding: 20px;
+      margin-bottom: 20px;
       box-shadow: var(--shadow-hover);
     }
 
     .month-resume-header {
       color: white;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .resume-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
     }
 
     .resume-card {
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
       border-radius: 8px;
-      padding: 20px;
+      padding: 16px 12px;
       text-align: center;
       color: white;
       transition: transform 0.2s, background 0.2s;
@@ -632,38 +794,40 @@
     }
 
     .resume-card-value {
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: block;
+      line-height: 1;
     }
 
     .resume-card-label {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       opacity: 0.95;
       font-weight: 500;
+      line-height: 1.3;
     }
 
     /* ===== DETALLE DE SERENATAS - TARJETAS ===== */
     .detalle-serenatas-section {
-      margin-top: 25px;
+      margin-top: 20px;
     }
 
     .detalle-serenatas-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: var(--text-primary);
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-weight: 600;
     }
 
     .serenata-card {
       background: white;
       border-radius: var(--radius);
-      padding: 15px 20px;
-      margin-bottom: 12px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
       box-shadow: var(--shadow);
       border-left: 4px solid var(--success);
       transition: transform 0.2s, box-shadow 0.2s;
@@ -679,9 +843,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
     .serenata-date-time {
@@ -689,8 +853,9 @@
       color: var(--text-primary);
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 1rem;
+      gap: 6px;
+      font-size: 0.95rem;
+      flex-wrap: wrap;
     }
 
     .serenata-date-time .calendar-icon {
@@ -698,45 +863,143 @@
       color: white;
       padding: 2px 6px;
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
+      min-width: 24px;
+      text-align: center;
     }
 
     .serenata-date-time .clock-icon {
       color: var(--text-secondary);
+      margin-left: 4px;
     }
 
     .serenata-badge {
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 6px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      min-width: 110px;
+      justify-content: center;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .serenata-badge-tatan {
-      background: var(--purple);
+      background: #7b1fa2;
       color: white;
     }
 
     .serenata-badge-cacho {
-      background: var(--orange);
+      background: #f57c00;
       color: white;
     }
 
     .serenata-badge-default {
-      background: var(--primary);
+      background: #1976d2;
+      color: white;
+    }
+
+    /* ===== PALETA DE COLORES PARA SERENATAS ===== */
+    .serenata-badge-andres {
+      background: #2196F3;
+      color: white;
+    }
+
+    .serenata-badge-alqui {
+      background: #9C27B0;
+      color: white;
+    }
+
+    .serenata-badge-maria {
+      background: #E91E63;
+      color: white;
+    }
+
+    .serenata-badge-carlos {
+      background: #009688;
+      color: white;
+    }
+
+    .serenata-badge-luis {
+      background: #FF5722;
+      color: white;
+    }
+
+    .serenata-badge-ana {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .serenata-badge-pedro {
+      background: #3F51B5;
+      color: white;
+    }
+
+    .serenata-badge-sofia {
+      background: #FF9800;
+      color: white;
+    }
+
+    .serenata-badge-diego {
+      background: #F44336;
+      color: white;
+    }
+
+    .serenata-badge-laura {
+      background: #673AB7;
+      color: white;
+    }
+
+    .serenata-badge-miguel {
+      background: #03A9F4;
+      color: white;
+    }
+
+    .serenata-badge-carmen {
+      background: #8BC34A;
+      color: white;
+    }
+
+    .serenata-badge-javier {
+      background: #795548;
+      color: white;
+    }
+
+    .serenata-badge-valentina {
+      background: #E91E63;
+      color: white;
+    }
+
+    .serenata-badge-ricardo {
+      background: #CDDC39;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .serenata-badge-gabriela {
+      background: #5C6BC0;
+      color: white;
+    }
+
+    .serenata-badge-fernando {
+      background: #26A69A;
+      color: white;
+    }
+
+    .serenata-badge-patricia {
+      background: #FFA726;
       color: white;
     }
 
     .serenata-card-body {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      font-size: 0.95rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      font-size: 0.9rem;
     }
 
     .serenata-detail {
@@ -747,7 +1010,9 @@
     }
 
     .serenata-detail .icon {
-      font-size: 1.1rem;
+      flex-shrink: 0;
+      width: 18px;
+      text-align: center;
     }
 
     .serenata-detail.money-transport {
@@ -764,38 +1029,39 @@
     .history-month-section {
       background: var(--bg-card);
       border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 16px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow);
     }
 
     .history-month-header {
       background: var(--success-light);
       border-left: 4px solid var(--success);
-      padding: 15px;
+      padding: 12px;
       border-radius: 6px;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     .history-month-header h3 {
       color: var(--success);
-      font-size: 1.1rem;
+      font-size: 1rem;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .history-month-stats {
       display: flex;
-      gap: 20px;
-      margin-top: 10px;
-      font-size: 0.9rem;
+      gap: 16px;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
     }
 
     .history-month-stats span {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     /* ===== MODAL ===== */
@@ -806,11 +1072,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.6);
       z-index: 1000;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
+      backdrop-filter: blur(2px);
     }
 
     .modal.active {
@@ -820,53 +1087,197 @@
     .modal-content {
       background: white;
       border-radius: var(--radius);
-      max-width: 600px;
+      max-width: 560px;
       width: 100%;
-      padding: 30px;
       position: relative;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-      max-height: 90vh;
-      overflow-y: auto;
+      max-height: 95vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: var(--modal-header-bg);
+      color: white;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .modal-header h3 {
+      font-size: 1.15rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
     }
 
     .modal-close {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.5rem;
       cursor: pointer;
-      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       line-height: 1;
+      transition: background 0.2s;
+      flex-shrink: 0;
+      min-width: 36px;
+      min-height: 36px;
     }
 
     .modal-close:hover {
-      color: var(--danger);
+      background: rgba(255, 255, 255, 0.3);
     }
 
-    .modal-title {
-      font-size: 1.5rem;
-      color: var(--primary);
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 2px solid var(--border);
+    .modal-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+    }
+
+    .modal-date-section {
+      background: var(--modal-date-bg);
+      border-left: 4px solid var(--primary);
+      padding: 12px 14px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .modal-date-main {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .modal-date-time {
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
     }
 
     .modal-row {
       display: flex;
-      justify-content: space-between;
+      align-items: flex-start;
       padding: 12px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 1rem;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+
+    .modal-row:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .modal-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-body);
+      border-radius: 8px;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .modal-content-wrapper {
+      flex: 1;
+      min-width: 0;
     }
 
     .modal-label {
       color: var(--text-secondary);
+      font-size: 0.8rem;
       font-weight: 500;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .modal-value {
-      font-weight: 700;
+      font-weight: 600;
       color: var(--text-primary);
+      font-size: 0.95rem;
+      word-break: break-word;
+    }
+
+    .modal-value.money-transport {
+      color: var(--orange);
+      font-size: 1rem;
+    }
+
+    .modal-value.money-event {
+      color: var(--success);
+      font-size: 1rem;
+    }
+
+    .modal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .modal-badge-purple {
+      background: var(--purple);
+      color: white;
+    }
+
+    .modal-badge-green {
+      background: var(--success);
+      color: white;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-body);
+      border-radius: 0 0 var(--radius) var(--radius);
+      flex-shrink: 0;
+    }
+
+    .modal-btn-close {
+      width: 100%;
+      padding: 12px;
+      background: #90a4ae;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      min-height: 44px;
+    }
+
+    .modal-btn-close:hover {
+      background: #78909c;
     }
 
     /* ===== UTILIDADES ===== */
@@ -874,33 +1285,42 @@
     .error,
     .no-results {
       text-align: center;
-      padding: 40px;
+      padding: 32px 20px;
       color: var(--text-secondary);
-      font-size: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
 
     .error {
       color: var(--danger);
       background: #ffebee;
       border-radius: 8px;
-      padding: 20px;
+      padding: 16px;
+      font-size: 0.9rem;
     }
 
     .historical-month-notice {
       background: var(--warning-light);
       border-left: 4px solid var(--warning);
-      padding: 15px;
+      padding: 12px 14px;
       border-radius: 6px;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       color: var(--warning);
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      font-size: 0.9rem;
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* ===== RESPONSIVE - TABLET Y MÓVIL ===== */
+
+    /* Tablet: 768px - 1024px */
     @media (max-width: 1024px) {
+      .container {
+        padding: 12px;
+      }
+
       .upcoming-cards {
         grid-template-columns: 1fr;
       }
@@ -917,67 +1337,597 @@
       .resume-cards {
         grid-template-columns: repeat(2, 1fr);
       }
-    }
 
-    @media (max-width: 768px) {
-      body {
-        font-size: 13px;
-      }
-
-      header {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .header-info {
-        text-align: center;
-      }
-
-      .month-nav,
-      .people-filters,
-      .tabs-nav {
-        flex-direction: column;
-      }
-
-      .month-nav .btn,
-      .filter-btn,
-      .tab-btn {
-        width: 100%;
-        justify-content: center;
+      .stats-icons {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
       }
 
       table {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
       }
 
       th,
       td {
         padding: 8px 6px;
       }
+    }
+
+    /* Mobile: ≤ 768px */
+    @media (max-width: 768px) {
+      body {
+        font-size: 13px;
+      }
+
+      .container {
+        padding: 8px;
+      }
+
+      header {
+        flex-direction: column;
+        text-align: center;
+        padding: 14px 16px;
+      }
+
+      .header-title h1 {
+        font-size: 1.3rem;
+      }
+
+      .header-title p {
+        font-size: 0.8rem;
+      }
+
+      .header-info {
+        text-align: center;
+        font-size: 0.75rem;
+      }
+
+      .header-info .version {
+        font-size: 0.7rem;
+      }
+
+      .month-nav {
+        padding: 10px 12px;
+        gap: 6px;
+      }
+
+      .month-nav .btn {
+        padding: 7px 12px;
+        font-size: 0.8rem;
+        min-height: 34px;
+      }
+
+      .upcoming-section {
+        padding: 14px;
+      }
+
+      .upcoming-header h2 {
+        font-size: 1rem;
+      }
+
+      .upcoming-header .date-range {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+      }
+
+      .upcoming-card-header {
+        padding: 9px 10px;
+        font-size: 0.85rem;
+      }
+
+      .upcoming-card-body {
+        padding: 10px;
+      }
+
+      .upcoming-event {
+        gap: 8px;
+        padding: 6px 0;
+      }
+
+      .upcoming-time {
+        font-size: 0.95rem;
+        min-width: 60px;
+      }
+
+      .upcoming-place {
+        font-size: 0.85rem;
+      }
+
+      /* Badges más compactos en móvil */
+      .badge-person,
+      .serenata-badge {
+        min-width: 100px;
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        gap: 4px;
+      }
+
+      .stats-bar {
+        padding: 10px 14px;
+      }
+
+      .stats-bar-header h3 {
+        font-size: 0.9rem;
+      }
+
+      .stats-bar-info {
+        font-size: 0.75rem;
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+        margin-top: 4px;
+      }
+
+      .stats-icons {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .stats-icons span {
+        padding: 7px 10px;
+        justify-content: flex-start;
+      }
+
+      .stats-icons .value {
+        font-size: 0.95rem;
+      }
+
+      .stats-icons .label {
+        font-size: 0.7rem;
+      }
+
+      .tabs-nav {
+        padding: 8px 10px;
+        gap: 5px;
+      }
+
+      .tab-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        min-height: 36px;
+        gap: 5px;
+      }
+
+      .search-container {
+        padding: 10px 14px;
+      }
+
+      .search-box input {
+        padding: 9px 12px;
+        font-size: 0.9rem;
+        min-height: 38px;
+      }
+
+      .table-section {
+        padding: 14px;
+      }
+
+      .table-header h2 {
+        font-size: 1.1rem;
+      }
+
+      table {
+        font-size: 0.78rem;
+        min-width: 750px;
+      }
+
+      th,
+      td {
+        padding: 7px 5px;
+        font-size: 0.78rem;
+      }
+
+      th {
+        font-size: 0.75rem;
+        padding: 9px 6px;
+      }
+
+      .badge-status {
+        padding: 3px 8px;
+        font-size: 0.7rem;
+      }
+
+      .table-money {
+        font-size: 0.8rem;
+      }
+
+      /* Resumen del mes en móvil */
+      .month-resume {
+        padding: 16px;
+      }
+
+      .month-resume-header {
+        font-size: 1rem;
+        margin-bottom: 14px;
+      }
 
       .resume-cards {
         grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .resume-card {
+        padding: 14px 10px;
+      }
+
+      .resume-card-value {
+        font-size: 1.6rem;
+      }
+
+      .resume-card-label {
+        font-size: 0.75rem;
+      }
+
+      /* Tarjetas de serenatas en móvil */
+      .serenata-card {
+        padding: 10px 14px;
       }
 
       .serenata-card-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 6px;
+      }
+
+      .serenata-date-time {
+        font-size: 0.9rem;
+        gap: 4px;
+      }
+
+      .serenata-date-time .calendar-icon {
+        font-size: 0.65rem;
+        padding: 1px 5px;
+        min-width: 22px;
+      }
+
+      .serenata-badge {
+        align-self: flex-start;
+        min-width: 100px;
+        font-size: 0.75rem;
+        padding: 4px 10px;
       }
 
       .serenata-card-body {
-        flex-direction: column;
-        align-items: flex-start;
+        gap: 5px;
+        font-size: 0.85rem;
+      }
+
+      .serenata-detail {
+        gap: 5px;
+        font-size: 0.85rem;
+      }
+
+      .serenata-detail .icon {
+        width: 16px;
+        font-size: 0.9rem;
+      }
+
+      /* Modal optimizado para móvil */
+      .modal {
+        padding: 10px;
+        align-items: flex-end;
+      }
+
+      .modal-content {
+        max-height: 90vh;
+        border-radius: 12px 12px 0 0;
+        margin-bottom: 0;
+      }
+
+      .modal-header {
+        padding: 12px 16px;
+        border-radius: 12px 12px 0 0;
+      }
+
+      .modal-header h3 {
+        font-size: 1.05rem;
+      }
+
+      .modal-close {
+        width: 34px;
+        height: 34px;
+        font-size: 1.4rem;
+      }
+
+      .modal-body {
+        padding: 14px 16px;
+      }
+
+      .modal-date-section {
+        padding: 10px 12px;
+        margin-bottom: 14px;
+      }
+
+      .modal-date-main {
+        font-size: 0.95rem;
+        gap: 5px;
+      }
+
+      .modal-date-time {
+        font-size: 0.85rem;
+      }
+
+      .modal-row {
+        padding: 10px 0;
         gap: 10px;
       }
 
-      .stats-icons {
-        gap: 10px;
+      .modal-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 1.1rem;
       }
 
-      .stats-icons span {
-        flex: 1;
-        min-width: 150px;
-        justify-content: center;
+      .modal-label {
+        font-size: 0.75rem;
+      }
+
+      .modal-value {
+        font-size: 0.9rem;
+      }
+
+      .modal-badge {
+        padding: 4px 10px;
+        font-size: 0.8rem;
+        margin-left: 6px;
+      }
+
+      .modal-footer {
+        padding: 12px 16px;
+      }
+
+      .modal-btn-close {
+        padding: 11px;
+        font-size: 0.9rem;
+        min-height: 42px;
+      }
+
+      /* Mensajes de estado */
+      .loading,
+      .error,
+      .no-results {
+        padding: 24px 16px;
+        font-size: 0.9rem;
+      }
+
+      .error {
+        padding: 14px;
+        font-size: 0.85rem;
+      }
+
+      .historical-month-notice {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        gap: 6px;
+      }
+    }
+
+    /* Mobile muy pequeño: ≤ 480px */
+    @media (max-width: 480px) {
+      body {
+        font-size: 12px;
+      }
+
+      .container {
+        padding: 6px;
+      }
+
+      header {
+        padding: 12px 14px;
+        margin-bottom: 12px;
+      }
+
+      .header-title h1 {
+        font-size: 1.2rem;
+      }
+
+      .header-title p {
+        display: none;
+      }
+
+      .header-info {
+        font-size: 0.7rem;
+      }
+
+      .month-nav .btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        min-height: 32px;
+      }
+
+      .upcoming-section {
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+
+      .upcoming-header h2 {
+        font-size: 0.95rem;
+      }
+
+      .upcoming-card-header {
+        padding: 8px 9px;
+        font-size: 0.8rem;
+      }
+
+      .upcoming-time {
+        font-size: 0.9rem;
+        min-width: 55px;
+      }
+
+      .upcoming-place {
+        font-size: 0.8rem;
+      }
+
+      .badge-person,
+      .serenata-badge {
+        min-width: 90px;
+        padding: 3px 8px;
+        font-size: 0.7rem;
+        gap: 3px;
+      }
+
+      .stats-bar {
+        padding: 9px 12px;
+        margin-bottom: 12px;
+      }
+
+      .stats-bar-header h3 {
+        font-size: 0.85rem;
+      }
+
+      .stats-icons .value {
+        font-size: 0.9rem;
+      }
+
+      .stats-icons .label {
+        font-size: 0.65rem;
+      }
+
+      .tab-btn {
+        padding: 7px 10px;
+        font-size: 0.75rem;
+        min-height: 34px;
+        gap: 4px;
+      }
+
+      .search-box input {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+        min-height: 36px;
+      }
+
+      .table-section {
+        padding: 12px;
+      }
+
+      table {
+        font-size: 0.75rem;
+        min-width: 650px;
+      }
+
+      th,
+      td {
+        padding: 6px 4px;
+        font-size: 0.75rem;
+      }
+
+      th {
+        font-size: 0.7rem;
+        padding: 8px 5px;
+      }
+
+      .month-resume {
+        padding: 14px;
+      }
+
+      .resume-card-value {
+        font-size: 1.4rem;
+      }
+
+      .resume-card-label {
+        font-size: 0.7rem;
+      }
+
+      .serenata-card {
+        padding: 9px 12px;
+        margin-bottom: 8px;
+      }
+
+      .serenata-date-time {
+        font-size: 0.85rem;
+      }
+
+      .serenata-badge {
+        min-width: 85px;
+        font-size: 0.7rem;
+        padding: 3px 8px;
+      }
+
+      .serenata-card-body {
+        font-size: 0.8rem;
+        gap: 4px;
+      }
+
+      .serenata-detail {
+        font-size: 0.8rem;
+        gap: 4px;
+      }
+
+      .modal {
+        padding: 8px;
+      }
+
+      .modal-header {
+        padding: 10px 14px;
+      }
+
+      .modal-header h3 {
+        font-size: 1rem;
+      }
+
+      .modal-body {
+        padding: 12px 14px;
+      }
+
+      .modal-date-main {
+        font-size: 0.9rem;
+      }
+
+      .modal-date-time {
+        font-size: 0.8rem;
+      }
+
+      .modal-row {
+        padding: 9px 0;
+        gap: 9px;
+      }
+
+      .modal-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+      }
+
+      .modal-label {
+        font-size: 0.7rem;
+      }
+
+      .modal-value {
+        font-size: 0.85rem;
+      }
+
+      .modal-footer {
+        padding: 10px 14px;
+      }
+
+      .modal-btn-close {
+        min-height: 40px;
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Ajustes para pantallas muy altas (evitar scroll innecesario) */
+    @media (min-height: 900px) {
+      .modal-content {
+        max-height: 85vh;
+      }
+    }
+
+    /* Mejoras de accesibilidad: foco visible */
+    button:focus-visible,
+    input:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Prevenir zoom en iOS al hacer foco en inputs */
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+
+      input,
+      select,
+      textarea {
+        font-size: 16px !important;
       }
     }
   </style>
@@ -1022,16 +1972,10 @@
       </div>
     </div>
 
-    <!-- FILTROS POR PERSONA -->
-    <div class="people-filters" id="peopleFilters">
-      <span class="filter-label">👥 Filtros:</span>
-      <!-- Filter buttons will be inserted here -->
-    </div>
-
     <!-- BÚSQUEDA -->
     <div class="search-container">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 Buscar evento, lugar o encargado...">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar evento, lugar o encargado..." autocomplete="off">
       </div>
     </div>
 
@@ -1123,9 +2067,13 @@
   <!-- MODAL DETALLE -->
   <div class="modal" id="eventModal">
     <div class="modal-content">
-      <span class="modal-close" id="modalClose">&times;</span>
-      <h3 class="modal-title" id="modalTitle">Detalles del Evento</h3>
-      <div id="modalBody"></div>
+      <div class="modal-header">
+        <h3>📅 Detalles del Evento</h3>
+        <button class="modal-close" id="modalClose" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Contenido dinámico -->
+      </div>
     </div>
   </div>
 
@@ -1178,7 +2126,6 @@
     let currentMonth = 'abril-2026';
     let allEvents = [];
     let filteredEvents = [];
-    let currentFilter = 'todos';
     let loadStartTime = 0;
 
     // ========================================
@@ -1426,8 +2373,6 @@
         const eventMes = parseEventMonth(event.fecha);
         if (eventMes !== config.month) return false;
 
-        if (currentFilter !== 'todos' && event.encargado !== currentFilter) return false;
-
         if (term) {
           const searchStr = Object.values(event).join(' ').toLowerCase();
           return searchStr.includes(term);
@@ -1513,7 +2458,6 @@
       renderTabs(); // Renderizar tabs dinámicamente
       renderUpcomingCards();
       renderStats(loadTime);
-      renderPeopleFilters();
       renderTable();
       renderDateRange();
     }
@@ -1606,7 +2550,7 @@
               ${group.events.map(event => `
                 <div class="upcoming-event" onclick="showModalEvent('${escapeHtml(event.fecha)}','${escapeHtml(event.hora)}')" style="cursor:pointer">
                   <span class="upcoming-time">🕐 ${event.hora}</span>
-                  <span class="upcoming-place">📍 ${event.lugar || 'Sin lugar'}</span>
+                  <span class="upcoming-place" title="${escapeHtml(event.lugar)}">${event.lugar || 'Sin lugar'}</span>
                   <div class="upcoming-person">
                     <span class="badge-person ${getPersonBadgeClass(event.encargado)}">
                       ${getPersonIcon(event.encargado)} ${event.encargado || '-'}
@@ -1622,11 +2566,39 @@
       container.innerHTML = html;
     }
 
+    // ========================================
+    // FUNCIÓN MODIFICADA - ASIGNACIÓN DE COLORES POR NOMBRE (PALETA COMPLETA)
+    // ========================================
     function getPersonBadgeClass(person) {
       if (!person) return 'badge-default';
-      const p = person.toLowerCase();
+      const p = person.toLowerCase().trim();
+
+      // ========================================
+      // PALETA COMPLETA DE COLORES POR NOMBRE
+      // ========================================
+
       if (p.includes('tatan')) return 'badge-tatan';
       if (p.includes('cacho')) return 'badge-cacho';
+      if (p.includes('andrés') || p.includes('andres')) return 'badge-andres';
+      if (p.includes('alqui')) return 'badge-alqui';
+      if (p.includes('maria') || p.includes('maría')) return 'badge-maria';
+      if (p.includes('carlos')) return 'badge-carlos';
+      if (p.includes('luis')) return 'badge-luis';
+      if (p.includes('ana')) return 'badge-ana';
+      if (p.includes('pedro')) return 'badge-pedro';
+      if (p.includes('sofia') || p.includes('sofía')) return 'badge-sofia';
+      if (p.includes('diego')) return 'badge-diego';
+      if (p.includes('laura')) return 'badge-laura';
+      if (p.includes('miguel')) return 'badge-miguel';
+      if (p.includes('carmen')) return 'badge-carmen';
+      if (p.includes('javier')) return 'badge-javier';
+      if (p.includes('valentina')) return 'badge-valentina';
+      if (p.includes('ricardo')) return 'badge-ricardo';
+      if (p.includes('gabriela')) return 'badge-gabriela';
+      if (p.includes('fernando')) return 'badge-fernando';
+      if (p.includes('patricia')) return 'badge-patricia';
+
+      // Si no coincide con ningún nombre personalizado, usa el default
       return 'badge-default';
     }
 
@@ -1680,31 +2652,6 @@
       document.getElementById('statsIcons').innerHTML = iconsHtml;
     }
 
-    // ===== FILTROS POR PERSONA =====
-    function renderPeopleFilters() {
-      const container = document.getElementById('peopleFilters');
-      const people = ['todos', ...new Set(allEvents.map(e => e.encargado).filter(Boolean))];
-
-      let html = '<span class="filter-label">👥 Filtros:</span>';
-      html += people.map(person => `
-        <button class="filter-btn ${person === currentFilter ? 'active' : ''}" 
-                onclick="setPersonFilter('${person}')">
-          ${person === 'todos' ? '📋 Todos' : getPersonIcon(person) + ' ' + person}
-        </button>
-      `).join('');
-
-      container.innerHTML = html;
-    }
-
-    function setPersonFilter(person) {
-      currentFilter = person;
-      applyFilters();
-      renderPeopleFilters();
-      renderTable();
-      renderUpcomingCards();
-      renderStats(((performance.now() - loadStartTime) / 1000).toFixed(2));
-    }
-
     // ===== TABLA COMPLETA - SOLO EVENTOS FUTUROS =====
     function renderTable() {
       const tbody = document.getElementById('tableBody');
@@ -1740,9 +2687,9 @@
           <td><span class="table-date">${formatDate(event.fecha)}</span></td>
           <td><span class="table-day">${event.dia}</span></td>
           <td>${event.hora}</td>
-          <td>${event.lugar || '-'}</td>
+          <td title="${escapeHtml(event.lugar)}">${event.lugar || '-'}</td>
           <td><span class="badge-person ${getPersonBadgeClass(event.encargado)}">${getPersonIcon(event.encargado)} ${event.encargado || '-'}</span></td>
-          <td>${event.notas || '-'}</td>
+          <td title="${escapeHtml(event.notas)}">${event.notas || '-'}</td>
           <td class="table-money">${formatMoney(event.transPago)}</td>
           <td class="table-money ${event.isPast ? 'paid' : ''}">${formatMoney(event.pago)}</td>
           <td><span class="badge-status ${event.isPast ? 'badge-confirmed' : 'badge-pending'}">${event.isPast ? '✓ CONFIRMADO' : '⏳ PENDIENTE'}</span></td>
@@ -1860,7 +2807,7 @@
             <div class="serenata-card-body">
               <div class="serenata-detail">
                 <span class="icon">📍</span>
-                <span>${event.lugar || 'Sin lugar'}</span>
+                <span title="${escapeHtml(event.lugar)}">${event.lugar || 'Sin lugar'}</span>
               </div>
               <div class="serenata-detail">
                 <span class="icon">👥</span>
@@ -1913,17 +2860,17 @@
       );
 
       container.innerHTML = sortedEvents.map(event => `
-        <div style="background:#f5f5f5; padding:15px; margin-bottom:10px; border-radius:6px; border-left:4px solid ${event.isPast ? 'var(--success)' : 'var(--warning)'}; cursor:pointer" 
+        <div style="background:#f5f5f5; padding:12px 14px; margin-bottom:8px; border-radius:6px; border-left:4px solid ${event.isPast ? 'var(--success)' : 'var(--warning)'}; cursor:pointer" 
              onclick="showModalEvent('${escapeHtml(event.fecha)}','${escapeHtml(event.hora)}')">
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px">
-            <strong>${event.fecha} - ${event.hora}</strong>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px; flex-wrap:wrap; gap:4px">
+            <strong style="font-size:0.9rem">${event.fecha} - ${event.hora}</strong>
             <span class="badge-status ${event.isPast ? 'badge-confirmed' : 'badge-pending'}">
               ${event.isPast ? '✓ Realizado' : '⏳ Pendiente'}
             </span>
           </div>
-          <div>📍 ${event.lugar || '-'}</div>
-          <div>👤 ${getPersonIcon(event.encargado)} ${event.encargado || '-'}</div>
-          <div>💰 ${formatMoney(event.pago)}</div>
+          <div style="font-size:0.9rem">📍 <span title="${escapeHtml(event.lugar)}">${event.lugar || '-'}</span></div>
+          <div style="font-size:0.9rem">👤 ${getPersonIcon(event.encargado)} ${event.encargado || '-'}</div>
+          <div style="font-size:0.9rem; font-weight:600; color:var(--success)">${formatMoney(event.pago)}</div>
         </div>
       `).join('');
     }
@@ -1956,6 +2903,15 @@
       closeBtn.addEventListener('click', () => modal.classList.remove('active'));
       window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.remove('active'); });
+
+      // Prevenir scroll del body cuando el modal está abierto
+      modal.addEventListener('touchmove', (e) => {
+        if (e.target.closest('.modal-body')) {
+          e.stopPropagation();
+        } else {
+          e.preventDefault();
+        }
+      }, { passive: false });
     }
 
     window.showModalEvent = function (fecha, hora) {
@@ -1963,19 +2919,125 @@
       if (!event) return;
 
       const modal = document.getElementById('eventModal');
-      document.getElementById('modalTitle').textContent = `${event.fecha} - ${event.hora}`;
-      document.getElementById('modalBody').innerHTML = `
-        <div class="modal-row"><span class="modal-label">Día:</span><span class="modal-value">${event.dia}</span></div>
-        <div class="modal-row"><span class="modal-label">Lugar:</span><span class="modal-value">${event.lugar || '-'}</span></div>
-        <div class="modal-row"><span class="modal-label">Encargado:</span><span class="modal-value">${getPersonIcon(event.encargado)} ${event.encargado || '-'}</span></div>
-        <div class="modal-row"><span class="modal-label">Notas:</span><span class="modal-value">${event.notas || 'Sin notas'}</span></div>
-        <div class="modal-row"><span class="modal-label">Músicos:</span><span class="modal-value">👥 ${event.numMusicos || '-'}</span></div>
-        <div class="modal-row"><span class="modal-label">Pago:</span><span class="modal-value" style="color:${event.isPast ? 'var(--success)' : 'var(--warning)'}">${formatMoney(event.pago)} ${event.isPast ? '(Confirmado)' : '(Pendiente)'}</span></div>
-        <div class="modal-row"><span class="modal-label">TransPago:</span><span class="modal-value">${formatMoney(event.transPago)}</span></div>
-        <div class="modal-row"><span class="modal-label">Estado:</span><span class="modal-value"><span class="badge-status ${event.isPast ? 'badge-confirmed' : 'badge-pending'}">${event.isPast ? '✓ Realizado' : '⏳ Pendiente'}</span></span></div>
+      const modalBody = document.getElementById('modalBody');
+
+      // Formatear fecha completa
+      const eventDate = parseEventDateObject(event.fecha, event.hora);
+      const dayName = eventDate.toLocaleDateString('es-CO', { weekday: 'long' });
+      const fullDate = eventDate.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      // Capitalizar primera letra del día
+      const dayNameCapitalized = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+
+      // Obtener badge class y icon
+      const badgeClass = getPersonBadgeClass(event.encargado);
+      const personIcon = getPersonIcon(event.encargado);
+
+      // Determinar si está confirmado o pendiente
+      const isConfirmed = event.isPast;
+
+      modalBody.innerHTML = `
+        <div class="modal-date-section">
+          <div class="modal-date-main">
+            <span style="background: #d32f2f; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">${eventDate.getDate()}</span>
+            ${dayNameCapitalized}, ${fullDate}
+          </div>
+          <div class="modal-date-time">
+            <span>🕐</span>
+            <span>${event.hora}</span>
+          </div>
+        </div>
+        
+        <div class="modal-row">
+          <div class="modal-icon">📍</div>
+          <div class="modal-content-wrapper">
+            <div class="modal-label">LUGAR DEL EVENTO</div>
+            <div class="modal-value">${event.lugar || 'Sin lugar'}</div>
+          </div>
+        </div>
+        
+        <div class="modal-row">
+          <div class="modal-icon">🎹</div>
+          <div class="modal-content-wrapper">
+            <div class="modal-label">ENCARGADO / MÚSICO</div>
+            <div class="modal-value">
+              ${event.encargado || '-'} 
+              <span class="modal-badge modal-badge-purple">
+                🎹 ${event.encargado || '-'}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-row">
+          <div class="modal-icon">👥</div>
+          <div class="modal-content-wrapper">
+            <div class="modal-label">NÚMERO DE MÚSICOS</div>
+            <div class="modal-value">${event.numMusicos || '0'} integrantes</div>
+          </div>
+        </div>
+        
+        <div class="modal-row">
+          <div class="modal-icon">📝</div>
+          <div class="modal-content-wrapper">
+            <div class="modal-label">NOTAS / CANCIONES</div>
+            <div class="modal-value">${event.notas || 'Sin notas'}</div>
+          </div>
+        </div>
+        
+        <div class="modal-row">
+          <div class="modal-icon">🚗</div>
+          <div class="modal-content-wrapper">
+            <div class="modal-label">PAGO TRANSPORTE</div>
+            <div class="modal-value money-transport">${formatMoney(event.transPago)}</div>
+          </div>
+        </div>
+        
+        <div class="modal-row">
+          <div class="modal-icon">💰</div>
+          <div class="modal-content-wrapper">
+            <div class="modal-label">VALOR DEL EVENTO</div>
+            <div class="modal-value money-event">${formatMoney(event.pago)}</div>
+          </div>
+        </div>
+        
+        <div class="modal-row">
+          <div class="modal-icon">✅</div>
+          <div class="modal-content-wrapper">
+            <div class="modal-label">ESTADO</div>
+            <div class="modal-value">
+              <span class="modal-badge modal-badge-green">
+                ${isConfirmed ? 'CONFIRMADO' : 'PENDIENTE'}
+              </span>
+            </div>
+          </div>
+        </div>
       `;
+
+      // Agregar botón de cerrar al final si no existe
+      if (!modalBody.querySelector('.modal-footer')) {
+        const footer = document.createElement('div');
+        footer.className = 'modal-footer';
+        footer.innerHTML = `<button class="modal-btn-close" onclick="document.getElementById('eventModal').classList.remove('active')">Cerrar</button>`;
+        modalBody.appendChild(footer);
+      }
+
       modal.classList.add('active');
+
+      // Prevenir scroll del body cuando el modal está activo
+      document.body.style.overflow = 'hidden';
+      modal.addEventListener('transitionend', function handler() {
+        modal.removeEventListener('transitionend', handler);
+        modal.querySelector('.modal-body')?.focus();
+      });
     }
+
+    // Cerrar modal y restaurar scroll
+    document.getElementById('eventModal').addEventListener('transitionend', function (e) {
+      if (!this.classList.contains('active')) {
+        document.body.style.overflow = '';
+      }
+    });
 
     function formatDate(dateStr) {
       if (!dateStr) return '-';
@@ -1995,7 +3057,7 @@
       if (!text) return '';
       const div = document.createElement('div');
       div.textContent = text;
-      return div.innerHTML;
+      return div.innerHTML.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
     }
   </script>
 </body>
