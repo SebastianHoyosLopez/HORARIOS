@@ -11,26 +11,34 @@
       --bg-card: #ffffff;
       --text-primary: #2c3e50;
       --text-secondary: #546e7a;
+      --text-muted: #90a4ae;
       --primary: #1976d2;
       --primary-light: #e3f2fd;
+      --primary-dark: #1565c0;
       --success: #2e7d32;
       --success-light: #e8f5e9;
       --warning: #ed6c02;
       --warning-light: #fff3e0;
       --danger: #d32f2f;
+      --danger-light: #ffebee;
       --purple: #7b1fa2;
-      --red: #f13b3b;
       --purple-light: #f3e5f5;
+      --red: #f13b3b;
       --orange: #f57c00;
       --orange-light: #ffe0b2;
       --teal: #00897b;
       --teal-light: #e0f2f1;
       --border: #e0e0e0;
+      --border-light: #f0f0f0;
       --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
-      --radius: 8px;
-      --modal-header-bg: #2c5f8a;
+      --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+      --shadow-soft: 0 1px 4px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --modal-header-bg: linear-gradient(135deg, #2c5f8a 0%, #1976d2 100%);
       --modal-date-bg: #e3f2fd;
+      --transition: all 0.25s ease;
     }
 
     * {
@@ -135,7 +143,7 @@
       cursor: pointer;
       font-weight: 600;
       font-size: 0.85rem;
-      transition: all 0.2s;
+      transition: var(--transition);
       background: white;
       color: var(--text-primary);
       white-space: nowrap;
@@ -150,11 +158,13 @@
       background: var(--primary);
       color: white;
       border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
     }
 
     .month-nav .btn:hover:not(.active) {
       border-color: var(--primary);
       color: var(--primary);
+      background: var(--primary-light);
     }
 
     /* ===== PRÓXIMOS 3 DÍAS ===== */
@@ -206,7 +216,7 @@
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
-      transition: transform 0.2s;
+      transition: var(--transition);
     }
 
     .upcoming-card:hover {
@@ -305,7 +315,7 @@
       text-align: center;
       white-space: nowrap;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
+      transition: var(--transition);
     }
 
     .badge-person:hover {
@@ -439,7 +449,7 @@
       cursor: pointer;
       font-weight: 600;
       font-size: 0.85rem;
-      transition: all 0.2s;
+      transition: var(--transition);
       background: white;
       color: var(--text-primary);
       display: flex;
@@ -453,6 +463,7 @@
     .tab-btn:hover {
       border-color: var(--primary);
       color: var(--primary);
+      background: var(--primary-light);
     }
 
     .tab-btn.active {
@@ -479,7 +490,7 @@
     @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: translateY(5px);
+        transform: translateY(8px);
       }
 
       to {
@@ -512,7 +523,7 @@
       border: 2px solid var(--border);
       border-radius: 6px;
       font-size: 0.9rem;
-      transition: all 0.2s;
+      transition: var(--transition);
       min-height: 40px;
     }
 
@@ -522,7 +533,7 @@
       box-shadow: 0 0 0 3px var(--primary-light);
     }
 
-    /* ===== TABLA COMPLETA ===== */
+    /* ===== TABLA ===== */
     .table-section {
       background: var(--bg-card);
       border-radius: var(--radius);
@@ -561,7 +572,7 @@
       border-radius: 4px;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 0.2s;
+      transition: var(--transition);
     }
 
     .table-responsive:hover::after,
@@ -600,7 +611,7 @@
 
     tbody tr {
       border-bottom: 1px solid var(--border);
-      transition: background 0.2s;
+      transition: var(--transition);
     }
 
     tbody tr:hover {
@@ -708,7 +719,7 @@
       padding: 16px 12px;
       text-align: center;
       color: white;
-      transition: transform 0.2s, background 0.2s;
+      transition: var(--transition);
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
@@ -753,7 +764,7 @@
       margin-bottom: 10px;
       box-shadow: var(--shadow);
       border-left: 4px solid var(--success);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: var(--transition);
       cursor: pointer;
     }
 
@@ -810,111 +821,6 @@
       text-align: center;
       white-space: nowrap;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .serenata-badge-tatan {
-      background: #7b1fa2;
-      color: white;
-    }
-
-    .serenata-badge-cacho {
-      background: #f57c00;
-      color: white;
-    }
-
-    .serenata-badge-default {
-      background: #1976d2;
-      color: white;
-    }
-
-    .serenata-badge-andres {
-      background: #2196F3;
-      color: white;
-    }
-
-    .serenata-badge-alqui {
-      background: #9C27B0;
-      color: white;
-    }
-
-    .serenata-badge-maria {
-      background: #E91E63;
-      color: white;
-    }
-
-    .serenata-badge-carlos {
-      background: #009688;
-      color: white;
-    }
-
-    .serenata-badge-luis {
-      background: #FF5722;
-      color: white;
-    }
-
-    .serenata-badge-ana {
-      background: #4CAF50;
-      color: white;
-    }
-
-    .serenata-badge-pedro {
-      background: #3F51B5;
-      color: white;
-    }
-
-    .serenata-badge-sofia {
-      background: #FF9800;
-      color: white;
-    }
-
-    .serenata-badge-diego {
-      background: #F44336;
-      color: white;
-    }
-
-    .serenata-badge-laura {
-      background: #673AB7;
-      color: white;
-    }
-
-    .serenata-badge-miguel {
-      background: #03A9F4;
-      color: white;
-    }
-
-    .serenata-badge-carmen {
-      background: #8BC34A;
-      color: white;
-    }
-
-    .serenata-badge-javier {
-      background: #795548;
-      color: white;
-    }
-
-    .serenata-badge-valentina {
-      background: #E91E63;
-      color: white;
-    }
-
-    .serenata-badge-ricardo {
-      background: #CDDC39;
-      color: rgba(0, 0, 0, 0.87);
-    }
-
-    .serenata-badge-gabriela {
-      background: #5C6BC0;
-      color: white;
-    }
-
-    .serenata-badge-fernando {
-      background: #26A69A;
-      color: white;
-    }
-
-    .serenata-badge-patricia {
-      background: #FFA726;
-      color: white;
     }
 
     .serenata-card-body {
@@ -985,7 +891,7 @@
       gap: 4px;
     }
 
-    /* ===== VISTA SEMANAL - NUEVO ESTILO ===== */
+    /* ===== VISTA LISTA ===== */
     .weekly-section {
       margin-bottom: 20px;
     }
@@ -1018,7 +924,7 @@
       flex-direction: column;
       gap: 10px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: var(--transition);
     }
 
     .event-row:hover {
@@ -1082,7 +988,385 @@
       color: var(--success);
     }
 
-    /* ===== MODAL ===== */
+    /* ===== 🎨 NUEVO CALENDARIO - DISEÑO VISUAL ===== */
+
+    /* Contenedor principal del calendario */
+    .calendar-container {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    /* Header del calendario con mes y navegación */
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 4px 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    .calendar-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .calendar-nav-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: var(--bg-body);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .calendar-nav-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .calendar-nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Leyenda de colores por músico */
+    .calendar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 0 16px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Grid del calendario */
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .calendar-weekday {
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 8px 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      min-height: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-body);
+      position: relative;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+
+    .calendar-day:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    .calendar-day.today {
+      background: linear-gradient(135deg, var(--orange-light) 0%, #fff 100%);
+      border-color: var(--orange);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(245, 124, 0, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 0 8px rgba(245, 124, 0, 0);
+      }
+    }
+
+    .calendar-day.past {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    .calendar-day.past:hover {
+      background: var(--bg-body);
+      border-color: transparent;
+    }
+
+    .calendar-day-number {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+      z-index: 2;
+    }
+
+    .calendar-day.today .calendar-day-number {
+      background: var(--orange);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+    }
+
+    .calendar-day.empty {
+      background: transparent;
+      cursor: default;
+    }
+
+    .calendar-day.empty:hover {
+      background: transparent;
+      border-color: transparent;
+    }
+
+    /* Indicadores de eventos en el día */
+    .day-events-indicator {
+      display: flex;
+      gap: 3px;
+      margin-top: 2px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 100%;
+    }
+
+    .event-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .calendar-day:hover .event-dot {
+      transform: scale(1.2);
+    }
+
+    .event-count-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+      z-index: 3;
+    }
+
+    /* Panel expansible de eventos del día */
+    .day-panel {
+      margin-top: 12px;
+      background: var(--bg-body);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+      max-height: 0;
+      opacity: 0;
+    }
+
+    .day-panel.active {
+      max-height: 500px;
+      opacity: 1;
+      padding: 12px;
+    }
+
+    .day-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .day-panel-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .day-panel-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .day-panel-close:hover {
+      background: var(--border);
+      color: var(--text-primary);
+    }
+
+    .day-events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .day-event-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: white;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      transition: var(--transition);
+      border-left: 3px solid var(--primary);
+    }
+
+    .day-event-item:hover {
+      transform: translateX(4px);
+      box-shadow: var(--shadow);
+    }
+
+    .day-event-item.tatan {
+      border-left-color: #2c912c;
+    }
+
+    .day-event-item.cacho {
+      border-left-color: #ce843b;
+    }
+
+    .day-event-item.andres {
+      border-left-color: #44311b;
+    }
+
+    .day-event-item.alqui {
+      border-left-color: #2d4e56;
+    }
+
+    .day-event-item.ricardo {
+      border-left-color: #CDDC39;
+    }
+
+    .day-event-item.default {
+      border-left-color: var(--primary);
+    }
+
+    .day-event-time {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      min-width: 55px;
+    }
+
+    .day-event-place {
+      flex: 1;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .day-event-badge {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    /* Estado vacío */
+    .calendar-empty-state {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--text-muted);
+    }
+
+    .calendar-empty-state .icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .calendar-empty-state p {
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    .calendar-empty-state .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .calendar-empty-state .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ===== MODAL DETALLE ===== */
     .modal {
       display: none;
       position: fixed;
@@ -1095,41 +1379,62 @@
       align-items: center;
       justify-content: center;
       padding: 16px;
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
     }
 
     .modal.active {
       display: flex;
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     .modal-content {
       background: white;
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
       max-width: 560px;
       width: 100%;
       position: relative;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       max-height: 95vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      animation: modalContentIn 0.3s ease;
+    }
+
+    @keyframes modalContentIn {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .modal-header {
       background: var(--modal-header-bg);
       color: white;
-      padding: 14px 18px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-shrink: 0;
-      position: sticky;
-      top: 0;
-      z-index: 5;
     }
 
     .modal-header h3 {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       margin: 0;
       display: flex;
       align-items: center;
@@ -1141,8 +1446,8 @@
       background: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       font-size: 1.5rem;
       cursor: pointer;
@@ -1150,18 +1455,17 @@
       align-items: center;
       justify-content: center;
       line-height: 1;
-      transition: background 0.2s;
+      transition: var(--transition);
       flex-shrink: 0;
-      min-width: 36px;
-      min-height: 36px;
     }
 
     .modal-close:hover {
       background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
     }
 
     .modal-body {
-      padding: 16px 20px;
+      padding: 20px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       flex: 1;
@@ -1170,19 +1474,19 @@
     .modal-date-section {
       background: var(--modal-date-bg);
       border-left: 4px solid var(--primary);
-      padding: 12px 14px;
-      border-radius: 6px;
-      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
     }
 
     .modal-date-main {
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--text-primary);
       margin-bottom: 6px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -1190,16 +1494,16 @@
       color: var(--text-secondary);
       display: flex;
       align-items: center;
-      gap: 5px;
-      font-size: 0.9rem;
+      gap: 6px;
+      font-size: 0.95rem;
     }
 
     .modal-row {
       display: flex;
       align-items: flex-start;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-light);
+      gap: 14px;
     }
 
     .modal-row:last-of-type {
@@ -1208,14 +1512,14 @@
     }
 
     .modal-icon {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: var(--bg-body);
-      border-radius: 8px;
-      font-size: 1.2rem;
+      border-radius: 10px;
+      font-size: 1.3rem;
       flex-shrink: 0;
     }
 
@@ -1225,10 +1529,10 @@
     }
 
     .modal-label {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-bottom: 3px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 4px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -1236,18 +1540,18 @@
     .modal-value {
       font-weight: 600;
       color: var(--text-primary);
-      font-size: 0.95rem;
+      font-size: 1rem;
       word-break: break-word;
     }
 
     .modal-value.money-transport {
       color: var(--orange);
-      font-size: 1rem;
+      font-size: 1.05rem;
     }
 
     .modal-value.money-event {
       color: var(--success);
-      font-size: 1rem;
+      font-size: 1.05rem;
     }
 
     .modal-badge {
@@ -1273,29 +1577,29 @@
     }
 
     .modal-footer {
-      padding: 14px 20px;
+      padding: 16px 20px;
       border-top: 1px solid var(--border);
       background: var(--bg-body);
-      border-radius: 0 0 var(--radius) var(--radius);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
       flex-shrink: 0;
     }
 
     .modal-btn-close {
       width: 100%;
-      padding: 12px;
-      background: #90a4ae;
+      padding: 14px;
+      background: var(--text-muted);
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 0.95rem;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
-      min-height: 44px;
+      transition: var(--transition);
+      min-height: 48px;
     }
 
     .modal-btn-close:hover {
-      background: #78909c;
+      background: #607d8b;
     }
 
     /* ===== UTILIDADES ===== */
@@ -1311,8 +1615,8 @@
 
     .error {
       color: var(--danger);
-      background: #ffebee;
-      border-radius: 8px;
+      background: var(--danger-light);
+      border-radius: var(--radius);
       padding: 16px;
       font-size: 0.9rem;
     }
@@ -1321,7 +1625,7 @@
       background: var(--warning-light);
       border-left: 4px solid var(--warning);
       padding: 12px 14px;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       margin-bottom: 12px;
       color: var(--warning);
       font-weight: 600;
@@ -1371,7 +1675,7 @@
 
     @media (max-width: 768px) {
       body {
-        font-size: 13px;
+        font-size: 15px;
       }
 
       .container {
@@ -1409,7 +1713,7 @@
       .month-nav .btn {
         padding: 7px 12px;
         font-size: 0.8rem;
-        min-height: 34px;
+        min-height: 44px;
       }
 
       .upcoming-section {
@@ -1451,8 +1755,8 @@
       .badge-person,
       .serenata-badge {
         min-width: 100px;
-        padding: 4px 10px;
-        font-size: 0.75rem;
+        padding: 6px 12px;
+        font-size: 0.8rem;
         gap: 4px;
       }
 
@@ -1498,7 +1802,7 @@
       .tab-btn {
         padding: 8px 12px;
         font-size: 0.8rem;
-        min-height: 36px;
+        min-height: 44px;
         gap: 5px;
       }
 
@@ -1509,7 +1813,7 @@
       .search-box input {
         padding: 9px 12px;
         font-size: 0.9rem;
-        min-height: 38px;
+        min-height: 44px;
       }
 
       .table-section {
@@ -1621,52 +1925,52 @@
 
       .modal-content {
         max-height: 90vh;
-        border-radius: 12px 12px 0 0;
+        border-radius: 16px 16px 0 0;
         margin-bottom: 0;
       }
 
       .modal-header {
-        padding: 12px 16px;
-        border-radius: 12px 12px 0 0;
+        padding: 14px 18px;
+        border-radius: 16px 16px 0 0;
       }
 
       .modal-header h3 {
-        font-size: 1.05rem;
+        font-size: 1.1rem;
       }
 
       .modal-close {
-        width: 34px;
-        height: 34px;
+        width: 44px;
+        height: 44px;
         font-size: 1.4rem;
       }
 
       .modal-body {
-        padding: 14px 16px;
+        padding: 16px 18px;
       }
 
       .modal-date-section {
-        padding: 10px 12px;
-        margin-bottom: 14px;
+        padding: 12px 14px;
+        margin-bottom: 16px;
       }
 
       .modal-date-main {
-        font-size: 0.95rem;
-        gap: 5px;
+        font-size: 1rem;
+        gap: 6px;
       }
 
       .modal-date-time {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
       }
 
       .modal-row {
-        padding: 10px 0;
-        gap: 10px;
+        padding: 12px 0;
+        gap: 12px;
       }
 
       .modal-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 1.1rem;
+        width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
       }
 
       .modal-label {
@@ -1674,7 +1978,7 @@
       }
 
       .modal-value {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
       }
 
       .modal-badge {
@@ -1684,13 +1988,13 @@
       }
 
       .modal-footer {
-        padding: 12px 16px;
+        padding: 14px 18px;
       }
 
       .modal-btn-close {
-        padding: 11px;
-        font-size: 0.9rem;
-        min-height: 42px;
+        padding: 12px;
+        font-size: 0.95rem;
+        min-height: 48px;
       }
 
       .loading,
@@ -1714,11 +2018,120 @@
       .event-row-body {
         grid-template-columns: 1fr;
       }
+
+      /* Calendario mobile optimizado */
+      .calendar-container {
+        padding: 12px;
+      }
+
+      .calendar-header {
+        padding: 4px 4px 12px;
+      }
+
+      .calendar-title {
+        font-size: 1.1rem;
+      }
+
+      .calendar-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+      }
+
+      .calendar-weekday {
+        font-size: 0.7rem;
+        padding: 6px 2px;
+      }
+
+      .calendar-day {
+        min-height: 45px;
+        padding: 3px;
+      }
+
+      .calendar-day-number {
+        font-size: 0.8rem;
+      }
+
+      .calendar-day.today .calendar-day-number {
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
+      }
+
+      .event-dot {
+        width: 7px;
+        height: 7px;
+      }
+
+      .event-count-badge {
+        font-size: 0.6rem;
+        padding: 1px 4px;
+        min-width: 16px;
+        top: 2px;
+        right: 2px;
+      }
+
+      .day-panel {
+        margin-top: 10px;
+      }
+
+      .day-panel.active {
+        padding: 10px;
+      }
+
+      .day-panel-header {
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+      }
+
+      .day-panel-title {
+        font-size: 0.9rem;
+      }
+
+      .day-panel-close {
+        width: 26px;
+        height: 26px;
+        font-size: 1.1rem;
+      }
+
+      .day-event-item {
+        padding: 8px;
+        gap: 8px;
+      }
+
+      .day-event-time {
+        font-size: 0.85rem;
+        min-width: 50px;
+      }
+
+      .day-event-place {
+        font-size: 0.8rem;
+      }
+
+      .day-event-badge {
+        padding: 3px 8px;
+        font-size: 0.65rem;
+      }
+
+      .calendar-legend {
+        gap: 6px;
+        padding: 6px 0 12px;
+      }
+
+      .legend-item {
+        font-size: 0.7rem;
+        gap: 4px;
+      }
+
+      .legend-dot {
+        width: 10px;
+        height: 10px;
+      }
     }
 
     @media (max-width: 480px) {
       body {
-        font-size: 12px;
+        font-size: 14px;
       }
 
       .container {
@@ -1745,7 +2158,7 @@
       .month-nav .btn {
         padding: 6px 10px;
         font-size: 0.75rem;
-        min-height: 32px;
+        min-height: 44px;
       }
 
       .upcoming-section {
@@ -1774,8 +2187,8 @@
       .badge-person,
       .serenata-badge {
         min-width: 90px;
-        padding: 3px 8px;
-        font-size: 0.7rem;
+        padding: 4px 10px;
+        font-size: 0.75rem;
         gap: 3px;
       }
 
@@ -1799,14 +2212,14 @@
       .tab-btn {
         padding: 7px 10px;
         font-size: 0.75rem;
-        min-height: 34px;
+        min-height: 44px;
         gap: 4px;
       }
 
       .search-box input {
         padding: 8px 10px;
         font-size: 0.85rem;
-        min-height: 36px;
+        min-height: 44px;
       }
 
       .table-section {
@@ -1871,7 +2284,7 @@
       }
 
       .modal-header {
-        padding: 10px 14px;
+        padding: 12px 16px;
       }
 
       .modal-header h3 {
@@ -1879,26 +2292,26 @@
       }
 
       .modal-body {
-        padding: 12px 14px;
+        padding: 14px 16px;
       }
 
       .modal-date-main {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
       }
 
       .modal-date-time {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
       }
 
       .modal-row {
-        padding: 9px 0;
-        gap: 9px;
+        padding: 10px 0;
+        gap: 10px;
       }
 
       .modal-icon {
-        width: 32px;
-        height: 32px;
-        font-size: 1rem;
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
       }
 
       .modal-label {
@@ -1906,16 +2319,58 @@
       }
 
       .modal-value {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
       }
 
       .modal-footer {
-        padding: 10px 14px;
+        padding: 12px 16px;
       }
 
       .modal-btn-close {
-        min-height: 40px;
-        font-size: 0.85rem;
+        min-height: 48px;
+        font-size: 0.9rem;
+      }
+
+      /* Calendario ultra-mobile */
+      .calendar-container {
+        padding: 10px;
+      }
+
+      .calendar-title {
+        font-size: 1rem;
+      }
+
+      .calendar-day {
+        min-height: 42px;
+      }
+
+      .calendar-day-number {
+        font-size: 0.75rem;
+      }
+
+      .calendar-day.today .calendar-day-number {
+        width: 20px;
+        height: 20px;
+        font-size: 0.65rem;
+      }
+
+      .day-event-item {
+        padding: 7px;
+        gap: 7px;
+      }
+
+      .day-event-time {
+        font-size: 0.8rem;
+        min-width: 48px;
+      }
+
+      .day-event-place {
+        font-size: 0.75rem;
+      }
+
+      .day-event-badge {
+        padding: 2px 7px;
+        font-size: 0.6rem;
       }
     }
 
@@ -1925,13 +2380,16 @@
       }
     }
 
+    /* Focus visible para accesibilidad */
     button:focus-visible,
     input:focus-visible,
-    [tabindex]:focus-visible {
+    [tabindex]:focus-visible,
+    .calendar-day:focus-visible {
       outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
 
+    /* Evitar zoom en inputs iOS */
     @media screen and (-webkit-min-device-pixel-ratio: 0) {
 
       input,
@@ -1939,6 +2397,24 @@
       textarea {
         font-size: 16px !important;
       }
+    }
+
+    /* Feedback táctil mejorado */
+    [onclick],
+    button,
+    .tab-btn,
+    .badge-person,
+    .calendar-day,
+    .day-event-item,
+    .modal-close {
+      -webkit-tap-highlight-color: rgba(25, 118, 210, 0.2);
+      touch-action: manipulation;
+    }
+
+    /* Scroll suave */
+    .calendar-container,
+    .modal-body {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
@@ -1953,7 +2429,7 @@
       </div>
       <div class="header-info">
         <div id="currentDateTime"></div>
-        <div class="version">Versión 2.0 ✅ Corregida - Eventos Agrupados 🎯</div>
+        <div class="version">Versión 3.0 🎨 Calendario Visual Rediseñado</div>
       </div>
     </header>
 
@@ -2026,19 +2502,42 @@
     <div id="tab-lista" class="tab-content">
       <div class="table-section">
         <div class="table-header">
-          <h2>📝 Vista Semanal</h2>
+          <h2>📝 Vista Lista</h2>
         </div>
         <div id="listaView" class="loading">Cargando...</div>
       </div>
     </div>
 
-    <!-- CONTENIDO CALENDARIO -->
+    <!-- CONTENIDO CALENDARIO - NUEVO DISEÑO -->
     <div id="tab-calendario" class="tab-content">
-      <div class="table-section">
-        <div class="table-header">
-          <h2>📅 Vista de Calendario</h2>
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <h2 class="calendar-title">📅 Calendario</h2>
+          <div class="calendar-nav">
+          </div>
         </div>
-        <div id="calendarView" class="loading">Vista de calendario en desarrollo...</div>
+
+        <!-- Leyenda de colores -->
+        <div class="calendar-legend" id="calendarLegend"></div>
+
+        <!-- Grid del calendario -->
+        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <!-- Panel de eventos del día -->
+        <div class="day-panel" id="dayPanel">
+          <div class="day-panel-header">
+            <span class="day-panel-title" id="dayPanelTitle">📅 Eventos del día</span>
+            <button class="day-panel-close" id="closeDayPanel" aria-label="Cerrar">&times;</button>
+          </div>
+          <div class="day-events-list" id="dayEventsList"></div>
+        </div>
+
+        <!-- Estado vacío -->
+        <div class="calendar-empty-state" id="calendarEmpty" style="display:none;">
+          <div class="icon">🎵</div>
+          <p>Sin eventos programados este mes</p>
+          <button class="btn" onclick="switchTab('tabla')">Ver todos los eventos</button>
+        </div>
       </div>
     </div>
 
@@ -2090,37 +2589,38 @@
       'agosto-2026': { label: 'Agosto 2026', month: 7, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=317038201&single=true&output=csv' }
     };
 
+    // Mapeo de colores por encargado para el calendario
+    const PERSON_COLORS = {
+      'tatan': '#2c912c',
+      'cacho': '#ce843b',
+      'andrés': '#44311b', 'andres': '#44311b',
+      'alqui': '#2d4e56', 'alquibar': '#2d4e56',
+      'ricardo': '#CDDC39',
+      'default': '#1976d2'
+    };
+
     // ========================================
-    // DETECCIÓN AUTOMÁTICA DE MES (COLOMBIA)
+    // DETECCIÓN AUTOMÁTICA DE MES
     // ========================================
     function getCurrentColombiaMonth() {
       const now = new Date();
       const colombiaTimeStr = now.toLocaleString('en-US', {
         timeZone: 'America/Bogota',
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric'
       });
-
       const colombiaTime = new Date(colombiaTimeStr);
-      const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-
+      const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
       const currentMonthNum = colombiaTime.getMonth();
       const currentYear = colombiaTime.getFullYear();
       const monthKey = `${monthNames[currentMonthNum]}-${currentYear}`.toLowerCase();
 
       if (SHEETS_CONFIG[monthKey]) {
-        console.log(`✅ Mes detectado: ${monthKey.toUpperCase()} (Colombia: ${colombiaTime.toLocaleString('es-CO')})`);
+        console.log(`✅ Mes detectado: ${monthKey.toUpperCase()}`);
         return monthKey;
-      } else {
-        console.warn(`⚠️ ${monthKey} no está en SHEETS_CONFIG. Usando mes por defecto...`);
-        const availableMonths = Object.keys(SHEETS_CONFIG);
-        return availableMonths.length > 0 ? availableMonths[0] : 'abril-2026';
       }
+      const availableMonths = Object.keys(SHEETS_CONFIG);
+      return availableMonths.length > 0 ? availableMonths[0] : 'abril-2026';
     }
 
     // ========================================
@@ -2130,6 +2630,7 @@
     let allEvents = [];
     let filteredEvents = [];
     let loadStartTime = 0;
+    let calendarCurrentMonth = null; // Para navegación independiente del calendario
 
     const dateCache = new Map();
     const badgeCache = new Map();
@@ -2146,12 +2647,16 @@
       initMonthSelector();
       loadMonthData(currentMonth);
       setupEventListeners();
+      setupCalendarNavigation();
     });
 
     function updateDateTime() {
       const now = new Date();
       document.getElementById('currentDateTime').textContent =
-        now.toLocaleString('es-CO', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+        now.toLocaleString('es-CO', {
+          day: 'numeric', month: 'numeric', year: 'numeric',
+          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+        });
     }
 
     function initMonthSelector() {
@@ -2169,6 +2674,7 @@
     function switchMonth(monthKey) {
       if (currentMonth === monthKey) return;
       currentMonth = monthKey;
+      calendarCurrentMonth = null; // Resetear vista del calendario
       document.querySelectorAll('.month-nav .btn').forEach(btn => {
         btn.classList.toggle('active', btn.textContent === SHEETS_CONFIG[monthKey].label);
       });
@@ -2186,6 +2692,7 @@
       tbody.innerHTML = `<tr><td colspan="10" class="loading">Cargando ${config.label}...</td></tr>`;
       document.getElementById('upcomingCards').innerHTML = '<div class="loading">Cargando...</div>';
       document.getElementById('historicoView').innerHTML = '<div class="loading">Cargando histórico...</div>';
+      document.getElementById('calendarGrid').innerHTML = '<div class="loading" style="grid-column:1/-1;text-align:center;padding:20px;">Cargando calendario...</div>';
 
       try {
         const response = await fetch(config.csvUrl);
@@ -2198,6 +2705,7 @@
           event._isPast = event._dateObj ? event._dateObj < new Date() : false;
           event._badgeClass = getPersonBadgeClassCached(event.encargado);
           event._personIcon = getPersonIconCached(event.encargado);
+          event._personColor = getPersonColor(event.encargado);
           return event;
         });
 
@@ -2212,7 +2720,7 @@
       } catch (error) {
         console.error('Error cargando datos:', error);
         document.getElementById('tableBody').innerHTML =
-          `<tr><td colspan="10" class="error">⚠️ Error: ${error.message}. Verifica la conexión y la URL de la hoja.</td></tr>`;
+          `<tr><td colspan="10" class="error">⚠️ Error: ${error.message}</td></tr>`;
       }
     }
 
@@ -2234,14 +2742,11 @@
 
     function parseCSVLine(line) {
       const row = [];
-      let current = '';
-      let inQuotes = false;
+      let current = '', inQuotes = false;
       for (let char of line) {
         if (char === '"') inQuotes = !inQuotes;
-        else if (char === ',' && !inQuotes) {
-          row.push(current.trim());
-          current = '';
-        } else current += char;
+        else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+        else current += char;
       }
       row.push(current.trim());
       return row;
@@ -2262,16 +2767,14 @@
       const meses = { 'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5, 'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11 };
       const parts = fechaStr.toLowerCase().split(' ');
       if (parts.length < 3) return null;
-      const dia = parseInt(parts[0]);
-      const mes = meses[parts[2]?.replace('de', '')];
+      const dia = parseInt(parts[0]), mes = meses[parts[2]?.replace('de', '')];
       const anio = parseInt(parts[4]) || SHEETS_CONFIG[currentMonth]?.year || 2026;
       if (mes === undefined || isNaN(dia)) return null;
 
       let hora = 0, minuto = 0;
       const timeMatch = horaStr.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
       if (timeMatch) {
-        hora = parseInt(timeMatch[1]);
-        minuto = parseInt(timeMatch[2]) || 0;
+        hora = parseInt(timeMatch[1]); minuto = parseInt(timeMatch[2]) || 0;
         const period = timeMatch[3]?.toLowerCase();
         if (period === 'pm' && hora < 12) hora += 12;
         if (period === 'am' && hora === 12) hora = 0;
@@ -2279,13 +2782,8 @@
       return new Date(anio, mes, dia, hora, minuto);
     }
 
-    function getDateKey(fechaStr, horaStr) {
-      const eventDate = parseEventDateObjectCached(fechaStr, horaStr, `${fechaStr}|${horaStr}`);
-      return eventDate ? eventDate.toISOString().split('T')[0] : null;
-    }
-
     // ========================================
-    // FILTROS Y BÚSQUEDA
+    // FILTROS Y UTILIDADES
     // ========================================
     function applyFilters() {
       const term = document.getElementById('searchInput')?.value?.toLowerCase().trim() || '';
@@ -2307,28 +2805,14 @@
       return meses[parts[2]?.replace('de', '')] ?? -1;
     }
 
-    function getMonthName(monthNum) {
-      return ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'][monthNum] || '';
-    }
+    function getMonthName(n) { return ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'][n] || ''; }
     function getShortDayName(d) { return ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'][d.getDay()]; }
     function getShortMonthName(d) { return ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'][d.getMonth()]; }
 
-    function isPastMonth(key) {
-      const c = SHEETS_CONFIG[key], n = new Date();
-      return c.year < n.getFullYear() || (c.year === n.getFullYear() && c.month < n.getMonth());
-    }
-    function isCurrentMonth(key) {
-      const c = SHEETS_CONFIG[key], n = new Date();
-      return c.year === n.getFullYear() && c.month === n.getMonth();
-    }
-    function isFutureMonth(key) {
-      const c = SHEETS_CONFIG[key], n = new Date();
-      return c.year > n.getFullYear() || (c.year === n.getFullYear() && c.month > n.getMonth());
-    }
+    function isPastMonth(key) { const c = SHEETS_CONFIG[key], n = new Date(); return c.year < n.getFullYear() || (c.year === n.getFullYear() && c.month < n.getMonth()); }
+    function isCurrentMonth(key) { const c = SHEETS_CONFIG[key], n = new Date(); return c.year === n.getFullYear() && c.month === n.getMonth(); }
+    function isFutureMonth(key) { const c = SHEETS_CONFIG[key], n = new Date(); return c.year > n.getFullYear() || (c.year === n.getFullYear() && c.month > n.getMonth()); }
 
-    // ========================================
-    // BADGES CON CACHE
-    // ========================================
     function getPersonBadgeClassCached(person) {
       if (!person) return 'badge-default';
       const key = person.toLowerCase().trim();
@@ -2349,13 +2833,21 @@
       iconCache.set(k, r);
       return r;
     }
-    function getPersonIcon(p) { return p.includes('tatan') ? '🎹' : p.includes('cacho') ? '🎺' : '👤'; }
+    function getPersonColor(p) {
+      if (!p) return PERSON_COLORS.default;
+      const k = p.toLowerCase().trim();
+      return PERSON_COLORS[k] || PERSON_COLORS.default;
+    }
 
     // ========================================
     // RENDERIZADO PRINCIPAL
     // ========================================
     function renderAll(loadTime) {
       renderTabs(); renderUpcomingCards(); renderStats(loadTime); renderTable(); renderDateRange();
+      renderCalendarLegend();
+      if (document.getElementById('tab-calendario')?.classList.contains('active')) {
+        renderCalendario();
+      }
     }
 
     function renderDateRange() {
@@ -2409,7 +2901,7 @@
     function renderTable() {
       const tbody = document.getElementById('tableBody');
       if (isPastMonth(currentMonth)) {
-        tbody.innerHTML = `<tr><td colspan="10" class="no-results">📜 Mes histórico. Ve a la pestaña <strong>"Histórico"</strong>.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" class="no-results">📜 Mes histórico. Ve a <strong>"Histórico"</strong>.</td></tr>`;
         return;
       }
       const future = filteredEvents.filter(e => !e._isPast);
@@ -2459,9 +2951,6 @@
       container.innerHTML = html + '</div>';
     }
 
-    // ========================================
-    // VISTA SEMANAL - NUEVA FUNCIÓN
-    // ========================================
     function renderLista() {
       const container = document.getElementById('listaView');
       if (isPastMonth(currentMonth)) {
@@ -2470,59 +2959,224 @@
       }
       const future = filteredEvents.filter(e => !e._isPast);
       if (!future.length) { container.innerHTML = '<div class="no-results">No hay eventos futuros</div>'; return; }
-
-      // Ordenar por fecha
       const sorted = [...future].sort((a, b) => a._dateObj - b._dateObj);
-
-      // Agrupar por fecha
       const byDate = {};
       for (const e of sorted) {
         const dk = `${e._dateObj.getFullYear()}-${String(e._dateObj.getMonth() + 1).padStart(2, '0')}-${String(e._dateObj.getDate()).padStart(2, '0')}`;
         if (!byDate[dk]) byDate[dk] = { displayDate: e.fecha, dayName: e.dia, events: [], dateObj: e._dateObj };
         byDate[dk].events.push(e);
       }
-
-      // Generar HTML
       let html = '';
-      const dates = Object.keys(byDate).sort();
-      0
-      dates.forEach(dk => {
-        const group = byDate[dk];
-        const dayName = group.dayName || group.dateObj.toLocaleDateString('es-CO', { weekday: 'long' });
-        const dayNum = group.dateObj.getDate();
-        const monthName = group.dateObj.toLocaleDateString('es-CO', { month: 'long' });
-        const eventCount = group.events.length;
-
-        // Encabezado de fecha
-        html += `<div class="weekly-section">`;
-        html += `<div class="weekly-header">`;
-        html += `<span class="calendar-icon">📅</span>`;
-        html += `${dayName.charAt(0).toUpperCase() + dayName.slice(1)}, ${dayNum} de ${monthName} (${eventCount} evento${eventCount > 1 ? 's' : ''})`;
-        html += `</div>`;
-
-        // Eventos del día
-        group.events.forEach(e => {
-          html += `<div class="event-row" onclick="showModalEvent('${escapeHtml(e.fecha)}','${escapeHtml(e.hora)}')">`;
-          html += `<div class="event-row-header">`;
-          html += `<div class="event-time"><span class="clock-icon">🕐</span>${e.hora}</div>`;
-          html += `<span class="badge-person ${e._badgeClass}">${e._personIcon} ${e.encargado || '-'}</span>`;
-          html += `</div>`;
-          html += `<div class="event-row-body">`;
-          html += `<div class="event-detail"><span class="icon">📍</span><span title="${escapeHtml(e.lugar)}">${e.lugar || 'Sin lugar'}</span></div>`;
-          html += `<div class="event-detail money payment"><span class="icon">💰</span>Pago: ${formatMoney(e.pago)}</div>`;
-          html += `<div class="event-detail money transport"><span class="icon">🚗</span>Transporte: ${formatMoney(e.transPago)}</div>`;
-          html += `</div>`;
-          html += `</div>`;
+      Object.keys(byDate).sort().forEach(dk => {
+        const g = byDate[dk];
+        const dayName = g.dayName || g.dateObj.toLocaleDateString('es-CO', { weekday: 'long' });
+        const dayNum = g.dateObj.getDate(), monthName = g.dateObj.toLocaleDateString('es-CO', { month: 'long' });
+        const eventCount = g.events.length;
+        html += `<div class="weekly-section"><div class="weekly-header"><span class="calendar-icon">📅</span>${dayName.charAt(0).toUpperCase() + dayName.slice(1)}, ${dayNum} de ${monthName} (${eventCount} evento${eventCount > 1 ? 's' : ''})</div>`;
+        g.events.forEach(e => {
+          html += `<div class="event-row" onclick="showModalEvent('${escapeHtml(e.fecha)}','${escapeHtml(e.hora)}')">` +
+            `<div class="event-row-header"><div class="event-time"><span class="clock-icon">🕐</span>${e.hora}</div><span class="badge-person ${e._badgeClass}">${e._personIcon} ${e.encargado || '-'}</span></div>` +
+            `<div class="event-row-body"><div class="event-detail"><span class="icon">📍</span><span title="${escapeHtml(e.lugar)}">${e.lugar || 'Sin lugar'}</span></div>` +
+            `<div class="event-detail money payment"><span class="icon">💰</span>Pago: ${formatMoney(e.pago)}</div>` +
+            `<div class="event-detail money transport"><span class="icon">🚗</span>Transporte: ${formatMoney(e.transPago)}</div></div></div>`;
         });
-
         html += `</div>`;
       });
-
       container.innerHTML = html;
     }
 
-    function renderCalendario() { document.getElementById('calendarView').innerHTML = '<div class="loading">Vista de calendario en desarrollo...</div>'; }
-    function renderAgenda() { document.getElementById('agendaView').innerHTML = '<div class="loading">Vista de agenda en desarrollo...</div>'; }
+    // ========================================
+    // 🎨 CALENDARIO - NUEVO DISEÑO VISUAL
+    // ========================================
+
+    // Renderizar leyenda de colores
+    function renderCalendarLegend() {
+      const container = document.getElementById('calendarLegend');
+      const personas = [...new Set(allEvents.map(e => e.encargado?.toLowerCase().trim()).filter(Boolean))];
+
+      if (personas.length === 0) {
+        container.innerHTML = '<span class="legend-item"><span class="legend-dot" style="background:var(--primary)"></span>Sin eventos</span>';
+        return;
+      }
+
+      container.innerHTML = personas.map(p => {
+        const color = PERSON_COLORS[p] || PERSON_COLORS.default;
+        const name = p.charAt(0).toUpperCase() + p.slice(1);
+        return `<span class="legend-item"><span class="legend-dot" style="background:${color}"></span>${name}</span>`;
+      }).join('');
+    }
+
+    // Renderizar calendario completo
+    function renderCalendario() {
+      const grid = document.getElementById('calendarGrid');
+      const empty = document.getElementById('calendarEmpty');
+      const config = calendarCurrentMonth ? SHEETS_CONFIG[calendarCurrentMonth] : SHEETS_CONFIG[currentMonth];
+
+      // Filtrar eventos del mes mostrado
+      const events = filteredEvents.filter(e =>
+        e._dateObj &&
+        e._dateObj.getMonth() === config.month &&
+        e._dateObj.getFullYear() === config.year
+      );
+
+      // Mostrar/ocultar estado vacío
+      if (events.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+      grid.style.display = 'grid';
+      empty.style.display = 'none';
+
+      // Agrupar eventos por día
+      const eventsByDay = {};
+      events.forEach(e => {
+        const day = e._dateObj.getDate();
+        if (!eventsByDay[day]) eventsByDay[day] = [];
+        eventsByDay[day].push(e);
+      });
+
+      const daysInMonth = new Date(config.year, config.month + 1, 0).getDate();
+      const firstDay = new Date(config.year, config.month, 1).getDay();
+      const today = new Date();
+      const isCurrentMonthView = isCurrentMonth(calendarCurrentMonth || currentMonth);
+
+      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+      let html = '';
+
+      // Headers de días de la semana
+      dayNames.forEach(name => { html += `<div class="calendar-weekday">${name}</div>`; });
+
+      // Días vacíos antes del primer día
+      for (let i = 0; i < firstDay; i++) { html += `<div class="calendar-day empty"></div>`; }
+
+      // Días del mes
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayEvents = eventsByDay[day] || [];
+        const eventDate = new Date(config.year, config.month, day);
+        const isToday = isCurrentMonthView && eventDate.toDateString() === today.toDateString();
+        const isPast = eventDate < today && !isToday;
+        const hasEvents = dayEvents.length > 0;
+
+        // Generar indicadores de eventos (dots de colores)
+        const eventDots = hasEvents ? dayEvents.slice(0, 4).map(e =>
+          `<span class="event-dot" style="background:${e._personColor}" title="${e.encargado}: ${e.hora} - ${e.lugar}"></span>`
+        ).join('') : '';
+
+        const moreBadge = dayEvents.length > 4 ? `<span class="event-count-badge">+${dayEvents.length - 4}</span>` : '';
+
+        html += `
+          <div class="calendar-day ${isToday ? 'today' : ''} ${isPast ? 'past' : ''} ${hasEvents ? 'has-events' : ''}" 
+               data-day="${day}" 
+               onclick="${hasEvents && !isPast ? `showDayPanel(${day})` : ''}"
+               tabindex="${hasEvents && !isPast ? 0 : -1}"
+               ${hasEvents && !isPast ? 'role="button"' : ''}>
+            <span class="calendar-day-number">${day}</span>
+            ${moreBadge}
+            <div class="day-events-indicator">${eventDots}</div>
+          </div>
+        `;
+      }
+
+      grid.innerHTML = html;
+
+      // Cerrar panel si estaba abierto
+      closeDayPanel();
+    }
+
+    // Mostrar panel de eventos del día
+    window.showDayPanel = function (day) {
+      const config = calendarCurrentMonth ? SHEETS_CONFIG[calendarCurrentMonth] : SHEETS_CONFIG[currentMonth];
+      const events = filteredEvents.filter(e =>
+        e._dateObj &&
+        e._dateObj.getDate() === day &&
+        e._dateObj.getMonth() === config.month &&
+        e._dateObj.getFullYear() === config.year
+      ).sort((a, b) => a._dateObj - b._dateObj);
+
+      const panel = document.getElementById('dayPanel');
+      const list = document.getElementById('dayEventsList');
+      const title = document.getElementById('dayPanelTitle');
+
+      title.textContent = `📅 ${day} de ${getMonthName(config.month)}`;
+
+      if (!events.length) {
+        list.innerHTML = '<p class="no-results" style="padding:12px;text-align:center">Sin eventos</p>';
+      } else {
+        list.innerHTML = events.map(e => {
+          const badgeClass = getPersonBadgeClassCached(e.encargado);
+          const personColor = e._personColor;
+          const borderClass = e.encargado?.toLowerCase().includes('tatan') ? 'tatan' :
+            e.encargado?.toLowerCase().includes('cacho') ? 'cacho' :
+              e.encargado?.toLowerCase().includes('andres') ? 'andres' :
+                e.encargado?.toLowerCase().includes('alqui') ? 'alqui' :
+                  e.encargado?.toLowerCase().includes('ricardo') ? 'ricardo' : 'default';
+
+          return `
+            <div class="day-event-item ${borderClass}" onclick="showModalEvent('${escapeHtml(e.fecha)}','${escapeHtml(e.hora)}');closeDayPanel();" role="button" tabindex="0">
+              <span class="day-event-time">🕐 ${e.hora}</span>
+              <span class="day-event-place" title="${escapeHtml(e.lugar)}">${e.lugar || 'Sin lugar'}</span>
+              <span class="day-event-badge" style="background:${personColor}">${e.encargado || '-'}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      panel.classList.add('active');
+      // Scroll suave al panel
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    // Cerrar panel del día
+    function closeDayPanel() {
+      document.getElementById('dayPanel').classList.remove('active');
+    }
+
+    // Navegación del calendario
+    function setupCalendarNavigation() {
+      const prevBtn = document.getElementById('prevMonthBtn');
+      const nextBtn = document.getElementById('nextMonthBtn');
+
+      prevBtn?.addEventListener('click', () => navigateCalendar(-1));
+      nextBtn?.addEventListener('click', () => navigateCalendar(1));
+    }
+
+    function navigateCalendar(direction) {
+      let targetMonth, targetYear;
+
+      if (calendarCurrentMonth) {
+        const config = SHEETS_CONFIG[calendarCurrentMonth];
+        targetMonth = config.month + direction;
+        targetYear = config.year;
+      } else {
+        const config = SHEETS_CONFIG[currentMonth];
+        targetMonth = config.month + direction;
+        targetYear = config.year;
+      }
+
+      // Ajustar año si es necesario
+      if (targetMonth < 0) { targetMonth = 11; targetYear--; }
+      if (targetMonth > 11) { targetMonth = 0; targetYear++; }
+
+      // Buscar si el mes existe en la configuración
+      const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      const targetKey = `${monthNames[targetMonth]}-${targetYear}`.toLowerCase();
+
+      if (SHEETS_CONFIG[targetKey]) {
+        calendarCurrentMonth = targetKey;
+        renderCalendario();
+        // Actualizar título
+        document.querySelector('.calendar-title').textContent = `📅 ${SHEETS_CONFIG[targetKey].label}`;
+      } else {
+        // Si no existe, mostrar mensaje
+        alert(`📅 ${getMonthName(targetMonth)} ${targetYear} no está disponible`);
+      }
+    }
+
+    function renderAgenda() {
+      document.getElementById('agendaView').innerHTML = '<div class="loading">Vista de agenda en desarrollo...</div>';
+    }
 
     function renderTabs() {
       const nav = document.getElementById('tabsNav');
@@ -2534,10 +3188,27 @@
     function switchTab(tabName) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => { if (b.getAttribute('onclick')?.includes(`'${tabName}'`)) b.classList.add('active'); });
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.getAttribute('onclick')?.includes(`'${tabName}'`)) b.classList.add('active');
+      });
       document.getElementById(`tab-${tabName}`).classList.add('active');
-      const map = { tabla: renderTable, lista: renderLista, calendario: renderCalendario, agenda: renderAgenda, historico: renderHistoricoCompleto };
-      if (map[tabName]) requestAnimationFrame(map[tabName]);
+
+      const map = {
+        tabla: renderTable,
+        lista: renderLista,
+        calendario: renderCalendario,
+        agenda: renderAgenda,
+        historico: renderHistoricoCompleto
+      };
+
+      if (map[tabName]) {
+        // Resetear vista del calendario si es necesario
+        if (tabName === 'calendario') {
+          calendarCurrentMonth = null;
+          document.querySelector('.calendar-title').textContent = `📅 Calendario`;
+        }
+        requestAnimationFrame(map[tabName]);
+      }
     }
 
     function switchToDefaultTab(key) {
@@ -2545,7 +3216,9 @@
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       const tab = isPastMonth(key) ? 'historico' : 'tabla';
       document.getElementById(`tab-${tab}`).classList.add('active');
-      document.querySelectorAll('.tab-btn').forEach(b => { if (b.getAttribute('onclick')?.includes(`'${tab}'`)) b.classList.add('active'); });
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.getAttribute('onclick')?.includes(`'${tab}'`)) b.classList.add('active');
+      });
       requestAnimationFrame(tab === 'historico' ? renderHistoricoCompleto : renderTable);
     }
 
@@ -2553,18 +3226,45 @@
     // EVENT LISTENERS
     // ========================================
     function setupEventListeners() {
+      // Búsqueda con debounce
       document.getElementById('searchInput')?.addEventListener('input', (e) => {
         clearTimeout(searchDebounceTimer);
         searchDebounceTimer = setTimeout(() => {
           applyFilters();
-          requestAnimationFrame(() => { renderTable(); renderUpcomingCards(); renderStats(((performance.now() - loadStartTime) / 1000).toFixed(2)); });
+          requestAnimationFrame(() => {
+            renderTable();
+            renderUpcomingCards();
+            renderStats(((performance.now() - loadStartTime) / 1000).toFixed(2));
+            renderCalendarLegend();
+            if (document.getElementById('tab-calendario')?.classList.contains('active')) {
+              renderCalendario();
+            }
+          });
         }, 300);
       });
+
+      // Modal
       const modal = document.getElementById('eventModal'), closeBtn = document.getElementById('modalClose');
       closeBtn?.addEventListener('click', closeModal);
       modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-      modal?.addEventListener('touchmove', (e) => { if (e.target.closest('.modal-body')) e.stopPropagation(); else e.preventDefault(); }, { passive: false });
+      modal?.addEventListener('touchmove', (e) => {
+        if (e.target.closest('.modal-body')) e.stopPropagation();
+        else e.preventDefault();
+      }, { passive: false });
+
+      // Panel del día
+      document.getElementById('closeDayPanel')?.addEventListener('click', closeDayPanel);
+      document.getElementById('dayPanel')?.addEventListener('click', (e) => {
+        if (e.target.id === 'dayPanel') closeDayPanel();
+      });
+
+      // Teclado para panel
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.getElementById('dayPanel')?.classList.contains('active')) {
+          closeDayPanel();
+        }
+      });
     }
 
     function closeModal() {
@@ -2573,16 +3273,19 @@
     }
 
     // ========================================
-    // MODAL
+    // MODAL DETALLES
     // ========================================
     window.showModalEvent = function (fecha, hora) {
       const event = allEvents.find(e => e.fecha === fecha && e.hora === hora);
       if (!event) return;
+
       const modal = document.getElementById('eventModal'), modalBody = document.getElementById('modalBody');
       const d = event._dateObj;
-      const dn = d.toLocaleDateString('es-CO', { weekday: 'long' }), fd = d.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+      const dn = d.toLocaleDateString('es-CO', { weekday: 'long' });
+      const fd = d.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+
       modalBody.innerHTML =
-        `<div class="modal-date-section"><div class="modal-date-main"><span style="background:#d32f2f;color:white;padding:2px 8px;border-radius:4px;font-size:0.8rem;font-weight:700;">${d.getDate()}</span> ${dn.charAt(0).toUpperCase() + dn.slice(1)}, ${fd}</div><div class="modal-date-time"><span>🕐</span><span>${event.hora}</span></div></div>` +
+        `<div class="modal-date-section"><div class="modal-date-main"><span style="background:#d32f2f;color:white;padding:2px 10px;border-radius:6px;font-size:0.85rem;font-weight:700;">${d.getDate()}</span> ${dn.charAt(0).toUpperCase() + dn.slice(1)}, ${fd}</div><div class="modal-date-time"><span>🕐</span><span>${event.hora}</span></div></div>` +
         `<div class="modal-row"><div class="modal-icon">📍</div><div class="modal-content-wrapper"><div class="modal-label">LUGAR</div><div class="modal-value">${event.lugar || 'Sin lugar'}</div></div></div>` +
         `<div class="modal-row"><div class="modal-icon">🎹</div><div class="modal-content-wrapper"><div class="modal-label">ENCARGADO</div><div class="modal-value">${event.encargado || '-'} <span class="modal-badge modal-badge-purple">🎹 ${event.encargado || '-'}</span></div></div></div>` +
         `<div class="modal-row"><div class="modal-icon">👥</div><div class="modal-content-wrapper"><div class="modal-label">MÚSICOS</div><div class="modal-value">${event.numMusicos || '0'} integrantes</div></div></div>` +
@@ -2591,6 +3294,7 @@
         `<div class="modal-row"><div class="modal-icon">💰</div><div class="modal-content-wrapper"><div class="modal-label">PAGO EVENTO</div><div class="modal-value money-event">${formatMoney(event.pago)}</div></div></div>` +
         `<div class="modal-row"><div class="modal-icon">✅</div><div class="modal-content-wrapper"><div class="modal-label">ESTADO</div><div class="modal-value"><span class="modal-badge modal-badge-green">${event._isPast ? 'CONFIRMADO' : 'PENDIENTE'}</span></div></div></div>` +
         `<div class="modal-footer"><button class="modal-btn-close" onclick="closeModal()">Cerrar</button></div>`;
+
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
       requestAnimationFrame(() => modal.querySelector('.modal-body')?.focus());
@@ -2600,6 +3304,7 @@
     // UTILIDADES
     // ========================================
     function formatDate(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : '-'; }
+
     function formatMoney(amount) {
       if (!amount || isNaN(parseFloat(amount))) return '$0';
       const n = parseFloat(amount);
@@ -2608,7 +3313,13 @@
       moneyFormatCache.set(n, f);
       return f;
     }
-    function escapeHtml(t) { if (!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML.replace(/'/g, "&#39;").replace(/"/g, "&quot;"); }
+
+    function escapeHtml(t) {
+      if (!t) return '';
+      const d = document.createElement('div');
+      d.textContent = t;
+      return d.innerHTML.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
+    }
   </script>
 </body>
 
