@@ -1859,7 +1859,7 @@
       </div>
       <div class="header-info">
         <div id="currentDateTime"></div>
-        <div class="version">Versión 2.2 ✅ Corregida - Carga Garantizada 🎯</div>
+        <div class="version">Versión 2.0 ✅ Corregida - Eventos Agrupados 🎯</div>
       </div>
     </header>
 
@@ -2287,9 +2287,11 @@
       const future = allEvents.filter(e => !e._isPast && e._dateObj && e._dateObj.getMonth() === config.month && e._dateObj.getFullYear() === config.year).sort((a, b) => a._dateObj - b._dateObj);
       if (!future.length) { container.innerHTML = '<div class="loading">No hay eventos próximos</div>'; return; }
 
+      // ✅ CORRECCIÓN: Usar fecha local en lugar de UTC para agrupar eventos
       const byDate = {};
       for (const e of future) {
-        const dk = e._dateObj.toISOString().split('T')[0];
+        // Crear key basada en fecha local (YYYY-MM-DD) en lugar de ISO string (UTC)
+        const dk = `${e._dateObj.getFullYear()}-${String(e._dateObj.getMonth() + 1).padStart(2, '0')}-${String(e._dateObj.getDate()).padStart(2, '0')}`;
         if (!byDate[dk]) byDate[dk] = { displayDate: e.fecha, events: [], dateObj: e._dateObj };
         byDate[dk].events.push(e);
       }
