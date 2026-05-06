@@ -64,18 +64,21 @@
       padding: 12px;
     }
 
-    /* ===== BANNER DE AVISOS IMPORTANTES ===== */
+    /* ===== BANNER DE AVISOS ANDANTE ===== */
     .aviso-banner {
       background: linear-gradient(135deg, var(--warning) 0%, #ff9800 100%);
       color: white;
       border-radius: var(--radius);
-      padding: 12px 16px;
+      padding: 0;
       margin-bottom: 16px;
       box-shadow: var(--shadow-hover);
       border-left: 5px solid #d35400;
       animation: slideDown 0.3s ease;
       position: relative;
       z-index: 50;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
     }
 
     @keyframes slideDown {
@@ -90,17 +93,62 @@
       }
     }
 
-    .aviso-banner-content {
+    .aviso-banner-wrapper {
       display: flex;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
     }
 
     .aviso-banner-icon {
       font-size: 1.3rem;
       flex-shrink: 0;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.1);
       animation: bounce 1.5s infinite;
+      z-index: 2;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    .aviso-banner-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 100%;
+    }
+
+    .aviso-banner-slide {
+      min-width: 100%;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .aviso-banner-slide:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .aviso-banner-date {
+      font-weight: 700;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 3px 8px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
 
     .aviso-banner-text {
@@ -108,13 +156,32 @@
       font-weight: 600;
       font-size: 0.9rem;
       line-height: 1.4;
-      min-width: 200px;
-      word-break: break-word;
-      cursor: pointer;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .aviso-banner-text:hover {
-      text-decoration: underline;
+    .aviso-banner-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .aviso-banner-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .aviso-banner-dot.active {
+      background: white;
+      transform: scale(1.2);
     }
 
     .aviso-banner-close {
@@ -131,6 +198,7 @@
       justify-content: center;
       transition: var(--transition);
       flex-shrink: 0;
+      margin-right: 4px;
       line-height: 1;
     }
 
@@ -153,6 +221,10 @@
       50% {
         box-shadow: 0 0 0 10px rgba(237, 108, 2, 0);
       }
+    }
+
+    .aviso-banner.paused .aviso-banner-track {
+      animation-play-state: paused;
     }
 
     /* ===== HEADER ===== */
@@ -1110,7 +1182,7 @@
       color: var(--success);
     }
 
-    /* ===== 🎨 NUEVO CALENDARIO - DISEÑO VISUAL ===== */
+    /* ===== 🎨 CALENDARIO ===== */
     .calendar-container {
       background: var(--bg-card);
       border-radius: var(--radius-lg);
@@ -1665,18 +1737,6 @@
       font-size: 1.5rem;
       flex-shrink: 0;
       animation: bounce 1s infinite;
-    }
-
-    @keyframes bounce {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-3px);
-      }
     }
 
     .modal-aviso-content {
@@ -2329,18 +2389,45 @@
         height: 10px;
       }
 
-      /* Responsive para el banner */
+      /* Banner responsive */
       .aviso-banner {
-        padding: 10px 14px;
-        margin-bottom: 12px;
+        padding: 0;
+      }
+
+      .aviso-banner-icon {
+        padding: 10px 12px;
+        font-size: 1.1rem;
+      }
+
+      .aviso-banner-slide {
+        padding: 10px 12px;
+        gap: 8px;
+      }
+
+      .aviso-banner-date {
+        font-size: 0.8rem;
+        padding: 2px 6px;
       }
 
       .aviso-banner-text {
         font-size: 0.85rem;
       }
 
-      .aviso-banner-icon {
-        font-size: 1.1rem;
+      .aviso-banner-close {
+        width: 24px;
+        height: 24px;
+        font-size: 1rem;
+        margin-right: 2px;
+      }
+
+      .aviso-banner-controls {
+        gap: 3px;
+        padding-right: 4px;
+      }
+
+      .aviso-banner-dot {
+        width: 7px;
+        height: 7px;
       }
     }
 
@@ -2587,20 +2674,36 @@
         font-size: 0.6rem;
       }
 
-      /* Responsive pequeño para el banner */
-      .aviso-banner-content {
-        gap: 8px;
+      /* Banner mobile pequeño */
+      .aviso-banner-slide {
+        padding: 8px 10px;
+        gap: 6px;
+      }
+
+      .aviso-banner-icon {
+        padding: 8px 10px;
+        font-size: 1rem;
+      }
+
+      .aviso-banner-date {
+        font-size: 0.75rem;
+        padding: 2px 5px;
       }
 
       .aviso-banner-text {
         font-size: 0.8rem;
-        min-width: 150px;
+        min-width: 120px;
       }
 
       .aviso-banner-close {
-        width: 24px;
-        height: 24px;
-        font-size: 1rem;
+        width: 22px;
+        height: 22px;
+        font-size: 0.9rem;
+      }
+
+      .aviso-banner-dot {
+        width: 6px;
+        height: 6px;
       }
     }
 
@@ -2633,7 +2736,8 @@
     .badge-person,
     .calendar-day,
     .day-event-item,
-    .modal-close {
+    .modal-close,
+    .aviso-banner-slide {
       -webkit-tap-highlight-color: rgba(25, 118, 210, 0.2);
       touch-action: manipulation;
     }
@@ -2655,15 +2759,16 @@
       </div>
       <div class="header-info">
         <div id="currentDateTime"></div>
-        <div class="version">Versión 3.1 🚨 Avisos Importantes</div>
+        <div class="version">Versión 3.2 🚨 Avisos Rotativos</div>
       </div>
     </header>
 
-    <!-- BANNER DE AVISOS IMPORTANTES -->
+    <!-- BANNER DE AVISOS ROTATIVOS -->
     <div id="avisoBanner" class="aviso-banner" style="display:none;">
-      <div class="aviso-banner-content">
+      <div class="aviso-banner-wrapper">
         <span class="aviso-banner-icon">⚠️</span>
-        <div class="aviso-banner-text" id="avisoBannerText" title="Haz clic para ver todos los eventos"></div>
+        <div class="aviso-banner-track" id="avisoTrack"></div>
+        <div class="aviso-banner-controls" id="avisoDots"></div>
         <button class="aviso-banner-close" onclick="closeAvisoBanner()" aria-label="Cerrar aviso">&times;</button>
       </div>
     </div>
@@ -2745,22 +2850,18 @@
       </div>
     </div>
 
-    <!-- CONTENIDO CALENDARIO - NUEVO DISEÑO -->
+    <!-- CONTENIDO CALENDARIO -->
     <div id="tab-calendario" class="tab-content">
       <div class="calendar-container">
         <div class="calendar-header">
           <h2 class="calendar-title">📅 Calendario</h2>
           <div class="calendar-nav">
+            <button class="calendar-nav-btn" id="prevMonthBtn">◀</button>
+            <button class="calendar-nav-btn" id="nextMonthBtn">▶</button>
           </div>
         </div>
-
-        <!-- Leyenda de colores -->
         <div class="calendar-legend" id="calendarLegend"></div>
-
-        <!-- Grid del calendario -->
         <div class="calendar-grid" id="calendarGrid"></div>
-
-        <!-- Panel de eventos del día -->
         <div class="day-panel" id="dayPanel">
           <div class="day-panel-header">
             <span class="day-panel-title" id="dayPanelTitle">📅 Eventos del día</span>
@@ -2768,8 +2869,6 @@
           </div>
           <div class="day-events-list" id="dayEventsList"></div>
         </div>
-
-        <!-- Estado vacío -->
         <div class="calendar-empty-state" id="calendarEmpty" style="display:none;">
           <div class="icon">🎵</div>
           <p>Sin eventos programados este mes</p>
@@ -2827,37 +2926,11 @@
     };
 
     const PERSON_COLORS = {
-      'tatan': '#2c912c',
-      'cacho': '#ce843b',
+      'tatan': '#2c912c', 'cacho': '#ce843b',
       'andrés': '#44311b', 'andres': '#44311b',
       'alqui': '#2d4e56', 'alquibar': '#2d4e56',
-      'ricardo': '#CDDC39',
-      'default': '#1976d2'
+      'ricardo': '#CDDC39', 'default': '#1976d2'
     };
-
-    // ========================================
-    // DETECCIÓN AUTOMÁTICA DE MES
-    // ========================================
-    function getCurrentColombiaMonth() {
-      const now = new Date();
-      const colombiaTimeStr = now.toLocaleString('en-US', {
-        timeZone: 'America/Bogota',
-        year: 'numeric', month: 'numeric', day: 'numeric',
-        hour: 'numeric', minute: 'numeric', second: 'numeric'
-      });
-      const colombiaTime = new Date(colombiaTimeStr);
-      const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-      const currentMonthNum = colombiaTime.getMonth();
-      const currentYear = colombiaTime.getFullYear();
-      const monthKey = `${monthNames[currentMonthNum]}-${currentYear}`.toLowerCase();
-
-      if (SHEETS_CONFIG[monthKey]) {
-        console.log(`✅ Mes detectado: ${monthKey.toUpperCase()}`);
-        return monthKey;
-      }
-      const availableMonths = Object.keys(SHEETS_CONFIG);
-      return availableMonths.length > 0 ? availableMonths[0] : 'abril-2026';
-    }
 
     // ========================================
     // ESTADO GLOBAL
@@ -2867,6 +2940,12 @@
     let filteredEvents = [];
     let loadStartTime = 0;
     let calendarCurrentMonth = null;
+
+    // Variables para el banner andante
+    let avisoSlides = [];
+    let currentAvisoIndex = 0;
+    let avisoInterval = null;
+    const AVISO_ROTATION_TIME = 5000; // 5 segundos por aviso
 
     const dateCache = new Map();
     const badgeCache = new Map();
@@ -2882,7 +2961,6 @@
       setInterval(updateDateTime, 60000);
       initMonthSelector();
 
-      // Verificar si el banner fue cerrado previamente
       if (localStorage.getItem('avisoBannerClosed') === 'true') {
         document.getElementById('avisoBanner').style.display = 'none';
       }
@@ -2917,9 +2995,14 @@
       if (currentMonth === monthKey) return;
       currentMonth = monthKey;
       calendarCurrentMonth = null;
-      // Resetear el banner al cambiar de mes para mostrar nuevos avisos
       localStorage.removeItem('avisoBannerClosed');
       document.getElementById('avisoBanner').style.display = 'none';
+
+      // Detener el carrusel de avisos al cambiar de mes
+      if (avisoInterval) {
+        clearInterval(avisoInterval);
+        avisoInterval = null;
+      }
 
       document.querySelectorAll('.month-nav .btn').forEach(btn => {
         btn.classList.toggle('active', btn.textContent === SHEETS_CONFIG[monthKey].label);
@@ -2972,7 +3055,7 @@
     }
 
     // ========================================
-    // PARSING CSV (ACTUALIZADO CON AVISOS)
+    // PARSING CSV
     // ========================================
     function parseCSV(csvText) {
       const lines = csvText.trim().split('\n');
@@ -3097,7 +3180,7 @@
       renderTable();
       renderDateRange();
       renderCalendarLegend();
-      renderAvisoBanner(); // ← Banner de avisos
+      renderAvisoBanner(); // ← Banner de avisos andantes
 
       if (document.getElementById('tab-calendario')?.classList.contains('active')) {
         renderCalendario();
@@ -3261,7 +3344,7 @@
     }
 
     // ========================================
-    // 🎨 CALENDARIO - CON INDICADORES DE AVISOS
+    // 🎨 CALENDARIO
     // ========================================
     function renderCalendarLegend() {
       const container = document.getElementById('calendarLegend');
@@ -3520,7 +3603,7 @@
     }
 
     // ========================================
-    // MODAL DETALLES (CON SECCIÓN DE AVISOS)
+    // MODAL DETALLES
     // ========================================
     window.showModalEvent = function (fecha, hora) {
       const event = allEvents.find(e => e.fecha === fecha && e.hora === hora);
@@ -3559,11 +3642,12 @@
     }
 
     // ========================================
-    // 🚨 BANNER DE AVISOS IMPORTANTES
+    // 🚨 BANNER DE AVISOS ANDANTES - NUEVO SISTEMA
     // ========================================
     function renderAvisoBanner() {
       const banner = document.getElementById('avisoBanner');
-      const bannerText = document.getElementById('avisoBannerText');
+      const track = document.getElementById('avisoTrack');
+      const dotsContainer = document.getElementById('avisoDots');
 
       // Si el usuario ya cerró el banner, no mostrar
       if (localStorage.getItem('avisoBannerClosed') === 'true') {
@@ -3578,32 +3662,98 @@
         e._hasAviso &&
         e._dateObj &&
         e._dateObj >= todayStart
-      );
+      ).sort((a, b) => a._dateObj - b._dateObj);
 
       if (avisosActivos.length === 0) {
         banner.style.display = 'none';
         return;
       }
 
-      // Mostrar el primer aviso más urgente
-      const primerAviso = avisosActivos[0];
-      const textoCorto = primerAviso.avisos.length > 120
-        ? primerAviso.avisos.substring(0, 120) + '...'
-        : primerAviso.avisos;
+      // Guardar los slides para el carrusel
+      avisoSlides = avisosActivos;
+      currentAvisoIndex = 0;
 
-      bannerText.textContent = `📅 ${primerAviso.fecha} ${primerAviso.hora}: ${textoCorto}`;
-      bannerText.title = `Ver detalle: ${primerAviso.avisos}`;
+      // Generar los slides del carrusel
+      track.innerHTML = avisoSlides.map((aviso, index) => {
+        const dateObj = aviso._dateObj;
+        const dateStr = dateObj.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' });
+        const timeStr = aviso.hora;
+        const avisoText = aviso.avisos.length > 100 ? aviso.avisos.substring(0, 100) + '...' : aviso.avisos;
 
-      // Click en el texto para ir a la tabla
-      bannerText.onclick = () => switchTab('tabla');
+        return `
+          <div class="aviso-banner-slide" data-index="${index}" onclick="showAvisoDetalle(${index})" title="Ver detalle completo">
+            <span class="aviso-banner-date">📅 ${dateStr} ${timeStr}</span>
+            <span class="aviso-banner-text">${escapeHtml(avisoText)}</span>
+          </div>
+        `;
+      }).join('');
 
-      banner.style.display = 'block';
+      // Generar los puntos de navegación
+      dotsContainer.innerHTML = avisoSlides.map((_, index) =>
+        `<span class="aviso-banner-dot ${index === 0 ? 'active' : ''}" onclick="goToAviso(${index})" title="Aviso ${index + 1}"></span>`
+      ).join('');
+
+      // Posicionar en el primer slide
+      updateAvisoTrack();
+
+      // Iniciar el carrusel automático
+      startAvisoCarousel();
+
+      banner.style.display = 'flex';
       banner.classList.add('pulsing');
     }
+
+    function startAvisoCarousel() {
+      // Detener cualquier intervalo anterior
+      if (avisoInterval) clearInterval(avisoInterval);
+
+      // Iniciar nuevo intervalo
+      avisoInterval = setInterval(() => {
+        currentAvisoIndex = (currentAvisoIndex + 1) % avisoSlides.length;
+        updateAvisoTrack();
+        updateAvisoDots();
+      }, AVISO_ROTATION_TIME);
+    }
+
+    function updateAvisoTrack() {
+      const track = document.getElementById('avisoTrack');
+      track.style.transform = `translateX(-${currentAvisoIndex * 100}%)`;
+    }
+
+    function updateAvisoDots() {
+      const dots = document.querySelectorAll('.aviso-banner-dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentAvisoIndex);
+      });
+    }
+
+    window.goToAviso = function (index) {
+      currentAvisoIndex = index;
+      updateAvisoTrack();
+      updateAvisoDots();
+      // Reiniciar el timer al hacer clic manual
+      startAvisoCarousel();
+    };
+
+    window.showAvisoDetalle = function (index) {
+      const aviso = avisoSlides[index];
+      if (aviso) {
+        // Ir a la vista de tabla y abrir el modal del evento
+        switchTab('tabla');
+        setTimeout(() => {
+          showModalEvent(aviso.fecha, aviso.hora);
+        }, 300);
+      }
+    };
 
     function closeAvisoBanner() {
       const banner = document.getElementById('avisoBanner');
       banner.style.display = 'none';
+      // Detener el carrusel
+      if (avisoInterval) {
+        clearInterval(avisoInterval);
+        avisoInterval = null;
+      }
       // Guardar preferencia del usuario
       localStorage.setItem('avisoBannerClosed', 'true');
     }
@@ -3627,6 +3777,30 @@
       const d = document.createElement('div');
       d.textContent = t;
       return d.innerHTML.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
+    }
+
+    // ========================================
+    // DETECCIÓN AUTOMÁTICA DE MES
+    // ========================================
+    function getCurrentColombiaMonth() {
+      const now = new Date();
+      const colombiaTimeStr = now.toLocaleString('en-US', {
+        timeZone: 'America/Bogota',
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric'
+      });
+      const colombiaTime = new Date(colombiaTimeStr);
+      const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      const currentMonthNum = colombiaTime.getMonth();
+      const currentYear = colombiaTime.getFullYear();
+      const monthKey = `${monthNames[currentMonthNum]}-${currentYear}`.toLowerCase();
+
+      if (SHEETS_CONFIG[monthKey]) {
+        console.log(`✅ Mes detectado: ${monthKey.toUpperCase()}`);
+        return monthKey;
+      }
+      const availableMonths = Object.keys(SHEETS_CONFIG);
+      return availableMonths.length > 0 ? availableMonths[0] : 'abril-2026';
     }
   </script>
 </body>
