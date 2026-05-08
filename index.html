@@ -3060,15 +3060,32 @@
     function parseCSV(csvText) {
       const lines = csvText.trim().split('\n');
       if (lines.length < 2) return [];
+
       return lines.slice(1).map(line => {
-        const row = parseCSVLine(line);
+        const row = parseCSVLine(line); // row ahora tiene 11 elementos
+
+        // ✅ Mapeo CORREGIDO saltando la columna vacía en índice 2:
         return {
-          fecha: row[0] || '', dia: row[1] || '', hora: row[2] || '',
-          notas: row[3] || '', lugar: row[4] || '', encargado: row[5] || '',
-          pago: row[6] || '', numMusicos: row[7] || '', transPago: row[8] || '',
-          avisos: row[9] || ''
+          fecha: (row[0] || '').trim(),
+          dia: (row[1] || '').trim(),
+          // row[2] es columna vacía → la saltamos
+          hora: (row[3] || '').trim(),           // ⬅️ Índice 3, no 2
+          notas: (row[4] || '').trim(),          // ⬅️ Índice 4, no 3
+          lugar: (row[5] || '').trim(),          // ⬅️ Índice 5, no 4
+          encargado: (row[6] || '').trim(),      // ⬅️ Índice 6, no 5
+          pago: sanitizeNumber(row[7]),          // ⬅️ Índice 7, no 6
+          numMusicos: sanitizeNumber(row[8]),    // ⬅️ Índice 8, no 7
+          transPago: sanitizeNumber(row[9]),     // ⬅️ Índice 9, no 8
+          avisos: (row[10] || '').trim()         // ⬅️ Índice 10, no 9
         };
-      }).filter(e => e.fecha);
+      }).filter(e => e.fecha); // Solo filas con fecha
+    }
+
+    // ✅ Función auxiliar para sanitizar números:
+    function sanitizeNumber(value) {
+      const clean = (value || '').toString().trim();
+      if (!clean || isNaN(parseFloat(clean))) return '0';
+      return parseFloat(clean).toString();
     }
 
     function parseCSVLine(line) {
