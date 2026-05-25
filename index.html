@@ -2761,6 +2761,9 @@
         <div id="currentDateTime"></div>
         <div class="version">Versión 3.3 ✅ Columna corregida</div>
       </div>
+      <span style="background:#4caf50;color:white;padding:2px 8px;border-radius:4px;font-size:0.7rem">
+        🔄 Datos en vivo
+      </span>
     </header>
 
     <!-- BANNER DE AVISOS ROTATIVOS -->
@@ -2877,13 +2880,13 @@
       </div>
     </div>
 
-    <!-- CONTENIDO AGENDA -->
-    <div id="tab-agenda" class="tab-content">
+    <!-- CONTENIDO ESTADÍSTICAS -->
+    <div id="tab-estadisticas" class="tab-content">
       <div class="table-section">
         <div class="table-header">
-          <h2>📋 Vista de Agenda</h2>
+          <h2>📈 Estadísticas del Mes</h2>
         </div>
-        <div id="agendaView" class="loading">Vista de agenda en desarrollo...</div>
+        <div id="estadisticasView" class="loading">Calculando métricas...</div>
       </div>
     </div>
 
@@ -3359,6 +3362,156 @@
       container.innerHTML = html;
     }
 
+    function renderEstadisticas() {
+      const container = document.getElementById('estadisticasView');
+      const events = filteredEvents.length ? filteredEvents : allEvents;
+
+      if (!events.length) {
+        container.innerHTML = '<div class="no-results">📭 No hay datos para mostrar estadísticas</div>';
+        return;
+      }
+
+      // --- FILTROS POR ESTADO ---
+      const past = events.filter(e => e._isPast);
+      const future = events.filter(e => !e._isPast);
+
+      // --- MÉTRICAS PRINCIPALES ---
+      const totalGanancias = past.reduce((s, e) => s + (parseFloat(e.pago) || 0), 0);
+      const totalTransporte = past.reduce((s, e) => s + (parseFloat(e.transPago) || 0), 0);
+      const ingresoProyectado = future.reduce((s, e) => s + (parseFloat(e.pago) || 0), 0);
+      const eventosPendientes = future.length;
+
+      // --- POR ENCARGADO (solo realizados) ---
+      const porPersona = {};
+      past.forEach(e => {
+        const p = e.encargado || 'Sin asignar';
+        if (!porPersona[p]) porPersona[p] = { count: 0, pago: 0 };
+        porPersona[p].count++;
+        porPersona[p].pago += parseFloat(e.pago) || 0;
+      });
+
+      // --- POR DÍA DE SEMANA (solo realizados) ---
+      const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const porDia = new Array(7).fill(0);
+      past.forEach(e => { if (e._dateObj) porDia[e._dateObj.getDay()]++; });
+      const maxDia = Math.max(...porDia, 1);
+
+      // --- KPIs ---
+      const totalEventos = events.length;
+      const promedioMusicos = totalEventos ? (events.reduce((s, e) => s + (parseInt(e.numMusicos) || 0), 0) / totalEventos).toFixed(1) : 0;
+      const conAvisos = events.filter(e => e._hasAviso).length;
+      const pctAvisos = totalEventos ? ((conAvisos / totalEventos) * 100).toFixed(1) : 0;
+      const pctCompletados = totalEventos ? ((past.length / totalEventos) * 100).toFixed(1) : 0;
+
+      // --- RENDER ---
+      let html = `
+    <!-- 💰 RESULTADOS REALES + 🔮 LO QUE VIENE -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:20px;">
+      <div class="resume-card" style="background:var(--success); color:white;">
+        <span class="resume-card-value">${formatMoney(totalGanancias)}</span>
+        <span class="resume-card-label">✅ Total Ganancias</span>
+      </div>
+      <div class="resume-card" style="background:var(--orange); color:white;">
+        <span class="resume-card-value">${formatMoney(totalTransporte)}</span>
+        <span class="resume-card-label">🚗 Transporte Gastado</span>
+      </div>
+      <div class="resume-card" style="background:var(--primary); color:white;">
+        <span class="resume-card-value">${formatMoney(ingresoProyectado)}</span>
+        <span class="resume-card-label">💵 Ingreso Proyectado</span>
+      </div>
+      <div class="resume-card" style="background:var(--purple); color:white;">
+        <span class="resume-card-value">${eventosPendientes}</span>
+        <span class="resume-card-label">📅 Eventos Pendientes</span>
+      </div>
+    </div>
+
+    <!-- 📊 ANÁLISIS OPERATIVO -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:20px;">
+      
+      <!-- 👤 POR ENCARGADO -->
+      <div class="table-section" style="padding:14px;">
+        <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">👤 Por Encargado</h3>
+        ${Object.entries(porPersona).sort((a, b) => b[1].pago - a[1].pago).map(([p, d]) => {
+        const pct = totalGanancias ? ((d.pago / totalGanancias) * 100).toFixed(1) : 0;
+        return `<div style="margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
+              <span style="font-weight:600;">${p}</span>
+              <span style="color:var(--text-secondary);">${d.count} evt. | ${formatMoney(d.pago)}</span>
+            </div>
+            <div style="background:var(--bg-body); border-radius:4px; height:8px; overflow:hidden;">
+              <div style="background:${getPersonColor(p)}; height:100%; width:${pct}%; transition:width 0.3s;"></div>
+            </div>
+          </div>`;
+      }).join('')}
+      </div>
+
+      <!-- 📅 POR DÍA DE SEMANA -->
+      <div class="table-section" style="padding:14px;">
+        <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">📅 Eventos por Día</h3>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          ${diasSemana.map((d, i) => {
+        const w = maxDia ? (porDia[i] / maxDia) * 100 : 0;
+        return `<div style="display:flex; align-items:center; gap:8px;">
+              <span style="min-width:80px; font-size:0.85rem; color:var(--text-secondary);">${d}</span>
+              <div style="flex:1; background:var(--bg-body); border-radius:4px; height:10px; overflow:hidden;">
+                <div style="background:${porDia[i] === 0 ? 'transparent' : 'var(--primary)'}; height:100%; width:${w}%; transition:width 0.3s;"></div>
+              </div>
+              <span style="min-width:24px; text-align:right; font-size:0.8rem; font-weight:600;">${porDia[i]}</span>
+            </div>`;
+      }).join('')}
+        </div>
+      </div>
+    </div>
+
+        <!-- 📌 INDICADORES CLAVE -->
+        <div class="table-section" style="padding:14px;">
+          <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">📌 Indicadores del Mes</h3>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+        
+        <!-- 🔊 Pago Mensual de Sonido -->
+        <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
+          <div style="font-size:1.5rem; font-weight:700; color:var(--teal);">
+            ${formatMoney(past.length * 20000)}
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-secondary);">🔊 Sonido (Realizado)</div>
+        </div>    
+                
+        <!-- 📅 Días con Eventos -->
+        <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
+          <div style="font-size:1.5rem; font-weight:700; color:var(--primary);">
+            ${new Set(past.map(e => e._dateObj?.toDateString()).filter(Boolean)).size +
+        new Set(future.map(e => e._dateObj?.toDateString()).filter(Boolean)).size}
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-secondary);">📅 Días Activos</div>
+        </div>
+        
+        <!-- 🚨 Eventos con Avisos -->
+        <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
+          <div style="font-size:1.5rem; font-weight:700; color:var(--warning);">${conAvisos}</div>
+          <div style="font-size:0.8rem; color:var(--text-secondary);">🚨 Con Avisos</div>
+        </div>
+        
+      </div>
+    </div>
+  `;
+
+      container.innerHTML = html;
+    }
+
+    let statsPeriod = 'past'; // default: solo realizados
+
+    function setStatsPeriod(period, btn) {
+      statsPeriod = period;
+      document.querySelectorAll('#tab-estadisticas .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderEstadisticas();
+    }
+
+    const baseEvents = filteredEvents.length ? filteredEvents : allEvents;
+    const events = statsPeriod === 'past' ? baseEvents.filter(e => e._isPast) :
+      statsPeriod === 'future' ? baseEvents.filter(e => !e._isPast) :
+        baseEvents;
+
     // ========================================
     // 🎨 CALENDARIO
     // ========================================
@@ -3530,9 +3683,18 @@
 
     function renderTabs() {
       const nav = document.getElementById('tabsNav');
-      if (isPastMonth(currentMonth)) nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('historico')">📜 Histórico</button>`;
-      else if (isFutureMonth(currentMonth)) nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button><button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>`;
-      else nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button><button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button><button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button><button class="tab-btn" onclick="switchTab('agenda')">📋 Agenda</button><button class="tab-btn" onclick="switchTab('historico')">📜 Histórico</button>`;
+      if (isPastMonth(currentMonth)) {
+        nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('historico')">📜 Histórico</button>`;
+      } else if (isFutureMonth(currentMonth)) {
+        nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>
+                     <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>`;
+      } else {
+        nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>
+                     <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>
+                     <button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button>
+                     <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>
+                     <button class="tab-btn" onclick="switchTab('historico')">📜 Histórico</button>`;
+      }
     }
 
     function switchTab(tabName) {
@@ -3547,7 +3709,7 @@
         tabla: renderTable,
         lista: renderLista,
         calendario: renderCalendario,
-        agenda: renderAgenda,
+        estadisticas: renderEstadisticas,
         historico: renderHistoricoCompleto
       };
 
