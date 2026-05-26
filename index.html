@@ -36,9 +36,23 @@
       --radius: 12px;
       --radius-sm: 8px;
       --radius-lg: 16px;
-      --modal-header-bg: linear-gradient(135deg, #2c5f8a 0%, #1976d2 100%);
+      --modal-header-bg: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
       --modal-date-bg: #e3f2fd;
       --transition: all 0.25s ease;
+
+      /* ===== NUEVAS VARIABLES PARA UNIFICACIÓN DE BORDES ===== */
+      --border-table-header: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+      --border-table-row: var(--border);
+      --border-section-accent: var(--primary);
+      --border-card: var(--border);
+      --border-card-hover: var(--primary);
+      --border-input-focus: var(--primary);
+      --border-modal: var(--border);
+
+      /* Colores de acento secundarios para estados */
+      --accent-success: var(--success);
+      --accent-warning: var(--warning);
+      --accent-danger: var(--danger);
     }
 
     * {
@@ -234,7 +248,7 @@
       padding: 16px 20px;
       margin-bottom: 16px;
       box-shadow: var(--shadow);
-      border-left: 5px solid var(--primary);
+      border-left: 5px solid var(--border-section-accent);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -277,6 +291,7 @@
       padding: 12px 16px;
       margin-bottom: 16px;
       box-shadow: var(--shadow);
+      border-left: 4px solid var(--border-section-accent);
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
@@ -337,7 +352,7 @@
       padding: 16px;
       margin-bottom: 16px;
       box-shadow: var(--shadow);
-      border-left: 4px solid var(--primary);
+      border-left: 4px solid var(--border-section-accent);
     }
 
     .upcoming-section.hidden {
@@ -379,12 +394,14 @@
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
+      border: 1px solid var(--border-card);
       transition: var(--transition);
     }
 
     .upcoming-card:hover {
       transform: translateY(-2px);
       box-shadow: var(--shadow-hover);
+      border-color: var(--border-card-hover);
     }
 
     .upcoming-card.today {
@@ -552,7 +569,7 @@
       border-radius: var(--radius);
       padding: 12px 16px;
       margin-bottom: 16px;
-      border-left: 4px solid var(--success);
+      border-left: 4px solid var(--border-section-accent);
     }
 
     .stats-bar-header {
@@ -595,6 +612,7 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       justify-content: center;
       text-align: center;
+      border: 1px solid var(--border-card);
     }
 
     .stats-icons .icon {
@@ -624,6 +642,7 @@
       padding: 10px 12px;
       margin-bottom: 16px;
       box-shadow: var(--shadow);
+      border-left: 4px solid var(--border-section-accent);
       display: flex;
       gap: 6px;
       flex-wrap: nowrap;
@@ -700,6 +719,7 @@
       padding: 12px 16px;
       margin-bottom: 16px;
       box-shadow: var(--shadow);
+      border-left: 4px solid var(--border-section-accent);
       display: flex;
       gap: 12px;
       align-items: center;
@@ -723,7 +743,7 @@
 
     .search-box input:focus {
       outline: none;
-      border-color: var(--primary);
+      border-color: var(--border-input-focus);
       box-shadow: 0 0 0 3px var(--primary-light);
     }
 
@@ -733,6 +753,7 @@
       border-radius: var(--radius);
       padding: 16px;
       box-shadow: var(--shadow);
+      border-left: 4px solid var(--border-section-accent);
     }
 
     .table-header {
@@ -752,6 +773,7 @@
       -webkit-overflow-scrolling: touch;
       border-radius: 6px;
       position: relative;
+      border: 1px solid var(--border-card);
     }
 
     .table-responsive::after {
@@ -761,12 +783,13 @@
       right: 12px;
       font-size: 0.7rem;
       color: var(--text-secondary);
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(25, 118, 210, 0.1);
       padding: 2px 6px;
       border-radius: 4px;
       pointer-events: none;
       opacity: 0;
       transition: var(--transition);
+      border: 1px solid var(--primary-light);
     }
 
     .table-responsive:hover::after,
@@ -782,7 +805,7 @@
     }
 
     thead {
-      background: #37474f;
+      background: var(--border-table-header);
       color: white;
       position: sticky;
       top: 0;
@@ -800,17 +823,18 @@
     }
 
     th:hover {
-      background: #263238;
+      background: rgba(255, 255, 255, 0.15);
     }
 
     tbody tr {
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-table-row);
       transition: var(--transition);
     }
 
     tbody tr:hover {
-      background-color: #f5f5f5;
+      background-color: var(--primary-light);
       cursor: pointer;
+      border-left: 3px solid var(--border-card-hover);
     }
 
     td {
@@ -849,12 +873,12 @@
     }
 
     .badge-confirmed {
-      background: var(--success);
+      background: var(--accent-success);
       color: white;
     }
 
     .badge-pending {
-      background: var(--warning);
+      background: var(--accent-warning);
       color: white;
     }
 
@@ -888,6 +912,7 @@
       padding: 20px;
       margin-bottom: 20px;
       box-shadow: var(--shadow-hover);
+      border-left: 4px solid var(--border-section-accent);
     }
 
     .month-resume-header {
@@ -958,6 +983,7 @@
       margin-bottom: 10px;
       box-shadow: var(--shadow);
       border-left: 4px solid var(--success);
+      border: 1px solid var(--border-card);
       transition: var(--transition);
       cursor: pointer;
     }
@@ -965,6 +991,7 @@
     .serenata-card:hover {
       transform: translateX(4px);
       box-shadow: var(--shadow-hover);
+      border-color: var(--border-card-hover);
     }
 
     .serenata-card-header {
@@ -1053,6 +1080,7 @@
       padding: 16px;
       margin-bottom: 16px;
       box-shadow: var(--shadow);
+      border-left: 4px solid var(--border-section-accent);
     }
 
     .history-month-header {
@@ -1091,7 +1119,7 @@
     }
 
     .weekly-header {
-      background: #34495e;
+      background: var(--border-table-header);
       color: white;
       padding: 12px 16px;
       border-radius: 8px 8px 0 0;
@@ -1100,6 +1128,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      border-left: 4px solid var(--border-section-accent);
     }
 
     .weekly-header .calendar-icon {
@@ -1111,7 +1140,8 @@
 
     .event-row {
       background: white;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-table-row);
+      border-left: 3px solid var(--border-section-accent);
       border-top: none;
       padding: 14px 16px;
       display: flex;
@@ -1122,7 +1152,8 @@
     }
 
     .event-row:hover {
-      background: #f9f9f9;
+      background: var(--primary-light);
+      border-left-color: var(--border-card-hover);
     }
 
     .event-row:last-child {
@@ -1188,6 +1219,7 @@
       border-radius: var(--radius-lg);
       padding: 16px;
       box-shadow: var(--shadow);
+      border-left: 4px solid var(--border-section-accent);
     }
 
     .calendar-header {
@@ -1226,11 +1258,13 @@
       font-size: 1.2rem;
       color: var(--text-primary);
       transition: var(--transition);
+      border: 2px solid var(--border-card);
     }
 
     .calendar-nav-btn:hover {
       background: var(--primary);
       color: white;
+      border-color: var(--border-card-hover);
     }
 
     .calendar-nav-btn:disabled {
@@ -1296,7 +1330,7 @@
 
     .calendar-day:hover {
       background: var(--primary-light);
-      border-color: var(--primary);
+      border-color: var(--border-card-hover);
     }
 
     .calendar-day.today {
@@ -1420,6 +1454,7 @@
       transition: var(--transition);
       max-height: 0;
       opacity: 0;
+      border: 1px solid var(--border-card);
     }
 
     .day-panel.active {
@@ -1482,13 +1517,15 @@
       box-shadow: var(--shadow-soft);
       cursor: pointer;
       transition: var(--transition);
-      border-left: 3px solid var(--primary);
+      border-left: 3px solid var(--border-section-accent);
+      border: 1px solid var(--border-card);
       position: relative;
     }
 
     .day-event-item:hover {
       transform: translateX(4px);
       box-shadow: var(--shadow);
+      border-left-color: var(--border-card-hover);
     }
 
     .day-event-item.has-aviso {
@@ -1517,7 +1554,7 @@
     }
 
     .day-event-item.default {
-      border-left-color: var(--primary);
+      border-left-color: var(--border-section-accent);
     }
 
     .day-event-time {
@@ -1620,6 +1657,7 @@
       flex-direction: column;
       overflow: hidden;
       animation: modalContentIn 0.3s ease;
+      border: 1px solid var(--border-modal);
     }
 
     @keyframes modalContentIn {
@@ -1783,6 +1821,7 @@
       border-radius: 10px;
       font-size: 1.3rem;
       flex-shrink: 0;
+      border: 1px solid var(--border-card);
     }
 
     .modal-content-wrapper {
@@ -1881,6 +1920,7 @@
       border-radius: var(--radius);
       padding: 16px;
       font-size: 0.9rem;
+      border-left: 4px solid var(--accent-danger);
     }
 
     .historical-month-notice {
@@ -2717,7 +2757,7 @@
     input:focus-visible,
     [tabindex]:focus-visible,
     .calendar-day:focus-visible {
-      outline: 2px solid var(--primary);
+      outline: 2px solid var(--border-input-focus);
       outline-offset: 2px;
     }
 
@@ -2745,6 +2785,123 @@
     .calendar-container,
     .modal-body {
       scroll-behavior: smooth;
+    }
+
+    /* ===== TABLA HISTÓRICO ===== */
+    .historico-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      min-width: 1100px;
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border-card);
+    }
+
+    .historico-table thead {
+      background: var(--border-table-header);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .historico-table th {
+      padding: 12px 8px;
+      text-align: left;
+      font-weight: 600;
+      white-space: nowrap;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .historico-table th:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .historico-table tbody tr {
+      border-bottom: 1px solid var(--border-table-row);
+      transition: var(--transition);
+      background: white;
+    }
+
+    .historico-table tbody tr:hover {
+      background-color: var(--primary-light);
+      transform: translateX(4px);
+      border-left: 3px solid var(--border-card-hover);
+    }
+
+    .historico-table td {
+      padding: 10px 8px;
+      vertical-align: middle;
+      font-size: 0.85rem;
+    }
+
+    /* Colores específicos para histórico */
+    .historico-table .table-money.paid {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .historico-table .badge-confirmed {
+      background: var(--accent-success);
+      color: white;
+      animation: none;
+    }
+
+    /* Responsive para histórico */
+    @media (max-width: 1024px) {
+      .historico-table {
+        font-size: 0.8rem;
+        min-width: 900px;
+      }
+
+      .historico-table th,
+      .historico-table td {
+        padding: 8px 6px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .historico-table {
+        font-size: 0.75rem;
+        min-width: 750px;
+      }
+
+      .historico-table th,
+      .historico-table td {
+        padding: 7px 5px;
+      }
+
+      .historico-table .badge-person {
+        min-width: 90px;
+        padding: 4px 8px;
+        font-size: 0.75rem;
+      }
+
+      .historico-table .table-money {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .historico-table {
+        font-size: 0.7rem;
+        min-width: 650px;
+      }
+
+      .historico-table th,
+      .historico-table td {
+        padding: 6px 4px;
+      }
+
+      .historico-table .badge-person {
+        min-width: 80px;
+        padding: 3px 6px;
+        font-size: 0.7rem;
+      }
     }
   </style>
 </head>
@@ -3310,21 +3467,70 @@
       renderMonthResume();
       const c = SHEETS_CONFIG[currentMonth];
       const past = allEvents.filter(e => e._isPast && e._dateObj && e._dateObj.getMonth() === c.month && e._dateObj.getFullYear() === c.year);
-      if (!past.length) { container.innerHTML = '<div class="no-results">📭 No hay eventos realizados</div>'; return; }
+
+      if (!past.length) {
+        container.innerHTML = '<div class="no-results">📭 No hay eventos realizados</div>';
+        return;
+      }
+
       const sorted = [...past].sort((a, b) => b._dateObj - a._dateObj);
-      let html = `<div class="detalle-serenatas-section"><div class="detalle-serenatas-title">📋 Detalle de Serenatas</div>`;
+
+      // ✅ Renderizar como TABLA completa
+      let html = `
+    <div class="table-section">
+      <div class="table-header">
+        <h2>📋 Eventos Realizados - ${getMonthName(c.month)} ${c.year}</h2>
+      </div>
+      <div class="table-responsive">
+        <table class="historico-table">
+          <thead>
+            <tr>
+              <th>FECHA</th>
+              <th>DÍA</th>
+              <th>HORA</th>
+              <th>LUGAR</th>
+              <th>ENCARGADO</th>
+              <th>NOTAS</th>
+              <th>🚨 AVISOS</th>
+              <th>TRANSP.</th>
+              <th>PAGO</th>
+              <th>ESTADO</th>
+              <th>👥 MÚSICOS</th>
+            </tr>
+          </thead>
+          <tbody>
+  `;
+
       sorted.forEach(e => {
-        const d = e._dateObj, sd = getShortDayName(d), dn = d.getDate(), sm = getShortMonthName(d);
-        const avisoBadge = e._hasAviso ? `<span class="badge-aviso" title="${escapeHtml(e.avisos)}">⚠️ Aviso</span>` : '';
-        html += `<div class="serenata-card" onclick="showModalEvent('${escapeHtml(e.fecha)}','${escapeHtml(e.hora)}')">` +
-          `<div class="serenata-card-header"><div class="serenata-date-time"><span class="calendar-icon">${dn}</span><span>${sd}, ${dn} de ${sm}</span><span class="clock-icon">🕐 ${e.hora}</span></div>` +
-          `<div style="display:flex;gap:6px;align-items:center"><span class="serenata-badge ${e._badgeClass}">${e._personIcon} ${e.encargado || '-'}</span>${avisoBadge}</div></div>` +
-          `<div class="serenata-card-body"><div class="serenata-detail"><span class="icon">📍</span><span title="${escapeHtml(e.lugar)}">${e.lugar || 'Sin lugar'}</span></div>` +
-          `<div class="serenata-detail"><span class="icon">👥</span><span>${e.numMusicos || '0'} músicos</span></div>` +
-          `<div class="serenata-detail money-transport"><span class="icon">🚗</span><span>${formatMoney(e.transPago)}</span></div>` +
-          `<div class="serenata-detail money-payment"><span class="icon">💰</span><span>${formatMoney(e.pago)}</span></div></div></div>`;
+        const avisoCell = e._hasAviso
+          ? `<td><span class="badge-aviso" title="${escapeHtml(e.avisos)}">⚠️ ${escapeHtml(e.avisos).substring(0, 15)}${e.avisos.length > 15 ? '...' : ''}</span></td>`
+          : `<td>-</td>`;
+
+        html += `
+      <tr onclick="showModalEvent('${escapeHtml(e.fecha)}','${escapeHtml(e.hora)}')" style="cursor:pointer">
+        <td><span class="table-date">${formatDate(e.fecha)}</span></td>
+        <td><span class="table-day">${e.dia}</span></td>
+        <td>${e.hora}</td>
+        <td title="${escapeHtml(e.lugar)}">${e.lugar || '-'}</td>
+        <td><span class="badge-person ${e._badgeClass}">${e._personIcon} ${e.encargado || '-'}</span></td>
+        <td title="${escapeHtml(e.notas)}" style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.notas || '-'}</td>
+        ${avisoCell}
+        <td class="table-money">${formatMoney(e.transPago)}</td>
+        <td class="table-money paid">${formatMoney(e.pago)}</td>
+        <td><span class="badge-status badge-confirmed">✓ CONFIRMADO</span></td>
+        <td><span class="musicians-count">👥 ${e.numMusicos || '0'}</span></td>
+      </tr>
+    `;
       });
-      container.innerHTML = html + '</div>';
+
+      html += `
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+      container.innerHTML = html;
     }
 
     function renderLista() {
@@ -3684,9 +3890,11 @@
     function renderTabs() {
       const nav = document.getElementById('tabsNav');
       if (isPastMonth(currentMonth)) {
-        nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('historico')">📜 Histórico</button>`;
+        nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('historico')">📜 Histórico</button>
+                          <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>`;
       } else if (isFutureMonth(currentMonth)) {
         nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>
+                    <button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button>
                      <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>`;
       } else {
         nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>
