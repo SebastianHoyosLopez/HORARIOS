@@ -3381,11 +3381,20 @@
     function renderUpcomingCards() {
       const container = document.getElementById('upcomingCards'), section = document.getElementById('upcomingSection');
       const config = SHEETS_CONFIG[currentMonth], now = new Date();
-      if (!isCurrentMonth(currentMonth)) { section.classList.add('hidden'); return; }
+
+      if (!isCurrentMonth(currentMonth)) {
+        section.classList.add('hidden');
+        return;
+      }
       section.classList.remove('hidden');
 
       const future = allEvents.filter(e => !e._isPast && e._dateObj && e._dateObj.getMonth() === config.month && e._dateObj.getFullYear() === config.year).sort((a, b) => a._dateObj - b._dateObj);
-      if (!future.length) { container.innerHTML = '<div class="loading">No hay eventos próximos</div>'; return; }
+
+      // ✅ SI NO HAY EVENTOS FUTUROS: Mostrar estadísticas del mes
+      if (!future.length) {
+        renderMonthEndingStats(container, config);
+        return;
+      }
 
       const byDate = {};
       for (const e of future) {
@@ -3394,7 +3403,10 @@
         byDate[dk].events.push(e);
       }
       const dates = Object.keys(byDate).sort().slice(0, 3);
-      if (!dates.length) { container.innerHTML = '<div class="loading">No hay eventos</div>'; return; }
+      if (!dates.length) {
+        renderMonthEndingStats(container, config);
+        return;
+      }
 
       let html = '';
       dates.forEach(dk => {
@@ -3416,6 +3428,93 @@
           }).join('') +
           `</div></div>`;
       });
+      container.innerHTML = html;
+    }
+
+    // ✅ NUEVA FUNCIÓN: Mostrar estadísticas cuando el mes está finalizando
+    function renderMonthEndingStats(container, config) {
+      const past = allEvents.filter(e => e._isPast && e._dateObj && e._dateObj.getMonth() === config.month && e._dateObj.getFullYear() === config.year);
+
+      if (!past.length) {
+        container.innerHTML = '<div class="loading">No hay eventos este mes</div>';
+        return;
+      }
+
+      // Calcular métricas del mes
+      const totalGanancias = past.reduce((s, e) => s + (parseFloat(e.pago) || 0), 0);
+      const totalTransporte = past.reduce((s, e) => s + (parseFloat(e.transPago) || 0), 0);
+      const gananciaNeta = totalGanancias - totalTransporte;
+      const totalEventos = past.length;
+      const promedioMusicos = totalEventos ? (past.reduce((s, e) => s + (parseInt(e.numMusicos) || 0), 0) / totalEventos).toFixed(1) : 0;
+
+      // Contar por encargado
+      const porPersona = {};
+      past.forEach(e => {
+        const p = e.encargado || 'Sin asignar';
+        if (!porPersona[p]) porPersona[p] = { count: 0, pago: 0 };
+        porPersona[p].count++;
+        porPersona[p].pago += parseFloat(e.pago) || 0;
+      });
+
+      const topEncargado = Object.entries(porPersona).sort((a, b) => b[1].pago - a[1].pago)[0];
+
+      // Calcular días con eventos
+      const diasConEventos = new Set(past.map(e => e._dateObj?.toDateString()).filter(Boolean)).size;
+
+      // Renderizar resumen del mes finalizado
+      let html = `
+    <div class="upcoming-card" style="border: 2px solid var(--success);">
+      <div class="upcoming-card-header" style="background: linear-gradient(135deg, var(--success) 0%, #1b5e20 100%);">
+        <span>🎉 Mes en Curso - Resumen Parcial</span>
+        <span>${totalEventos} evento${totalEventos > 1 ? 's' : ''} realizado${totalEventos > 1 ? 's' : ''}</span>
+      </div>
+      <div class="upcoming-card-body" style="padding: 16px;">
+        
+        <!-- Métricas Principales -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 16px;">
+          <div style="background: var(--success-light); padding: 12px; border-radius: 8px; text-align: center; border-left: 3px solid var(--success);">
+            <div style="font-size: 1.3rem; font-weight: 700; color: var(--success);">${formatMoney(totalGanancias)}</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">💰 Ganancias</div>
+          </div>
+          <div style="background: var(--orange-light); padding: 12px; border-radius: 8px; text-align: center; border-left: 3px solid var(--orange);">
+            <div style="font-size: 1.3rem; font-weight: 700; color: var(--orange);">${formatMoney(totalTransporte)}</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">🚗 Transporte</div>
+          </div>
+          <div style="background: var(--teal-light); padding: 12px; border-radius: 8px; text-align: center; border-left: 3px solid var(--teal);">
+            <div style="font-size: 1.3rem; font-weight: 700; color: var(--teal);">${formatMoney(gananciaNeta)}</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">💵 Ganancia Neta</div>
+          </div>
+        </div>
+
+        <!-- Información Adicional -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 16px;">
+          <div style="background: var(--bg-body); padding: 10px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">${diasConEventos}</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary);">📅 Días Activos</div>
+          </div>
+          <div style="background: var(--bg-body); padding: 10px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--purple);">${promedioMusicos}</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary);">👥 Prom. Músicos</div>
+          </div>
+          ${topEncargado ? `
+          <div style="background: var(--bg-body); padding: 10px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary);">${topEncargado[0]}</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary);">🏆 Top Encargado</div>
+          </div>
+          ` : ''}
+        </div>
+
+        <!-- Botón para ver estadísticas completas -->
+        <div style="text-align: center; padding-top: 12px; border-top: 1px solid var(--border);">
+          <button onclick="switchTab('estadisticas')" style="background: var(--purple); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: var(--transition);">
+            📊 Ver Estadísticas Completas
+          </button>
+        </div>
+
+      </div>
+    </div>
+  `;
+
       container.innerHTML = html;
     }
 
