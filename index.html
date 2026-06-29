@@ -3082,7 +3082,15 @@
       'mayo-2026': { label: 'Mayo 2026', month: 4, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=2102285288&single=true&output=csv' },
       'junio-2026': { label: 'Junio 2026', month: 5, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=1122972528&single=true&output=csv' },
       'julio-2026': { label: 'Julio 2026', month: 6, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=777653076&single=true&output=csv' },
-      'agosto-2026': { label: 'Agosto 2026', month: 7, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=317038201&single=true&output=csv' }
+      'agosto-2026': { label: 'Agosto 2026', month: 7, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=317038201&single=true&output=csv' },
+
+
+      // 🆕 NUEVOS MESES - Reemplaza las URLs con las de tus hojas de cálculo
+      'septiembre-2026': { label: 'Septiembre 2026', month: 8, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=1423292498&single=true&output=csv' },
+      'octubre-2026': { label: 'Octubre 2026', month: 9, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=145828546&single=true&output=csv' },
+      'noviembre-2026': { label: 'Noviembre 2026', month: 10, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=1146968063&single=true&output=csv' },
+      'diciembre-2026': { label: 'Diciembre 2026', month: 11, year: 2026, csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO1ZbRTL-GFvFj-WXVY8kWq7vbuNJEv4gIC-7yKUHKsO6xi_ji8hACA3F1kxBSeKKBzxhbRwX3TMYK/pub?gid=1380617218&single=true&output=csv' }
+
     };
 
     const PERSON_COLORS = {
@@ -3580,26 +3588,31 @@
       // --- FILTROS POR ESTADO ---
       const past = events.filter(e => e._isPast);
       const future = events.filter(e => !e._isPast);
+      const isFutureOnly = future.length > 0 && past.length === 0;
 
       // --- MÉTRICAS PRINCIPALES ---
       const totalGanancias = past.reduce((s, e) => s + (parseFloat(e.pago) || 0), 0);
       const totalTransporte = past.reduce((s, e) => s + (parseFloat(e.transPago) || 0), 0);
       const ingresoProyectado = future.reduce((s, e) => s + (parseFloat(e.pago) || 0), 0);
+      const transporteProyectado = future.reduce((s, e) => s + (parseFloat(e.transPago) || 0), 0);
       const eventosPendientes = future.length;
+      const eventosRealizados = past.length;
 
-      // --- POR ENCARGADO (solo realizados) ---
+      // --- POR ENCARGADO (adaptativo) ---
       const porPersona = {};
-      past.forEach(e => {
+      const eventosParaAnalisis = isFutureOnly ? future : past;
+      eventosParaAnalisis.forEach(e => {
         const p = e.encargado || 'Sin asignar';
-        if (!porPersona[p]) porPersona[p] = { count: 0, pago: 0 };
+        if (!porPersona[p]) porPersona[p] = { count: 0, pago: 0, transporte: 0 };
         porPersona[p].count++;
         porPersona[p].pago += parseFloat(e.pago) || 0;
+        porPersona[p].transporte += parseFloat(e.transPago) || 0;
       });
 
-      // --- POR DÍA DE SEMANA (solo realizados) ---
+      // --- POR DÍA DE SEMANA (adaptativo) ---
       const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
       const porDia = new Array(7).fill(0);
-      past.forEach(e => { if (e._dateObj) porDia[e._dateObj.getDay()]++; });
+      eventosParaAnalisis.forEach(e => { if (e._dateObj) porDia[e._dateObj.getDay()]++; });
       const maxDia = Math.max(...porDia, 1);
 
       // --- KPIs ---
@@ -3609,9 +3622,39 @@
       const pctAvisos = totalEventos ? ((conAvisos / totalEventos) * 100).toFixed(1) : 0;
       const pctCompletados = totalEventos ? ((past.length / totalEventos) * 100).toFixed(1) : 0;
 
+      // --- ETIQUETA ADAPTATIVA ---
+      const analisisLabel = isFutureOnly ? '🔮 Proyección por Encargado' : '👤 Por Encargado';
+      const analisisDiaLabel = isFutureOnly ? '📅 Eventos Proyectados por Día' : '📅 Eventos por Día';
+      const totalAnalisis = isFutureOnly ? ingresoProyectado : totalGanancias;
+
       // --- RENDER ---
-      let html = `
-    <!-- 💰 RESULTADOS REALES + 🔮 LO QUE VIENE -->
+      let html = '';
+
+      // 💰 BLOQUE SUPERIOR - Adaptativo
+      if (isFutureOnly) {
+        // 📅 SOLO MES FUTURO: Mostrar proyecciones
+        html += `
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:20px;">
+      <div class="resume-card" style="background:var(--primary); color:white;">
+        <span class="resume-card-value">${formatMoney(ingresoProyectado)}</span>
+        <span class="resume-card-label">💵 Ingreso Proyectado</span>
+      </div>
+      <div class="resume-card" style="background:var(--orange); color:white;">
+        <span class="resume-card-value">${formatMoney(transporteProyectado)}</span>
+        <span class="resume-card-label">🚗 Transporte Proyectado</span>
+      </div>
+      <div class="resume-card" style="background:var(--purple); color:white;">
+        <span class="resume-card-value">${eventosPendientes}</span>
+        <span class="resume-card-label">📅 Eventos Programados</span>
+      </div>
+      <div class="resume-card" style="background:var(--teal); color:white;">
+        <span class="resume-card-value">${formatMoney(ingresoProyectado - transporteProyectado)}</span>
+        <span class="resume-card-label">💰 Ganancia Neta Estimada</span>
+      </div>
+    </div>`;
+      } else {
+        // ✅ MES PASADO O MIXTO: Mostrar resultados reales + proyección
+        html += `
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:20px;">
       <div class="resume-card" style="background:var(--success); color:white;">
         <span class="resume-card-value">${formatMoney(totalGanancias)}</span>
@@ -3629,17 +3672,20 @@
         <span class="resume-card-value">${eventosPendientes}</span>
         <span class="resume-card-label">📅 Eventos Pendientes</span>
       </div>
-    </div>
+    </div>`;
+      }
 
-    <!-- 📊 ANÁLISIS OPERATIVO -->
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:20px;">
-      
-      <!-- 👤 POR ENCARGADO -->
-      <div class="table-section" style="padding:14px;">
-        <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">👤 Por Encargado</h3>
-        ${Object.entries(porPersona).sort((a, b) => b[1].pago - a[1].pago).map(([p, d]) => {
-        const pct = totalGanancias ? ((d.pago / totalGanancias) * 100).toFixed(1) : 0;
-        return `<div style="margin-bottom:10px;">
+      // 📊 ANÁLISIS OPERATIVO
+      html += `
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:20px;">
+    
+    <!-- 👤 POR ENCARGADO -->
+    <div class="table-section" style="padding:14px;">
+      <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">${analisisLabel}</h3>
+      ${Object.keys(porPersona).length === 0 ? '<p style="color:var(--text-muted);font-size:0.85rem;text-align:center;">Sin datos</p>' :
+          Object.entries(porPersona).sort((a, b) => b[1].pago - a[1].pago).map(([p, d]) => {
+            const pct = totalAnalisis ? ((d.pago / totalAnalisis) * 100).toFixed(1) : 0;
+            return `<div style="margin-bottom:10px;">
             <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
               <span style="font-weight:600;">${p}</span>
               <span style="color:var(--text-secondary);">${d.count} evt. | ${formatMoney(d.pago)}</span>
@@ -3648,58 +3694,63 @@
               <div style="background:${getPersonColor(p)}; height:100%; width:${pct}%; transition:width 0.3s;"></div>
             </div>
           </div>`;
-      }).join('')}
-      </div>
+          }).join('')}
+    </div>
 
-      <!-- 📅 POR DÍA DE SEMANA -->
-      <div class="table-section" style="padding:14px;">
-        <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">📅 Eventos por Día</h3>
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          ${diasSemana.map((d, i) => {
-        const w = maxDia ? (porDia[i] / maxDia) * 100 : 0;
-        return `<div style="display:flex; align-items:center; gap:8px;">
+    <!-- 📅 POR DÍA DE SEMANA -->
+    <div class="table-section" style="padding:14px;">
+      <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">${analisisDiaLabel}</h3>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        ${diasSemana.map((d, i) => {
+            const w = maxDia ? (porDia[i] / maxDia) * 100 : 0;
+            return `<div style="display:flex; align-items:center; gap:8px;">
               <span style="min-width:80px; font-size:0.85rem; color:var(--text-secondary);">${d}</span>
               <div style="flex:1; background:var(--bg-body); border-radius:4px; height:10px; overflow:hidden;">
                 <div style="background:${porDia[i] === 0 ? 'transparent' : 'var(--primary)'}; height:100%; width:${w}%; transition:width 0.3s;"></div>
               </div>
               <span style="min-width:24px; text-align:right; font-size:0.8rem; font-weight:600;">${porDia[i]}</span>
             </div>`;
-      }).join('')}
-        </div>
+          }).join('')}
       </div>
+    </div>
+  </div>
+
+  <!-- 📌 INDICADORES CLAVE -->
+  <div class="table-section" style="padding:14px;">
+    <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">📌 Indicadores del Mes</h3>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+    
+    <!-- 🔊 Pago Mensual de Sonido -->
+    <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
+      <div style="font-size:1.5rem; font-weight:700; color:var(--teal);">
+        ${formatMoney(eventosParaAnalisis.length * 20000)}
+      </div>
+      <div style="font-size:0.8rem; color:var(--text-secondary);">🔊 Sonido (${isFutureOnly ? 'Proyectado' : 'Realizado'})</div>
+    </div>    
+            
+    <!-- 📅 Días con Eventos -->
+    <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
+      <div style="font-size:1.5rem; font-weight:700; color:var(--primary);">
+        ${new Set(events.map(e => e._dateObj?.toDateString()).filter(Boolean)).size}
+      </div>
+      <div style="font-size:0.8rem; color:var(--text-secondary);">📅 Días Activos</div>
+    </div>
+    
+    <!-- 🚨 Eventos con Avisos -->
+    <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
+      <div style="font-size:1.5rem; font-weight:700; color:var(--warning);">${conAvisos}</div>
+      <div style="font-size:0.8rem; color:var(--text-secondary);">🚨 Con Avisos</div>
     </div>
 
-        <!-- 📌 INDICADORES CLAVE -->
-        <div class="table-section" style="padding:14px;">
-          <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">📌 Indicadores del Mes</h3>
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
-        
-        <!-- 🔊 Pago Mensual de Sonido -->
-        <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
-          <div style="font-size:1.5rem; font-weight:700; color:var(--teal);">
-            ${formatMoney(past.length * 20000)}
-          </div>
-          <div style="font-size:0.8rem; color:var(--text-secondary);">🔊 Sonido (Realizado)</div>
-        </div>    
-                
-        <!-- 📅 Días con Eventos -->
-        <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
-          <div style="font-size:1.5rem; font-weight:700; color:var(--primary);">
-            ${new Set(past.map(e => e._dateObj?.toDateString()).filter(Boolean)).size +
-        new Set(future.map(e => e._dateObj?.toDateString()).filter(Boolean)).size}
-          </div>
-          <div style="font-size:0.8rem; color:var(--text-secondary);">📅 Días Activos</div>
-        </div>
-        
-        <!-- 🚨 Eventos con Avisos -->
-        <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
-          <div style="font-size:1.5rem; font-weight:700; color:var(--warning);">${conAvisos}</div>
-          <div style="font-size:0.8rem; color:var(--text-secondary);">🚨 Con Avisos</div>
-        </div>
-        
-      </div>
+    <!-- 👥 Promedio Músicos -->
+    <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
+      <div style="font-size:1.5rem; font-weight:700; color:var(--success);">${promedioMusicos}</div>
+      <div style="font-size:0.8rem; color:var(--text-secondary);">👥 Promedio Músicos</div>
     </div>
-  `;
+    
+  </div>
+</div>
+`;
 
       container.innerHTML = html;
     }
@@ -3891,17 +3942,19 @@
       const nav = document.getElementById('tabsNav');
       if (isPastMonth(currentMonth)) {
         nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('historico')">📜 Histórico</button>
-                          <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>`;
+                      <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>`;
       } else if (isFutureMonth(currentMonth)) {
+        // ✅ AHORA INCLUYE ESTADÍSTICAS
         nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>
-                    <button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button>
-                     <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>`;
+                 <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>
+                 <button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button>
+                 <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>`;
       } else {
         nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>
-                     <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>
-                     <button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button>
-                     <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>
-                     <button class="tab-btn" onclick="switchTab('historico')">📜 Histórico</button>`;
+                 <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>
+                 <button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button>
+                 <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>
+                 <button class="tab-btn" onclick="switchTab('historico')">📜 Histórico</button>`;
       }
     }
 
