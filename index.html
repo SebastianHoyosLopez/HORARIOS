@@ -3230,22 +3230,27 @@
       if (lines.length < 2) return [];
 
       return lines.slice(1).map(line => {
-        const row = parseCSVLine(line); // row ahora tiene 10 elementos (sin columna vacía)
+        const row = parseCSVLine(line);
 
-        // ✅ Mapeo CORREGIDO - Orden normal de columnas:
+        // ✅ CORRECCIÓN: Validar que la fila tenga suficientes columnas
+        if (row.length < 10) {
+          console.warn('Fila CSV incompleta:', row);
+          return null;
+        }
+
         return {
-          fecha: (row[0] || '').trim(),      // Índice 0
-          dia: (row[1] || '').trim(),        // Índice 1
-          hora: (row[2] || '').trim(),       // ✅ Índice 2 (antes era 3)
-          notas: (row[3] || '').trim(),      // ✅ Índice 3 (antes era 4)
-          lugar: (row[4] || '').trim(),      // ✅ Índice 4 (antes era 5)
-          encargado: (row[5] || '').trim(),  // ✅ Índice 5 (antes era 6)
-          pago: sanitizeNumber(row[6]),      // ✅ Índice 6 (antes era 7)
-          numMusicos: sanitizeNumber(row[7]),// ✅ Índice 7 (antes era 8)
-          transPago: sanitizeNumber(row[8]), // ✅ Índice 8 (antes era 9)
-          avisos: (row[9] || '').trim()      // ✅ Índice 9 (antes era 10)
+          fecha: (row[0] || '').trim(),
+          dia: (row[1] || '').trim(),
+          hora: (row[2] || '').trim(),
+          notas: (row[3] || '').trim(),
+          lugar: (row[4] || '').trim(),
+          encargado: (row[5] || '').trim(),
+          pago: sanitizeNumber(row[6]),
+          numMusicos: sanitizeNumber(row[7]),
+          transPago: sanitizeNumber(row[8]),
+          avisos: (row[9] || '').trim()
         };
-      }).filter(e => e.fecha); // Solo filas con fecha
+      }).filter(e => e && e.fecha); // ✅ CORRECCIÓN: Filtrar también nulls
     }
 
     // ✅ Función auxiliar para sanitizar números:
@@ -3666,7 +3671,10 @@
 
     function renderEstadisticas() {
       const container = document.getElementById('estadisticasView');
-      const events = filteredEvents.length ? filteredEvents : allEvents;
+
+      // ✅ CORRECCIÓN: Definir variables DENTRO de la función
+      const baseEvents = filteredEvents.length ? filteredEvents : allEvents;
+      const events = baseEvents; // Usar todos los eventos filtrados
 
       if (!events.length) {
         container.innerHTML = '<div class="no-results">📭 No hay datos para mostrar estadísticas</div>';
@@ -3842,20 +3850,6 @@
 
       container.innerHTML = html;
     }
-
-    let statsPeriod = 'past'; // default: solo realizados
-
-    function setStatsPeriod(period, btn) {
-      statsPeriod = period;
-      document.querySelectorAll('#tab-estadisticas .tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderEstadisticas();
-    }
-
-    const baseEvents = filteredEvents.length ? filteredEvents : allEvents;
-    const events = statsPeriod === 'past' ? baseEvents.filter(e => e._isPast) :
-      statsPeriod === 'future' ? baseEvents.filter(e => !e._isPast) :
-        baseEvents;
 
     // ========================================
     // 🎨 CALENDARIO
@@ -4065,7 +4059,11 @@
       if (map[tabName]) {
         if (tabName === 'calendario') {
           calendarCurrentMonth = null;
-          document.querySelector('.calendar-title').textContent = `📅 Calendario`;
+          // ✅ CORRECCIÓN: Restaurar título del calendario
+          const calendarTitle = document.querySelector('.calendar-title');
+          if (calendarTitle) {
+            calendarTitle.textContent = '📅 Calendario';
+          }
         }
         requestAnimationFrame(map[tabName]);
       }
