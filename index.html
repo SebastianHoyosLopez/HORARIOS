@@ -3713,10 +3713,34 @@
 
       // --- KPIs ---
       const totalEventos = events.length;
-      const promedioMusicos = totalEventos ? (events.reduce((s, e) => s + (parseInt(e.numMusicos) || 0), 0) / totalEventos).toFixed(1) : 0;
       const conAvisos = events.filter(e => e._hasAviso).length;
       const pctAvisos = totalEventos ? ((conAvisos / totalEventos) * 100).toFixed(1) : 0;
       const pctCompletados = totalEventos ? ((past.length / totalEventos) * 100).toFixed(1) : 0;
+
+      // --- DISTRIBUCIÓN DE MÚSICOS ---
+      const musicosDist = {};
+      events.forEach(e => {
+        const num = parseInt(e.numMusicos) || 0;
+        musicosDist[num] = (musicosDist[num] || 0) + 1;
+      });
+      
+      let musicosDistHTML = '';
+      const sortedMusicos = Object.keys(musicosDist).sort((a, b) => parseInt(a) - parseInt(b));
+      sortedMusicos.forEach(num => {
+        const count = musicosDist[num];
+        const pct = ((count / totalEventos) * 100).toFixed(1);
+        musicosDistHTML += `
+          <div style="margin-bottom:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; margin-bottom:2px;">
+              <span style="font-weight:600; color:var(--text-primary);">👥 ${num} Músicos</span>
+              <span style="color:var(--text-secondary); font-weight:600;">${pct}% (${count})</span>
+            </div>
+            <div style="background:var(--border); border-radius:4px; height:6px; overflow:hidden;">
+              <div style="background:var(--success); height:100%; width:${pct}%; transition:width 0.3s;"></div>
+            </div>
+          </div>
+        `;
+      });
 
       // --- ETIQUETA ADAPTATIVA ---
       const analisisLabel = isFutureOnly ? '🔮 Proyección por Encargado' : '👤 Por Encargado';
@@ -3811,39 +3835,51 @@
     </div>
   </div>
 
-  <!-- 📌 INDICADORES CLAVE -->
-  <div class="table-section" style="padding:14px;">
-    <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">📌 Indicadores del Mes</h3>
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+  <!-- 📌 INDICADORES CLAVE Y DISTRIBUCIÓN -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:20px;">
     
-    <!-- 🔊 Pago Mensual de Sonido -->
-    <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
-      <div style="font-size:1.5rem; font-weight:700; color:var(--teal);">
-        ${formatMoney(eventosParaAnalisis.length * 20000)}
+    <!-- 📌 INDICADORES DEL MES -->
+    <div class="table-section" style="padding:14px;">
+      <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">📌 Indicadores del Mes</h3>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+      
+        <!-- 🔊 Pago Mensual de Sonido -->
+        <div style="background:var(--bg-body); padding:10px; border-radius:8px; text-align:center;">
+          <div style="font-size:1.2rem; font-weight:700; color:var(--teal);">
+            ${formatMoney(eventosParaAnalisis.length * 20000)}
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">🔊 Sonido (${isFutureOnly ? 'Proy.' : 'Real'})</div>
+        </div>    
+                
+        <!-- 📅 Días con Eventos -->
+        <div style="background:var(--bg-body); padding:10px; border-radius:8px; text-align:center;">
+          <div style="font-size:1.2rem; font-weight:700; color:var(--primary);">
+            ${new Set(events.map(e => e._dateObj?.toDateString()).filter(Boolean)).size}
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">📅 Días Activos</div>
+        </div>
+        
+        <!-- 🚨 Eventos con Avisos -->
+        <div style="background:var(--bg-body); padding:10px; border-radius:8px; text-align:center;">
+          <div style="font-size:1.2rem; font-weight:700; color:var(--warning);">${conAvisos}</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">🚨 Con Avisos</div>
+        </div>
+
+        <!-- ✅ % Completados -->
+        <div style="background:var(--bg-body); padding:10px; border-radius:8px; text-align:center;">
+          <div style="font-size:1.2rem; font-weight:700; color:var(--success);">${pctCompletados}%</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">✅ Completados</div>
+        </div>
+
       </div>
-      <div style="font-size:0.8rem; color:var(--text-secondary);">🔊 Sonido (${isFutureOnly ? 'Proyectado' : 'Realizado'})</div>
-    </div>    
-            
-    <!-- 📅 Días con Eventos -->
-    <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
-      <div style="font-size:1.5rem; font-weight:700; color:var(--primary);">
-        ${new Set(events.map(e => e._dateObj?.toDateString()).filter(Boolean)).size}
-      </div>
-      <div style="font-size:0.8rem; color:var(--text-secondary);">📅 Días Activos</div>
-    </div>
-    
-    <!-- 🚨 Eventos con Avisos -->
-    <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
-      <div style="font-size:1.5rem; font-weight:700; color:var(--warning);">${conAvisos}</div>
-      <div style="font-size:0.8rem; color:var(--text-secondary);">🚨 Con Avisos</div>
     </div>
 
-    <!-- 👥 Promedio Músicos -->
-    <div style="background:var(--bg-body); padding:12px; border-radius:8px; text-align:center;">
-      <div style="font-size:1.5rem; font-weight:700; color:var(--success);">${promedioMusicos}</div>
-      <div style="font-size:0.8rem; color:var(--text-secondary);">👥 Promedio Músicos</div>
+    <!-- 👥 DISTRIBUCIÓN DE MÚSICOS -->
+    <div class="table-section" style="padding:14px;">
+      <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">👥 Distribución de Músicos</h3>
+      ${musicosDistHTML || '<div style="font-size:0.85rem; color:var(--text-secondary); text-align:center; padding:12px;">Sin datos de músicos</div>'}
     </div>
-    
+
   </div>
 </div>
 `;
