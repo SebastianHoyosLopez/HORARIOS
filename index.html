@@ -3521,7 +3521,7 @@
       document.getElementById('statsIcons').innerHTML =
         `<span><span class="icon">✅</span><div><div class="value">${past.length}</div><div class="label">Realizados</div></div></span>` +
         `<span><span class="icon">⏳</span><div><div class="value">${fut.length}</div><div class="label">Pendientes</div></div></span>` +
-        `<span><span class="icon">💰</span><div><div class="value">${formatMoney(total)}</div><div class="label">Total Ganancias</div></div></span>`;
+        `<span><span class="icon">💰</span><div><div class="value">${formatMoney(total)}</div><div class="label">Total pago por músico</div></div></span>`;
     }
 
     function renderTable() {
@@ -3559,7 +3559,7 @@
       container.innerHTML = `<div class="month-resume"><div class="month-resume-header">📊 Resumen de ${getMonthName(c.month)} ${c.year}</div><div class="resume-cards">` +
         `<div class="resume-card"><span class="resume-card-value">${past.length}</span><span class="resume-card-label">Serenatas Realizadas</span></div>` +
         `<div class="resume-card"><span class="resume-card-value">${formatMoney(tTrans)}</span><span class="resume-card-label">Total Transporte</span></div>` +
-        `<div class="resume-card"><span class="resume-card-value">${formatMoney(tGan)}</span><span class="resume-card-label">Total Ganancias</span></div>` +
+        `<div class="resume-card"><span class="resume-card-value">${formatMoney(tGan)}</span><span class="resume-card-label">Total pago por músico</span></div>` +
         `<div class="resume-card"><span class="resume-card-value">${uniq}</span><span class="resume-card-label">Músicos Encargados</span></div></div></div>`;
     }
 
@@ -3723,7 +3723,7 @@
         const num = parseInt(e.numMusicos) || 0;
         musicosDist[num] = (musicosDist[num] || 0) + 1;
       });
-      
+
       let musicosDistHTML = '';
       const sortedMusicos = Object.keys(musicosDist).sort((a, b) => parseInt(a) - parseInt(b));
       sortedMusicos.forEach(num => {
@@ -3774,7 +3774,7 @@
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:20px;">
       <div class="resume-card" style="background:var(--success); color:white;">
         <span class="resume-card-value">${formatMoney(totalGanancias)}</span>
-        <span class="resume-card-label">✅ Total Ganancias</span>
+        <span class="resume-card-label">✅ Total pago por músico</span>
       </div>
       <div class="resume-card" style="background:var(--orange); color:white;">
         <span class="resume-card-value">${formatMoney(totalTransporte)}</span>
@@ -4062,13 +4062,16 @@
         nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>
                  <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>
                  <button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button>
-                 <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>`;
+                 <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>
+                 <button class="tab-btn" onclick="switchTab('rendimiento')">📈 Rendimiento Anual</button>`;
+
       } else {
         nav.innerHTML = `<button class="tab-btn primary active" onclick="switchTab('tabla')">📊 Tabla</button>
                  <button class="tab-btn" onclick="switchTab('lista')">📝 Lista</button>
                  <button class="tab-btn" onclick="switchTab('calendario')">📅 Calendario</button>
                  <button class="tab-btn" onclick="switchTab('estadisticas')">📈 Estadísticas</button>
-                 <button class="tab-btn" onclick="switchTab('historico')">📜 Histórico</button>`;
+                 <button class="tab-btn" onclick="switchTab('historico')">📜 Histórico</button>
+                 <button class="tab-btn" onclick="switchTab('rendimiento')">📈 Rendimiento Anual</button>`;
       }
     }
 
