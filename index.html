@@ -3672,9 +3672,8 @@
     function renderEstadisticas() {
       const container = document.getElementById('estadisticasView');
 
-      // ✅ CORRECCIÓN: Definir variables DENTRO de la función
       const baseEvents = filteredEvents.length ? filteredEvents : allEvents;
-      const events = baseEvents; // Usar todos los eventos filtrados
+      const events = baseEvents;
 
       if (!events.length) {
         container.innerHTML = '<div class="no-results">📭 No hay datos para mostrar estadísticas</div>';
@@ -3682,7 +3681,7 @@
       }
 
       // --- FILTROS POR ESTADO ---
-      const past = events.filter(e => e._isPast);
+      const past = events.filter(e => e._isPast); // ✅ Solo eventos con fecha/hora pasada
       const future = events.filter(e => !e._isPast);
       const isFutureOnly = future.length > 0 && past.length === 0;
 
@@ -3705,16 +3704,31 @@
         porPersona[p].transporte += parseFloat(e.transPago) || 0;
       });
 
-      // --- POR DÍA DE SEMANA (adaptativo) ---
+      // --- POR DÍA DE SEMANA (CANTIDAD DE EVENTOS) ---
       const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-      const porDia = new Array(7).fill(0);
-      eventosParaAnalisis.forEach(e => { if (e._dateObj) porDia[e._dateObj.getDay()]++; });
-      const maxDia = Math.max(...porDia, 1);
+      const porDiaCantidad = new Array(7).fill(0);
+      eventosParaAnalisis.forEach(e => { if (e._dateObj) porDiaCantidad[e._dateObj.getDay()]++; });
+      const maxDiaCantidad = Math.max(...porDiaCantidad, 1);
+
+      // 🆕 NUEVO: POR SEMANA DEL MES (ESTRICTAMENTE SOLO EVENTOS REALIZADOS / PASADOS)
+      const gananciasPorSemana = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+      const eventosPorSemana = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+      // Forzamos el uso del array 'past' para ignorar cualquier evento futuro
+      past.forEach(e => {
+        if (e._dateObj) {
+          const dayOfMonth = e._dateObj.getDate();
+          const weekNum = Math.ceil(dayOfMonth / 7); // Calcula 1, 2, 3, 4 o 5
+          gananciasPorSemana[weekNum] += (parseFloat(e.pago) || 0);
+          eventosPorSemana[weekNum] += 1;
+        }
+      });
+
+      const totalGananciasSemanal = Object.values(gananciasPorSemana).reduce((a, b) => a + b, 0);
 
       // --- KPIs ---
       const totalEventos = events.length;
       const conAvisos = events.filter(e => e._hasAviso).length;
-      const pctAvisos = totalEventos ? ((conAvisos / totalEventos) * 100).toFixed(1) : 0;
       const pctCompletados = totalEventos ? ((past.length / totalEventos) * 100).toFixed(1) : 0;
 
       // --- DISTRIBUCIÓN DE MÚSICOS ---
@@ -3752,7 +3766,6 @@
 
       // 💰 BLOQUE SUPERIOR - Adaptativo
       if (isFutureOnly) {
-        // 📅 SOLO MES FUTURO: Mostrar proyecciones
         html += `
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:20px;">
       <div class="resume-card" style="background:var(--primary); color:white;">
@@ -3769,16 +3782,15 @@
       </div>
     </div>`;
       } else {
-        // ✅ MES PASADO O MIXTO: Mostrar resultados reales + proyección
         html += `
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:20px;">
       <div class="resume-card" style="background:var(--success); color:white;">
         <span class="resume-card-value">${formatMoney(totalGanancias)}</span>
-        <span class="resume-card-label">✅ Total pago por músico</span>
+        <span class="resume-card-label">✅ Total pago por músico (Real)</span>
       </div>
       <div class="resume-card" style="background:var(--orange); color:white;">
         <span class="resume-card-value">${formatMoney(totalTransporte)}</span>
-        <span class="resume-card-label">🚗 Transporte Gastado</span>
+        <span class="resume-card-label">🚗 Transporte Gastado (Real)</span>
       </div>
       <div class="resume-card" style="background:var(--primary); color:white;">
         <span class="resume-card-value">${formatMoney(ingresoProyectado)}</span>
@@ -3791,7 +3803,7 @@
     </div>`;
       }
 
-      // 📊 ANÁLISIS OPERATIVO
+      // 📊 ANÁLISIS OPERATIVO (Fila 1)
       html += `
   <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:20px;">
     
@@ -3813,25 +3825,74 @@
           }).join('')}
     </div>
 
-    <!-- 📅 POR DÍA DE SEMANA -->
+    <!-- 📅 POR DÍA DE SEMANA (CANTIDAD) -->
     <div class="table-section" style="padding:14px;">
       <h3 style="margin-bottom:12px; font-size:1rem; color:var(--text-primary);">${analisisDiaLabel}</h3>
       <div style="display:flex; flex-direction:column; gap:8px;">
         ${diasSemana.map((d, i) => {
-            const w = maxDia ? (porDia[i] / maxDia) * 100 : 0;
+            const w = maxDiaCantidad ? (porDiaCantidad[i] / maxDiaCantidad) * 100 : 0;
             return `<div style="display:flex; align-items:center; gap:8px;">
               <span style="min-width:80px; font-size:0.85rem; color:var(--text-secondary);">${d}</span>
               <div style="flex:1; background:var(--bg-body); border-radius:4px; height:10px; overflow:hidden;">
-                <div style="background:${porDia[i] === 0 ? 'transparent' : 'var(--primary)'}; height:100%; width:${w}%; transition:width 0.3s;"></div>
+                <div style="background:${porDiaCantidad[i] === 0 ? 'transparent' : 'var(--primary)'}; height:100%; width:${w}%; transition:width 0.3s;"></div>
               </div>
-              <span style="min-width:24px; text-align:right; font-size:0.8rem; font-weight:600;">${porDia[i]}</span>
+              <span style="min-width:24px; text-align:right; font-size:0.8rem; font-weight:600;">${porDiaCantidad[i]}</span>
             </div>`;
           }).join('')}
       </div>
     </div>
   </div>
 
-  <!-- 📌 INDICADORES CLAVE Y DISTRIBUCIÓN -->
+  <!-- 🆕 NUEVA SECCIÓN: GANANCIAS POR SEMANA DEL MES (SOLO REALIZADOS) -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:20px;">
+    <div class="table-section" style="padding:16px; grid-column: 1 / -1; border-left: 4px solid var(--success);">
+      <h3 style="margin-bottom:16px; font-size:1.05rem; color:var(--text-primary); display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
+        ✅ Ganancias por Semana (Solo Eventos Realizados)
+        <span style="font-size:0.85rem; font-weight:600; color:var(--success); background:var(--success-light); padding:4px 10px; border-radius:12px; border: 1px solid var(--success);">
+          Total Cobrado: ${formatMoney(totalGananciasSemanal)}
+        </span>
+      </h3>
+      
+      ${past.length === 0 ?
+          '<p style="color:var(--text-muted); font-size:0.9rem; text-align:center; padding: 20px;">Aún no hay eventos realizados (fechas pasadas) para mostrar en este gráfico.</p>'
+          :
+          `<div style="display:flex; flex-direction:column; gap:14px;">
+          ${[1, 2, 3, 4, 5].map(w => {
+            const monto = gananciasPorSemana[w];
+            const cantidadEvt = eventosPorSemana[w];
+            const pct = totalGananciasSemanal > 0 ? (monto / totalGananciasSemanal) * 100 : 0;
+            const diasRango = w === 1 ? '1-7' : w === 2 ? '8-14' : w === 3 ? '15-21' : w === 4 ? '22-28' : '29-31';
+            const barColor = monto > 0 ? 'linear-gradient(90deg, var(--success) 0%, #2e7d32 100%)' : 'var(--border)';
+
+            return `
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="min-width:110px; display:flex; flex-direction:column;">
+                  <span style="font-size:0.95rem; color:var(--text-primary); font-weight:700;">Semana ${w}</span>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">Días ${diasRango}</span>
+                </div>
+                
+                <div style="flex:1; background:var(--bg-body); border-radius:8px; height:18px; overflow:hidden; position:relative; border: 1px solid var(--border-light);">
+                  <div style="background:${barColor}; height:100%; width:${pct}%; transition:width 0.5s ease-out; border-radius:8px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px;">
+                    ${pct > 15 ? `<span style="font-size:0.75rem; color:white; font-weight:700; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">${pct.toFixed(0)}%</span>` : ''}
+                  </div>
+                </div>
+                
+                <div style="min-width:130px; text-align:right; display:flex; flex-direction:column; align-items:flex-end;">
+                  <span style="font-size:1.05rem; font-weight:800; color:${monto > 0 ? 'var(--success)' : 'var(--text-muted)'};">
+                    ${monto > 0 ? formatMoney(monto) : '$0'}
+                  </span>
+                  <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">
+                    ${cantidadEvt} evento${cantidadEvt !== 1 ? 's' : ''} realizado${cantidadEvt !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              </div>`;
+          }).join('')}
+        </div>`
+        }
+    </div>
+  </div>
+
+  <!-- 📌 INDICADORES CLAVE Y DISTRIBUCIÓN (Fila 3) -->
   <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:20px;">
     
     <!-- 📌 INDICADORES DEL MES -->
